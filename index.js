@@ -19,7 +19,7 @@
  * @param {string} interest - интерес группы
  * @returns {Group} созданная группа
  */
-export function createGroup(interest) {
+function createGroup(interest) {
 
 };
 
@@ -28,7 +28,7 @@ export function createGroup(interest) {
  * @param {Date} meetingDate - дата встречи
  * @returns {number} кол-во людей, готовых в переданную дату посетить встречу 
  */
-export function findMeetingMembers(group, meetingDate) {
+function findMeetingMembers(group, meetingDate) {
 
 };
 
@@ -36,6 +36,8 @@ export function findMeetingMembers(group, meetingDate) {
  * @param {Group} group - группа людей
  * @returns {Date} дата, в которую могут собраться максимальное кол-во человек из группы
  */
-export function findMeetingDateWithMaximumMembers(group) {
+function findMeetingDateWithMaximumMembers(group) {
 
 };
+
+module.exports = { createGroup, findMeetingMembers, findMeetingDateWithMaximumMembers };
