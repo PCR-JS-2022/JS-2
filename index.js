@@ -12,7 +12,7 @@
  * @type {object}
  * @property {() => Array<Person>} getAll - получить всех участников группы
  * @property {(person: Person) => boolean} includePerson - добавить человека к списку участников
- * @property {(email: string) => boolean} exludePerson - удалить человека из списка участников
+ * @property {(email: string) => boolean} excludePerson - удалить человека из списка участников
  */
 
 /**
