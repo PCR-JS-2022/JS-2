@@ -55,7 +55,7 @@ const phoneList = [
 	* Метод ``includePerson`` должен принимать человека, проверять, есть ли в его списке интересов тот, по которому создана эта группа, и не был ли он добавлен ранее. При 	успешной проверке добавлять его.  
     Метод должен возвращать ``true``, если человек добавлен в группу и ``false`` в обратном случае;
     
-	* Метод ``exludePerson`` должен принимать почту человека и удалять его из коллекции друзей этой группы, если он там был. 
+	* Метод ``excludePerson`` должен принимать почту человека и удалять его из коллекции друзей этой группы, если он там был. 
     Метод должен возвращать ``true``, если операция удаления произведена успешно, и ``false`` в ином случае.
 	 ### Пример создания группы и использования её методов
 	```js
@@ -64,8 +64,8 @@ const phoneList = [
 	javaScriptGroup.includePerson(phoneList[0]); // false
 	javaScriptGroup.includePerson(phoneList[3]); // true
 
-	javaScriptGroup.exludePerson('vasiliy@mail.ru'); // false
-	javaScriptGroup.exludePerson('roman@yandex.ru'); // true
+	javaScriptGroup.excludePerson('vasiliy@mail.ru'); // false
+	javaScriptGroup.excludePerson('roman@yandex.ru'); // true
 
 	javaScriptGroup.getAll();
 	/*
