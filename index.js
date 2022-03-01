@@ -30,6 +30,7 @@ function createGroup(interest) {
    */
   function includePerson(person) {
     if (
+      person.interests === undefined ||
       members.some((x) => x.email === person.email) ||
       !person.interests.some((x) => x === interest)
     )
