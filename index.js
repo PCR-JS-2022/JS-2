@@ -93,9 +93,9 @@ function isInRange(dateToCompare, range) {
 function isGroup(possibleGroup) {
   return (
     possibleGroup instanceof Object &&
-    possibleGroup.hasOwnProperty("getAll") &&
-    possibleGroup.hasOwnProperty("includePerson") &&
-    possibleGroup.hasOwnProperty("excludePerson")
+    Object.prototype.hasOwnProperty.call(possibleGroup, "getAll") &&
+    Object.prototype.hasOwnProperty.call(possibleGroup, "includePerson") &&
+    Object.prototype.hasOwnProperty.call(possibleGroup, "excludePerson")
   );
 }
 
