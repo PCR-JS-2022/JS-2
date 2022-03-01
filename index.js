@@ -56,7 +56,7 @@ function createGroup(interest) {
  * @returns {number} кол-во людей, готовых в переданную дату посетить встречу 
  */
 function findMeetingMembers(group, meetingDate) {
-    if(!meetingDate?.getDate())
+    if(!meetingDate instanceof Date)
         return 0;
     return group?.getAll()
                 ?.filter(person => person.freeRange?.startDate <= meetingDate && person.freeRange?.endDate >= meetingDate)
