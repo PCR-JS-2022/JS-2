@@ -56,11 +56,11 @@ function createGroup(interest) {
  * @returns {number} кол-во людей, готовых в переданную дату посетить встречу 
  */
 function findMeetingMembers(group, meetingDate) {
-    if(!meetingDate instanceof Date)
+    if(!meetingDate instanceof Date || !group.getAll)
         return 0;
-    return group?.getAll()
-                ?.filter(person => person.freeRange?.startDate <= meetingDate && person.freeRange?.endDate >= meetingDate)
-                ?.length ?? 0;
+    return group.getAll()
+                .filter(person => person.freeRange?.startDate <= meetingDate && person.freeRange?.endDate >= meetingDate)
+                .length;
 };
 
 /**
@@ -68,7 +68,7 @@ function findMeetingMembers(group, meetingDate) {
  * @returns {Date} дата, в которую могут собраться максимальное кол-во человек из группы
  */
 function findMeetingDateWithMaximumMembers(group) {
-    if(group?.length < 2)
+    if(!group.getAll || group.getAll().length < 2)
         return null;
     const dateRanges = group.getAll()
                             .map(person => person.freeRange)
@@ -77,7 +77,7 @@ function findMeetingDateWithMaximumMembers(group) {
     while(dateIntersections.length > 1){
         dateIntersections = getDateIntersections(dateIntersections);
     }
-    return dateIntersections[0].startDate;
+    return dateIntersections.length === 0 ? null : dateIntersections[0].startDate;
 };
 
 /**
@@ -165,6 +165,7 @@ const phoneList = [
 
 // console.log(findMeetingMembers(javaScriptGroup, new Date('10.10.2020'))); // 0
 // console.log(findMeetingMembers(javaScriptGroup, new Date('06.10.2020'))); // 2
+// console.log(findMeetingMembers(1, new Date('06.10.2020'))); // 2
 
 // //test 3 task
 // const gamesGroup = createGroup('games');
@@ -172,7 +173,9 @@ const phoneList = [
 // gamesGroup.includePerson(phoneList[1]); // true
 
 // const result = findMeetingDateWithMaximumMembers(gamesGroup);
+// const result1 = findMeetingDateWithMaximumMembers(1);
 // console.log(result.toLocaleString()); // 02.05.2020
+// console.log(result1); 
 
 
 module.exports = { createGroup, findMeetingMembers, findMeetingDateWithMaximumMembers };
