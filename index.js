@@ -56,7 +56,7 @@ function createGroup(interest) {
  * @returns {number} кол-во людей, готовых в переданную дату посетить встречу 
  */
 function findMeetingMembers(group, meetingDate) {
-    if(meetingDate.getDate())
+    if(!meetingDate.getDate())
         return 0;
     return group.getAll()
                 ?.filter(person => person.freeRange?.startDate <= meetingDate && person.freeRange?.endDate >= meetingDate)
@@ -158,7 +158,7 @@ const phoneList = [
 // console.log(javaScriptGroup.getAll());
 
 
-//test 2 task
+// //test 2 task
 // const javaScriptGroup = createGroup('javascript');
 // javaScriptGroup.includePerson(phoneList[2]); // true
 // javaScriptGroup.includePerson(phoneList[3]); // true
@@ -166,7 +166,7 @@ const phoneList = [
 // console.log(findMeetingMembers(javaScriptGroup, new Date('10.10.2020'))); // 0
 // console.log(findMeetingMembers(javaScriptGroup, new Date('06.10.2020'))); // 2
 
-//test 3 task
+// //test 3 task
 // const gamesGroup = createGroup('games');
 // gamesGroup.includePerson(phoneList[0]); // true
 // gamesGroup.includePerson(phoneList[1]); // true
