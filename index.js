@@ -53,7 +53,7 @@ function createGroup(interest) {
  * @returns {number} кол-во людей, готовых в переданную дату посетить встречу
  */
 function findMeetingMembers(group, meetingDate) {
-  const groupArray = group.getAll();
+  const groupArray = group.getAll && group.getAll();
   if (!groupArray || !(meetingDate instanceof Date)) {
     return 0;
   }
@@ -71,7 +71,7 @@ function findMeetingMembers(group, meetingDate) {
  * @returns {Date} дата, в которую могут собраться максимальное кол-во человек из группы
  */
 function findMeetingDateWithMaximumMembers(group) {
-  const groupArray = group.getAll();
+  const groupArray = group.getAll && group.getAll();
   if (!groupArray) {
     return null;
   }
