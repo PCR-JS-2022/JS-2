@@ -28,6 +28,8 @@ function createGroup(interest) {
 		},
 
 		includePerson: function (newPerson) {
+			if (!newPerson || !newPerson.interests) return false
+
 			const inGroup = this._group.some(person => person.email === newPerson.email)
 			const personHasInterest = newPerson.interests.some(i => i === interest)
 
