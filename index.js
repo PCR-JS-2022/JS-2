@@ -28,9 +28,11 @@ function createGroup(interest) {
         },
 
         includePerson: (friend) => {
-            if(friends.some(e => e.email === friend.email) 
-                || !friend.interests.some(e => interest === e)
-                || friend.interests === undefined){
+            if(friend.interests === undefined) return false;
+
+            const email = friend.email;
+            if(friends.some(e => e.email === email) 
+                || !friend.interests.some(e => interest === e)){
                 return false;
             }
 
