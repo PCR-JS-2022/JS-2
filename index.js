@@ -71,7 +71,7 @@ function findMeetingMembers(group, meetingDate) {
  * @returns {Date} дата, в которую могут собраться максимальное кол-во человек из группы
  */
 function findMeetingDateWithMaximumMembers(group) {
-	if (!isGroup(group)) return null
+	if (!isGroup(group) || group.getAll().length === 0) return null
 
 	const startingDates = group.getAll()
 		.map(person => person.freeRange.startDate)
