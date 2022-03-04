@@ -1,3 +1,40 @@
+const phoneList = [{
+    name: 'Александра',
+    interests: ['games', 'computers'],
+    email: 'alexandra@rambler.ru',
+    freeRange: {
+        startDate: new Date('01.01.2020'),
+        endDate: new Date('03.10.2020'),
+    }
+},
+    {
+        name: 'Василий',
+        interests: ['games'],
+        email: 'vasiliy@mail.ru',
+        freeRange: {
+            startDate: new Date('02.05.2020'),
+            endDate: new Date('02.25.2020'),
+        }
+    },
+    {
+        name: 'Роман',
+        email: 'roman@yandex.ru',
+        interests: ['javascript'],
+        freeRange: {
+            startDate: new Date('05.01.2020'),
+            endDate: new Date('06.10.2020'),
+        }
+    },
+    {
+        name: 'Егор',
+        email: 'egor@gmail.ru',
+        interests: ['computers', 'javascript'],
+        freeRange: {
+            startDate: new Date('03.01.2020'),
+            endDate: new Date('08.10.2020'),
+        }
+    },
+];
 /**
  * @typedef Person
  * @type {object}
@@ -20,13 +57,35 @@
  * @returns {Group} созданная группа
  */
 function createGroup(interest) {
-
+    return {
+        "interest": interest,
+        "friends": [],
+        getAll: function () {
+            return this.friends;
+        },
+        includePerson: function (person) {
+            if ((person.interests.find((interest) => interest === this.interest) !== undefined)
+                && this.friends.find((friend) => friend.email === person.email) === undefined) {
+                this.friends.push(person);
+                return true;
+            }
+            return false;
+        },
+        excludePerson: function (email) {
+            let person = this.friends.findIndex((friend) => friend.email === email);
+            if (person !== -1) {
+                this.friends.splice(person, 1);
+                return true;
+            }
+            return false;
+        }
+    };
 };
 
 /**
  * @param {Group} group - группа людей
  * @param {Date} meetingDate - дата встречи
- * @returns {number} кол-во людей, готовых в переданную дату посетить встречу 
+ * @returns {number} кол-во людей, готовых в переданную дату посетить встречу
  */
 function findMeetingMembers(group, meetingDate) {
 
@@ -40,4 +99,8 @@ function findMeetingDateWithMaximumMembers(group) {
 
 };
 
-module.exports = { createGroup, findMeetingMembers, findMeetingDateWithMaximumMembers };
+module.exports = {
+    createGroup,
+    findMeetingMembers,
+    findMeetingDateWithMaximumMembers
+};
