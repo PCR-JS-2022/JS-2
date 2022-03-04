@@ -19,53 +19,11 @@
  * @param {string} interest - интерес группы
  * @returns {Group} созданная группа
  */
-const phoneList = [
-    {
-        name: "Александра",
-        interests: ["games", "computers"],
-        email: "alexandra@rambler.ru",
-        freeRange: {
-            startDate: new Date("01.01.2020"),
-            endDate: new Date("03.10.2020"),
-        },
-    },
-    {
-        name: "Василий",
-        interests: ["games"],
-        email: "vasiliy@mail.ru",
-        freeRange: {
-            startDate: new Date("02.05.2020"),
-            endDate: new Date("02.25.2020"),
-        },
-    },
-    {
-        name: "Роман",
-        email: "roman@yandex.ru",
-        interests: ["javascript"],
-        freeRange: {
-            startDate: new Date("05.01.2020"),
-            endDate: new Date("06.10.2020"),
-        },
-    },
-    {
-        name: "Егор",
-        email: "egor@gmail.ru",
-        interests: ["computers", "javascript"],
-        freeRange: {
-            startDate: new Date("03.01.2020"),
-            endDate: new Date("08.10.2020"),
-        },
-    },
-    {
-        name: "ziad",
-        interests: ["games", "computers"],
-        email: "ziiad@rambler.ru",
-        freeRange: {
-            startDate: new Date("03.20.2020"),
-            endDate: new Date("03.30.2020"),
-        },
-    },
-];
+const checkGroupValidity = (group) => {
+    if (!group || !group.getAll || !group.includePerson || !group.excludePerson)
+        return false;
+    else return true;
+};
 const isDateInRange = (startInterval, endInterval, people) => {
     const allStartDates = people
         .flatMap((person) => person.freeRange.startDate)
@@ -75,7 +33,9 @@ const isDateInRange = (startInterval, endInterval, people) => {
             date.getTime() >= startInterval.getTime() &&
             date.getTime() <= endInterval.getTime()
     );
-    return allDatesInInterval ? allStartDates[allStartDates.length - 1] : null;
+    return allDatesInInterval
+        ? allStartDates[allStartDates.length - 1]
+        : allStartDates[allStartDates.length - 2];
 };
 function createGroup(interest) {
     const people = [];
@@ -85,7 +45,7 @@ function createGroup(interest) {
         includePerson: (person) => {
             if (
                 person.interests === undefined ||
-                people.some((x) => x.email === person.email) ||
+                people.some((friend) => friend.email === person.email) ||
                 !person.interests.some((x) => x === interest)
             ) {
                 return false;
@@ -138,9 +98,11 @@ function findMeetingMembers(group, meetingDate) {
  * @param {Group} group - группа людей
  * @returns {Date} дата, в которую могут собраться максимальное кол-во человек из группы
  */
+
 function findMeetingDateWithMaximumMembers(group) {
     let result = [];
     let resultEnd = [];
+    if (!checkGroupValidity(group)) return null;
     const people = group.getAll();
     people.forEach((person) => {
         result.push(person.freeRange.startDate);
@@ -149,7 +111,7 @@ function findMeetingDateWithMaximumMembers(group) {
     const resultStartSorted = result.sort((a, b) => a.getTime() - b.getTime());
     const resultEndSorted = resultEnd.sort((a, b) => a.getTime() - b.getTime());
     const maxStartInterval = resultStartSorted[0];
-    const maxEndInterval = resultEndSorted[resultEndSorted.length - 1];
+    const maxEndInterval = resultEndSorted[0];
     return isDateInRange(maxStartInterval, maxEndInterval, people);
 }
 const gamesGroup = createGroup("games");
@@ -157,7 +119,6 @@ gamesGroup.includePerson(phoneList[1]);
 gamesGroup.includePerson(phoneList[0]);
 gamesGroup.includePerson(phoneList[2]);
 gamesGroup.includePerson(phoneList[phoneList.length - 1]);
-findMeetingDateWithMaximumMembers(gamesGroup);
 module.exports = {
     createGroup,
     findMeetingMembers,
