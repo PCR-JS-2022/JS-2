@@ -101,7 +101,7 @@ function findMeetingDateWithMaximumMembers(group) {
         e.count = findMeetingMembers(group, e.date);
     });
 
-    let max = 0;
+    let max = 1;
 
     datesList.forEach(e => {
         max = e.count > max ? e.count : max;
