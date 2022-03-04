@@ -88,7 +88,7 @@ function createGroup(interest) {
  * @returns {number} кол-во людей, готовых в переданную дату посетить встречу
  */
 function findMeetingMembers(group, meetingDate) {
-    if (!isGroup(group) || !meetingDate instanceof Date)
+    if (!isGroup(group) || !meetingDate instanceof Date || isNaN(+meetingDate))
         return 0;
     let personCount = 0;
     for (let person of group.getAll()) {
@@ -118,6 +118,13 @@ function isGroup(group) {
         && (group.hasOwnProperty('excludePerson'));
 }
 
+
+let test = createGroup('games');
+test.includePerson(phoneList[0]);
+test.includePerson(phoneList[1]);
+let testDate = new Date('05.10.2020');
+console.log(findMeetingMembers(test, new Date('463646346364')))
+//console.log(findMeetingMembers(test, new Date('10.01.2020')))
 /*
 module.exports = {
     createGroup,
