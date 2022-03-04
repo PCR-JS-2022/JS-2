@@ -58,8 +58,8 @@ const phoneList = [{
  */
 function createGroup(interest) {
     return {
-        "interest": interest,
-        "friends": [],
+        interest: interest,
+        friends: [],
         getAll: function () {
             return this.friends;
         },
