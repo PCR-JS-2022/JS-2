@@ -4,7 +4,7 @@ const phoneList = [{
     email: 'alexandra@rambler.ru',
     freeRange: {
         startDate: new Date('01.01.2020'),
-        endDate: new Date('03.10.2020'),
+        endDate: new Date('05.10.2020'),
     }
 },
     {
@@ -13,7 +13,7 @@ const phoneList = [{
         email: 'vasiliy@mail.ru',
         freeRange: {
             startDate: new Date('02.05.2020'),
-            endDate: new Date('02.25.2020'),
+            endDate: new Date('10.25.2020'),
         }
     },
     {
@@ -88,7 +88,14 @@ function createGroup(interest) {
  * @returns {number} кол-во людей, готовых в переданную дату посетить встречу
  */
 function findMeetingMembers(group, meetingDate) {
-
+    if (!isGroup(group) || !meetingDate instanceof Date)
+        return 0;
+    let personCount = 0;
+    for (let person of group.getAll()) {
+        if (+meetingDate >= +person.freeRange.startDate && +meetingDate <= +person.freeRange.endDate)
+            personCount++;
+    }
+    return personCount;
 };
 
 /**
@@ -99,8 +106,21 @@ function findMeetingDateWithMaximumMembers(group) {
 
 };
 
+/**
+ * Check, is variable object with type "Group" or not
+ * @param {Group} group
+ * @returns {boolean}
+ */
+function isGroup(group) {
+    return (typeof group === 'object')
+        && (group.hasOwnProperty('getAll'))
+        && (group.hasOwnProperty('includePerson'))
+        && (group.hasOwnProperty('excludePerson'));
+}
+
+/*
 module.exports = {
     createGroup,
     findMeetingMembers,
     findMeetingDateWithMaximumMembers
-};
+};*/
