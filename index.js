@@ -31,7 +31,8 @@ function createGroup(interest) {
             const email = friend.email;
 
             if(friends.some(e => e.email === email) 
-                || !friend.interests.some(e => interest === e)){
+                || !friend.interests.some(e => interest === e)
+                || friend.interests.length === 0){
                 return false;
             }
 
