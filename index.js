@@ -80,14 +80,16 @@ const isDateInRange = (startInterval, endInterval, people) => {
 function createGroup(interest) {
     const people = [];
     return {
+        people,
         getAll: () => people,
         includePerson: (person) => {
             if (
                 person.interests === undefined ||
-                people.some((friend) => friend.email === person.email) ||
+                people.some((x) => x.email === person.email) ||
                 !person.interests.some((x) => x === interest)
-            )
+            ) {
                 return false;
+            }
             const personExists = people.some(
                 (friend) => friend.email === person.email
             );
@@ -106,7 +108,6 @@ function createGroup(interest) {
     };
 }
 const javascriptGroup = createGroup("javascript");
-javascriptGroup.includePerson(phoneList[2]);
 javascriptGroup.includePerson(phoneList[3]);
 /**
  * @param {Group} group - группа людей
@@ -157,8 +158,8 @@ gamesGroup.includePerson(phoneList[0]);
 gamesGroup.includePerson(phoneList[2]);
 gamesGroup.includePerson(phoneList[phoneList.length - 1]);
 findMeetingDateWithMaximumMembers(gamesGroup);
-// module.exports = {
-//   createGroup,
-//   findMeetingMembers,
-//   findMeetingDateWithMaximumMembers,
-// };
+module.exports = {
+    createGroup,
+    findMeetingMembers,
+    findMeetingDateWithMaximumMembers,
+};
