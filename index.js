@@ -100,9 +100,9 @@ function findMeetingDateWithMaximumMembers(group) {
         return people[0].freeRange.startDate;
     }
 
-    const startDates = people.map((x) => x.freeRange.startDate);
+    const startDates = people.map((p) => p.freeRange.startDate);
 
-    let minDate = new Date(0);
+    let minDate = startDates.sort((a, b) => a - b)[0];
     let maxPeople = 0;
     startDates.forEach((date) => {
         const peopleInRange = people
