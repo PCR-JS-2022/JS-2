@@ -127,7 +127,8 @@ function findMeetingMembers(group, meetingDate) {
  */
 
 function findMeetingDateWithMaximumMembers(group) {
-    const checkArr = group.getAll();
+    const checkArr = group.friends;
+    console.log(checkArr);
     if (checkArr.length !== 0) {
         const checkDates = [];
         checkArr.forEach(el => {
@@ -151,6 +152,12 @@ function findMeetingDateWithMaximumMembers(group) {
         return null
     };
 };
+
+// const gamesGroup = createGroup('games');
+// 	gamesGroup.includePerson(phoneList[0]); // true
+// 	gamesGroup.includePerson(phoneList[1]); // true
+
+// 	console.log(findMeetingDateWithMaximumMembers(gamesGroup)); // 02.05.2020
 
 
 

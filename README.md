@@ -98,8 +98,8 @@ const phoneList = [
 	### Пример использования функции ``findMeetingDateWithMaximumMembers``
 	```js
 	const gamesGroup = createGroup('games');
-	javaScriptGroup.includePerson(phoneList[0]); // true
-	javaScriptGroup.includePerson(phoneList[1]); // true
+	gamesGroup.includePerson(phoneList[0]); // true
+	gamesGroup.includePerson(phoneList[1]); // true
 
 	findMeetingDateWithMaximumMembers(gamesGroup); // 02.05.2020
 	```
