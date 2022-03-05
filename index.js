@@ -99,10 +99,10 @@ function findMeetingDateWithMaximumMembers(group) {
  */
 function isGroup(group) {
 	return (
-		typeof group === 'object' ||
-		group.hasOwnProperty('getAll') ||
-		group.hasOwnProperty('includePerson') ||
-		group.hasOwnProperty('excludePerson')
+		typeof group === 'object' &&
+		group.getAll &&
+		group.includePerson &&
+		group.excludePerson
 	)
 }
 
