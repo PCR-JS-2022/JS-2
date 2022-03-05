@@ -52,7 +52,15 @@ function createGroup(interest) {
      * @returns {boolean}
      */
     function excludePerson(email) {
-        return people.splice(people.findIndex((p) => p.email === email)).length > 0;
+        const personIndex = people.findIndex((p) => p.email === email);
+
+        if (personIndex != -1)
+        {
+            people.splice(personIndex);
+            return true;
+        }
+
+        return false;
     }
 
     return {
@@ -82,7 +90,7 @@ function findMeetingMembers(group, meetingDate) {
  */
 function findMeetingDateWithMaximumMembers(group) {
     const people = group.getAll && group.getAll();
-    
+
     if (!people) {
         return null;
     }
