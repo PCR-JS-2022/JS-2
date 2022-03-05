@@ -20,8 +20,27 @@
  * @returns {Group} созданная группа
  */
 
+function correctStr(interest) {
+    return typeof interest === 'string';
+}
+
+function correctData(date) {
+    return Object.prototype.toString.call(date) === '[object Date]';
+}
+
+function correctPerson(person) {
+    return (typeof person === 'object' && typeof person.name === 'string'
+        && Array.isArray(person.interests) && typeof person.email === 'string'
+        && typeof person.freeRange === 'object' && correctData(person.freeRange.startDate)
+        && correctData(person.freeRange.endDate)
+    );
+}
 
 function createGroup(interest) {
+    if (!correctStr(interest)) {
+        return [];
+    }
+
     let listInterest = [];
     return {
 
@@ -30,27 +49,28 @@ function createGroup(interest) {
         },
 
         includePerson: function (person) {
-            let len = person.interests.length;
-            for (let i = 0; i < len; i++) {
-                if (interest === person.interests[i] && listInterest.findIndex(el => el.email === person.email) === -1) {
-                    listInterest.push(person);
-                    return true;
+            if (correctPerson(person)) {
+                let len = person.interests.length;
+                for (let i = 0; i < len; i++) {
+                    if (interest === person.interests[i] && listInterest.findIndex(el => el.email === person.email) === -1) {
+                        listInterest.push(person);
+                        return true;
+                    }
                 }
             }
-
             return false;
         },
 
         excludePerson: function (email) {
-            for (let i = 0; i < listInterest.length; i++) {
-                if (listInterest[i].email === email) {
-                    listInterest.splice(i, 1);
-                    return true;
+            if (correctStr(email)) {
+                for (let i = 0; i < listInterest.length; i++) {
+                    if (listInterest[i].email === email) {
+                        listInterest.splice(i, 1);
+                        return true;
+                    }
                 }
-
-                return false;
             }
-
+            return false;
         }
     }
 };
@@ -60,10 +80,6 @@ function createGroup(interest) {
  * @param {Date} meetingDate - дата встречи
  * @returns {number} кол-во людей, готовых в переданную дату посетить встречу 
  */
-
-function correctData(date) {
-    return Object.prototype.toString.call(date) === '[object Date]';
-};
 
 function correctGroup(group) {
     return group.hasOwnProperty('getAll');
@@ -106,5 +122,6 @@ function findMeetingDateWithMaximumMembers(group) {
     });
     return date;
 };
+
 
 module.exports = { createGroup, findMeetingMembers, findMeetingDateWithMaximumMembers };
