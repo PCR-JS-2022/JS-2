@@ -18,6 +18,53 @@
  * @param {string} interest - интерес группы
  * @returns {Group} созданная группа
  */
+const phoneList = [
+    {
+        name: "Александра",
+        interests: ["games", "computers"],
+        email: "alexandra@rambler.ru",
+        freeRange: {
+            startDate: new Date("01.01.2020"),
+            endDate: new Date("03.10.2020"),
+        },
+    },
+    {
+        name: "Василий",
+        interests: ["games"],
+        email: "vasiliy@mail.ru",
+        freeRange: {
+            startDate: new Date("02.05.2020"),
+            endDate: new Date("02.25.2020"),
+        },
+    },
+    {
+        name: "Роман",
+        email: "roman@yandex.ru",
+        interests: ["javascript"],
+        freeRange: {
+            startDate: new Date("05.01.2020"),
+            endDate: new Date("06.10.2020"),
+        },
+    },
+    {
+        name: "Егор",
+        email: "egor@gmail.ru",
+        interests: ["computers", "javascript"],
+        freeRange: {
+            startDate: new Date("03.01.2020"),
+            endDate: new Date("08.10.2020"),
+        },
+    },
+    {
+        name: "ziad",
+        interests: ["games", "computers"],
+        email: "ziiad@rambler.ru",
+        freeRange: {
+            startDate: new Date("03.20.2020"),
+            endDate: new Date("03.30.2020"),
+        },
+    },
+];
 const checkGroupValidity = (group) => {
     if (!group || !group.getAll || !group.includePerson || !group.excludePerson)
         return false;
@@ -76,8 +123,7 @@ javascriptGroup.includePerson(phoneList[3]);
 function findMeetingMembers(group, meetingDate) {
     let result = [];
     const arugmentsInvalid =
-        meetingDate instanceof Date === false ||
-        typeof group !== "object" ||
+        !(meetingDate instanceof Date) || typeof group !== "object" ||
         !group.getAll;
     if (arugmentsInvalid) {
         return 0;
