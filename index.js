@@ -75,14 +75,13 @@ function createGroup(interest) {
                 } else { return false };
             },
             excludePerson(mail) {
+                const startLength = this.friends.length;
                 for (let i = 0; i < this.friends.length; i++) {
                     if (this.friends[i].email === mail) {
                         this.friends.splice(i, 1);
-                        return true
-                    } else {
-                        return false
-                    };
+                    } 
                 };
+                return startLength !== this.friends.length ? true : false;
             },
             getAll() {
                 return this.friends
@@ -90,6 +89,16 @@ function createGroup(interest) {
         };
     };
 };
+
+// const javaScriptGroup = createGroup('javascript');
+// javaScriptGroup.includePerson(phoneList[2]); // true
+// javaScriptGroup.includePerson(phoneList[0]); // false
+// javaScriptGroup.includePerson(phoneList[3]); // true
+// console.log(javaScriptGroup.excludePerson('vasiliy@mail.ru')); // false
+// console.log(javaScriptGroup.excludePerson('roman@yandex.ru')); // true
+
+
+// console.log(JSON.stringify(javaScriptGroup.getAll()));
 
 /**
  * @param {Group} group - группа людей
