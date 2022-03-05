@@ -61,7 +61,7 @@ function createGroup(interest) {
  * @returns {number} кол-во людей, готовых в переданную дату посетить встречу 
  */
 function findMeetingMembers(group, meetingDate) {
-    if (!meetingDate instanceof Date || !Array.isArray(group.getAll()) || !group.getAll().length) {
+    if (!meetingDate || !(meetingDate instanceof Date) || !Array.isArray(group.getAll()) || !group.getAll().length) {
         return 0;
     }
 
