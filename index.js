@@ -39,7 +39,7 @@ function createGroup(interest) {
     return {
         getAll: () => friendList,
         includePerson: function (person) {
-            return person.interests.includes(interest) && !friendList.some(item => item.email === person.email)
+            return person.interests && person.interests.includes(interest) && !friendList.some(item => item.email === person.email)
                 ? friendList.push(person) && true
                 : false;
         },
