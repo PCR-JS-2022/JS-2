@@ -106,20 +106,28 @@ function findMeetingDateWithMaximumMembers(group) {
     if (!correctGroup(group)) {
         return null;
     }
+
     let friends = group.getAll();
-    let maxFrineds = 0;
     let date = new Date();
+    let maxFrineds = 0;
     let startdats = friends.map(friend => friend.freeRange.startDate);
     startdats.sort((d1, d2) => {
         return d1 - d2;
     });
+
     startdats.forEach(el => {
         let meetFrineds = findMeetingMembers(group, el);
+        if (meetFrineds === 0) {
+            date = null;
+            continue;
+        }
+
         if (meetFrineds > maxFrineds) {
             maxFrineds = meetFrineds;
             date = el;
         }
     });
+
     return date;
 };
 
