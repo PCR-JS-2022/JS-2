@@ -1,40 +1,3 @@
-const phoneList = [{
-    name: 'Александра',
-    interests: ['games', 'computers'],
-    email: 'alexandra@rambler.ru',
-    freeRange: {
-        startDate: new Date('01.01.2020'),
-        endDate: new Date('05.10.2020'),
-    }
-},
-    {
-        name: 'Василий',
-        interests: ['games'],
-        email: 'vasiliy@mail.ru',
-        freeRange: {
-            startDate: new Date('02.05.2020'),
-            endDate: new Date('10.25.2020'),
-        }
-    },
-    {
-        name: 'Роман',
-        email: 'roman@yandex.ru',
-        interests: ['javascript'],
-        freeRange: {
-            startDate: new Date('05.01.2020'),
-            endDate: new Date('06.10.2020'),
-        }
-    },
-    {
-        name: 'Егор',
-        email: 'egor@gmail.ru',
-        interests: ['computers', 'javascript'],
-        freeRange: {
-            startDate: new Date('03.01.2020'),
-            endDate: new Date('08.10.2020'),
-        }
-    },
-];
 /**
  * @typedef Person
  * @type {object}
@@ -103,7 +66,18 @@ function findMeetingMembers(group, meetingDate) {
  * @returns {Date} дата, в которую могут собраться максимальное кол-во человек из группы
  */
 function findMeetingDateWithMaximumMembers(group) {
-
+    if (!isGroup(group))
+        return null;
+    let dateArr = group.getAll().map((person) => [person.freeRange.startDate, 0]);
+    for (let date of dateArr) {
+        for (let person of group.getAll()) {
+            date[1] = findMeetingMembers(group, date[0]);
+        }
+    }
+    dateArr.sort((a, b) => b[1] - a[1]);
+    if (dateArr[0][1] === 0)
+        return null;
+    return dateArr[0][0];
 };
 
 /**
@@ -118,16 +92,8 @@ function isGroup(group) {
         && (group.hasOwnProperty('excludePerson'));
 }
 
-
-let test = createGroup('games');
-test.includePerson(phoneList[0]);
-test.includePerson(phoneList[1]);
-let testDate = new Date('05.10.2020');
-console.log(findMeetingMembers(test, new Date('463646346364')))
-//console.log(findMeetingMembers(test, new Date('10.01.2020')))
-/*
 module.exports = {
     createGroup,
     findMeetingMembers,
     findMeetingDateWithMaximumMembers
-};*/
+};
