@@ -1,3 +1,4 @@
+"use strict";
 /**
  * @typedef Person
  * @type {object}
@@ -20,7 +21,7 @@
  * @returns {Group} созданная группа
  */
 function createGroup(interest) {
-    friends = [];
+    const friends = [];
     return {
         getAll() {
             return friends;
@@ -90,8 +91,7 @@ const phoneList = [
   console.log(javaScriptGroup.includePerson(phoneList[0])); // false
   console.log(javaScriptGroup.includePerson(phoneList[3]));
   
-  console.log(javaScriptGroup.excludePerson('vasiliy@mail.ru')); // false
-  console.log(javaScriptGroup.excludePerson('roman@yandex.ru')); // true
+
   console.log(javaScriptGroup.getAll());
 
 /**
@@ -100,8 +100,18 @@ const phoneList = [
  * @returns {number} кол-во людей, готовых в переданную дату посетить встречу 
  */
 function findMeetingMembers(group, meetingDate) {
-
+    if (!(Boolean(group.getAll) || meetingDate instanceof Date)) return 0;
+    const friends = group.getAll();
+    let freeFriendsCount = 0;
+    friends.forEach((e) => {
+        if (meetingDate >= e.freeRange.startDate && meetingDate <= e.freeRange.endDate) freeFriendsCount += 1;
+    });
+    return freeFriendsCount;
 };
+
+console.log(findMeetingMembers(javaScriptGroup, new Date('10.10.2020'))); // 0
+console.log(findMeetingMembers(javaScriptGroup, new Date('06.10.2020'))); // 2
+
 
 /**
  * @param {Group} group - группа людей
