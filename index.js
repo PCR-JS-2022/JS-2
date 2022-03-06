@@ -73,17 +73,21 @@ function findMeetingMembers(group, meetingDate) {
  * @returns {Date} дата, в которую могут собраться максимальное кол-во человек из группы
  */
 function findMeetingDateWithMaximumMembers(group) {
+    if (!group || !group.getAll().length) {
+        return;
+    }
+
     let allDates = [];
     group.getAll().forEach(item => {
         let startDate = item.freeRange.startDate;
-        while (new Date(startDate) <= item.freeRange.endDate) {
+        while (startDate <= item.freeRange.endDate) {
             allDates.push(startDate);
             startDate = new Date(startDate.setDate(startDate.getDate() + 1));
         }
     });
 
     group.getAll().forEach(item => {
-        allDates = allDates.filter(i => i >= item.freeRange.startDate && i <= item.freeRange.endDate);
+        allDates = allDates.filter(date => date >= item.freeRange.startDate && date <= item.freeRange.endDate);
     });
 
     return formatDateTostring(new Date(allDates[0]));
@@ -91,13 +95,13 @@ function findMeetingDateWithMaximumMembers(group) {
 
 /** дата в формате MM.DD.YYYY */
 function formatDateTostring(date) {
-    if (!date) {
+    if (isNaN(date.getTime())) {
         return null;
     }
 
     let result = "";
     const dd = date.getUTCDate();
-    const mm = date.getMonth() + 1; 
+    const mm = date.getMonth() + 1;
     const yyyy = date.getFullYear();
     if (mm < 10) {
         result += '0' + mm + '.';
@@ -110,7 +114,7 @@ function formatDateTostring(date) {
     } else {
         result += dd;
     }
-    
+
     return result + '.' + yyyy;
 }
 
