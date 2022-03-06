@@ -20,45 +20,6 @@
  * @returns {Group} созданная группа
  */
 
- const phoneList = [
-    {
-      name: 'Александра',
-      interests: ['games', 'computers'],
-      email: 'alexandra@rambler.ru',
-      freeRange: {
-        startDate: new Date('01.01.2020'),
-        endDate: new Date('03.10.2020'),
-      }
-    },
-    {
-      name: 'Василий',
-      interests: ['games'],
-      email: 'vasiliy@mail.ru',
-      freeRange: {
-        startDate: new Date('02.05.2020'),
-        endDate: new Date('02.25.2020'),
-      }
-    },
-    {
-      name: 'Роман',
-      email: 'roman@yandex.ru',
-      interests: ['javascript'],
-      freeRange: {
-        startDate: new Date('05.01.2020'),
-        endDate: new Date('06.10.2020'),
-      }
-    },
-    {
-      name: 'Егор',
-      email: 'egor@gmail.ru',
-      interests: ['computers', 'javascript'],
-      freeRange: {
-        startDate: new Date('03.01.2020'),
-        endDate: new Date('08.10.2020'),
-      }
-    },
-  ];
-
 function createGroup(interest) {
     const friendsGroup = [];
     return {
@@ -90,24 +51,6 @@ function createGroup(interest) {
     }
 };
 
-// const javaScriptGroup = createGroup("javascript");
-// console.log(javaScriptGroup.includePerson(phoneList[2])); //true
-// console.log(javaScriptGroup.includePerson(phoneList[3])); //true
-// console.log(javaScriptGroup.excludePerson("egor@gmail.ru")); //false
-// console.log(javaScriptGroup.excludePerson("egor@gmail.ru")); //false
-// console.log(javaScriptGroup.excludePerson("roman@yandex.ru")); //true
-// console.log(javaScriptGroup.getAll());
-// console.log(javaScriptGroup.includePerson(phoneList[2]));
-// console.log(javaScriptGroup.includePerson(phoneList[1]));
-// console.log(javaScriptGroup.getAll());
-
-// console.log(javaScriptGroup.getAll())
-// console.log(javaScriptGroup.includePerson(phoneList[3]));
-// console.log(javaScriptGroup.includePerson(phoneList[2]));
-// console.log(javaScriptGroup.excludePerson('roman@yandex.ru'))
-// console.log(javaScriptGroup.excludePerson("'vasiliy@mail.ru'"))
-// console.log(javaScriptGroup.getAll())
-
 /**
  * @param {Group} group - группа людей
  * @param {Date} meetingDate - дата встречи
@@ -126,12 +69,6 @@ function findMeetingMembers(group, meetingDate) {
         return count;
     }, 0)
 };
-// const javaScriptGroup = createGroup('javascript');
-// javaScriptGroup.includePerson(phoneList[2]); // true
-// javaScriptGroup.includePerson(phoneList[3]); // true
-
-// console.log(findMeetingMembers(javaScriptGroup, new Date('10.10.2020'))); // 0
-// console.log(findMeetingMembers(javaScriptGroup, new Date('06.10.2020'))); // 2
 
 /**
  * @param {Group} group - группа людей
@@ -163,10 +100,5 @@ function findMeetingDateWithMaximumMembers(group) {
     const maxCountIndex = findIndexMax(counts);
     return sortedDates[maxCountIndex];
 };
-
-// const javaScriptGroup = createGroup('games');
-// javaScriptGroup.includePerson(phoneList[0]); // true
-// javaScriptGroup.includePerson(phoneList[1]); // true
-// console.log(findMeetingDateWithMaximumMembers(javaScriptGroup));
 
 module.exports = { createGroup, findMeetingMembers, findMeetingDateWithMaximumMembers };
