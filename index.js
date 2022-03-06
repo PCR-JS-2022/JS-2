@@ -47,53 +47,6 @@ function createGroup(interest) {
     }
 };
 
-const phoneList = [
-    {
-      name: 'Александра',
-      interests: ['games', 'computers'],
-      email: 'alexandra@rambler.ru',
-      freeRange: {
-        startDate: new Date('01.01.2020'),
-        endDate: new Date('03.10.2020'),
-      }
-    },
-    {
-      name: 'Василий',
-      interests: ['games'],
-      email: 'vasiliy@mail.ru',
-      freeRange: {
-        startDate: new Date('02.05.2020'),
-        endDate: new Date('02.25.2020'),
-      }
-    },
-    {
-      name: 'Роман',
-      email: 'roman@yandex.ru',
-      interests: ['javascript'],
-      freeRange: {
-        startDate: new Date('05.01.2020'),
-        endDate: new Date('06.10.2020'),
-      }
-    },
-    {
-      name: 'Егор',
-      email: 'egor@gmail.ru',
-      interests: ['computers', 'javascript'],
-      freeRange: {
-        startDate: new Date('03.01.2020'),
-        endDate: new Date('08.10.2020'),
-      }
-    },
-  ];
-
-  const javaScriptGroup = createGroup('javascript');
-  console.log(javaScriptGroup.includePerson(phoneList[2])); // true
-  console.log(javaScriptGroup.includePerson(phoneList[0])); // false
-  console.log(javaScriptGroup.includePerson(phoneList[3]));
-  
-
-  console.log(javaScriptGroup.getAll());
-
 /**
  * @param {Group} group - группа людей
  * @param {Date} meetingDate - дата встречи
@@ -109,16 +62,33 @@ function findMeetingMembers(group, meetingDate) {
     return freeFriendsCount;
 };
 
-console.log(findMeetingMembers(javaScriptGroup, new Date('10.10.2020'))); // 0
-console.log(findMeetingMembers(javaScriptGroup, new Date('06.10.2020'))); // 2
-
-
 /**
  * @param {Group} group - группа людей
  * @returns {Date} дата, в которую могут собраться максимальное кол-во человек из группы
  */
 function findMeetingDateWithMaximumMembers(group) {
-
+    if (!(Boolean(group.getAll))) return null;
+    const friends = group.getAll();
+    let maxFriends = 0;
+    let date;
+    friends.forEach((e) => {
+        let currDate = e.freeRange.startDate;
+        let currMax = findMeetingMembers(group, currDate);
+        console.log(currMax);
+        if (currMax > maxFriends) {
+            maxFriends = currMax;
+            date = e.freeRange.startDate;
+        }
+    });
+    return getStrtingDate(date);
 };
+
+function getStrtingDate(date) {
+    const splitDate = String(date).split(" ");
+    let month = date.getMonth() + 1;
+    if (month < 10) month = "0" + month;
+    return month + "." + splitDate[2] + "." + splitDate[3];
+}
+const gamesGroup = createGroup('games');
 
 module.exports = { createGroup, findMeetingMembers, findMeetingDateWithMaximumMembers };
