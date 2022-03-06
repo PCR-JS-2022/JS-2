@@ -82,7 +82,7 @@ function findMeetingDateWithMaximumMembers(group) {
     let allDates = group.getAll().map(item => item.freeRange);
 
     group.getAll().forEach(item => {
-        maxCount = allDates.filter(date => item.freeRange.startDate >= date.startDate && item.freeRange.endDate <= date.endDate).length;
+        let maxCount = allDates.filter(date => item.freeRange.startDate >= date.startDate && item.freeRange.endDate <= date.endDate).length;
         if (maxCount > countPeople) {
             countPeople = maxCount;
             maxDate = item.freeRange.startDate;
