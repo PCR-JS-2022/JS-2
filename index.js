@@ -108,6 +108,9 @@ function findMeetingDateWithMaximumMembers(group) {
     }
 
     let friends = group.getAll();
+    if (friends.length === 0) {
+        return null;
+    }
     let date = new Date();
     let maxFrineds = 0;
     let startdats = friends.map(friend => friend.freeRange.startDate);
