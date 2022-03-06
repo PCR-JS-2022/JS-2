@@ -78,21 +78,24 @@ function createGroup(interest) {
             return false;
         },
         excludePerson(email) {
+            result = false;
             phoneList.forEach(friend => {
                 if(friendsGroup.includes(friend) && friend.email === email) {
                     friendsGroup.splice(friendsGroup.indexOf(friend), 1);
-                    return true;
+                    result = true;
                 }
             });
-            return false;
+            return result;
         }
     }
 };
 
 // const javaScriptGroup = createGroup("javascript");
+// console.log(javaScriptGroup.includePerson(phoneList[0])); //true
 // console.log(javaScriptGroup.includePerson(phoneList[2])); //true
-// console.log(javaScriptGroup.includePerson(phoneList[1])); //false
 // console.log(javaScriptGroup.excludePerson("egor@gmail.ru")); //false
+// console.log(javaScriptGroup.excludePerson("egor@gmail.ru")); //false
+// console.log(javaScriptGroup.excludePerson("roman@yandex.ru")); //true
 // console.log(javaScriptGroup.getAll());
 // console.log(javaScriptGroup.includePerson(phoneList[2]));
 // console.log(javaScriptGroup.includePerson(phoneList[1]));
