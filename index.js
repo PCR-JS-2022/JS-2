@@ -19,8 +19,36 @@
  * @param {string} interest - интерес группы
  * @returns {Group} созданная группа
  */
-function createGroup(interest) {
 
+
+function createGroup(interest) {
+    personsList = []
+
+    return{
+
+        getAll: () => personsList,
+        
+        includePerson: (person) => {
+            if (person.interests?.includes(interest) && personsList.every(({ email }) => email !== person.email)) {
+                personsList.push(person);
+                return true;
+                }
+            else {
+                return false;
+            }
+        },
+        
+        excludePerson: (email) => {
+            const checkEmail = personsList.findIndex(person => person.email === email);
+            if (checkEmail === -1) {
+              return false;
+            }
+            else {
+                personsList.splice(index, 1);
+            return true;
+            }
+          }    
+    }
 };
 
 /**
