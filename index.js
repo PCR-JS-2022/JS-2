@@ -77,14 +77,8 @@ function findMeetingDateWithMaximumMembers(group) {
         return null;
     }
 
-    let allDates = [];
-    group.getAll().forEach(item => {
-        let startDate = item.freeRange.startDate;
-        while (startDate <= item.freeRange.endDate) {
-            allDates.push(startDate);
-            startDate = new Date(startDate.setDate(startDate.getDate() + 1));
-        }
-    });
+    let allDates = group.getAll().map(item => item.freeRange.startDate)
+        .concat(group.getAll().map(item => item.freeRange.endDate));
 
     group.getAll().forEach(item => {
         allDates = allDates.filter(date => date >= item.freeRange.startDate && date <= item.freeRange.endDate);
@@ -100,7 +94,7 @@ function formatDateTostring(date) {
     }
 
     let result = "";
-    const dd = date.getUTCDate();
+    const dd = date.getDate();
     const mm = date.getMonth() + 1;
     const yyyy = date.getFullYear();
     if (mm < 10) {
