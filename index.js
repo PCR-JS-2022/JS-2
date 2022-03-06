@@ -74,7 +74,7 @@ function findMeetingMembers(group, meetingDate) {
  */
 function findMeetingDateWithMaximumMembers(group) {
     if (!group || !group.getAll().length) {
-        return;
+        return null;
     }
 
     let allDates = [];
