@@ -78,7 +78,7 @@ function createGroup(interest) {
             return false;
         },
         excludePerson(email) {
-            result = false;
+            let result = false;
             phoneList.forEach(friend => {
                 if(friendsGroup.includes(friend) && friend.email === email) {
                     friendsGroup.splice(friendsGroup.indexOf(friend), 1);
