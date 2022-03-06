@@ -91,32 +91,7 @@ function findMeetingDateWithMaximumMembers(group) {
         }
     });
 
-    return formatDateTostring(maxDate);
+    return isNaN(maxDate.getTime()) ? null : maxDate;
 };
-
-/** дата в формате MM.DD.YYYY */
-function formatDateTostring(date) {
-    if (isNaN(date.getTime())) {
-        return null;
-    }
-
-    let result = "";
-    const dd = date.getDate();
-    const mm = date.getMonth() + 1;
-    const yyyy = date.getFullYear();
-    if (mm < 10) {
-        result += '0' + mm + '.';
-    } else {
-        result += mm + '.';
-    }
-
-    if (dd < 10) {
-        result += '0' + dd;
-    } else {
-        result += dd;
-    }
-
-    return result + '.' + yyyy;
-}
 
 module.exports = { createGroup, findMeetingMembers, findMeetingDateWithMaximumMembers };
