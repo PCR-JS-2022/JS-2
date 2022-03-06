@@ -20,8 +20,79 @@
  * @returns {Group} созданная группа
  */
 function createGroup(interest) {
-
+    friends = [];
+    return {
+        getAll() {
+            return friends;
+        },
+        includePerson(friend) {
+            if (friend.interests === undefined) return false;
+            if (friend.interests.includes(interest) && !friends.includes(friend)) {
+                friends.push(friend);
+                return true;
+            }
+            return false;
+        },
+        excludePerson(email) {
+            const index = friends.findIndex((e) => {
+                return e.email === email;
+            });
+            if (index !== -1) {
+                friends.splice(index, 1);
+                return true;
+            }
+            return false;
+        }
+    }
 };
+
+const phoneList = [
+    {
+      name: 'Александра',
+      interests: ['games', 'computers'],
+      email: 'alexandra@rambler.ru',
+      freeRange: {
+        startDate: new Date('01.01.2020'),
+        endDate: new Date('03.10.2020'),
+      }
+    },
+    {
+      name: 'Василий',
+      interests: ['games'],
+      email: 'vasiliy@mail.ru',
+      freeRange: {
+        startDate: new Date('02.05.2020'),
+        endDate: new Date('02.25.2020'),
+      }
+    },
+    {
+      name: 'Роман',
+      email: 'roman@yandex.ru',
+      interests: ['javascript'],
+      freeRange: {
+        startDate: new Date('05.01.2020'),
+        endDate: new Date('06.10.2020'),
+      }
+    },
+    {
+      name: 'Егор',
+      email: 'egor@gmail.ru',
+      interests: ['computers', 'javascript'],
+      freeRange: {
+        startDate: new Date('03.01.2020'),
+        endDate: new Date('08.10.2020'),
+      }
+    },
+  ];
+
+  const javaScriptGroup = createGroup('javascript');
+  console.log(javaScriptGroup.includePerson(phoneList[2])); // true
+  console.log(javaScriptGroup.includePerson(phoneList[0])); // false
+  console.log(javaScriptGroup.includePerson(phoneList[3]));
+  
+  console.log(javaScriptGroup.excludePerson('vasiliy@mail.ru')); // false
+  console.log(javaScriptGroup.excludePerson('roman@yandex.ru')); // true
+  console.log(javaScriptGroup.getAll());
 
 /**
  * @param {Group} group - группа людей
