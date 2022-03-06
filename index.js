@@ -27,6 +27,7 @@ function createGroup(interest) {
             return this.friends;
         },
         includePerson: function (person) {
+            if (!isPerson(person)) return false;
             if ((person.interests.find((interest) => interest === this.interest) !== undefined)
                 && this.friends.find((friend) => friend.email === person.email) === undefined) {
                 this.friends.push(person);
@@ -35,6 +36,7 @@ function createGroup(interest) {
             return false;
         },
         excludePerson: function (email) {
+            if (typeof email !== 'string') return false;
             let person = this.friends.findIndex((friend) => friend.email === email);
             if (person !== -1) {
                 this.friends.splice(person, 1);
@@ -90,6 +92,19 @@ function isGroup(group) {
         && (group.hasOwnProperty('getAll'))
         && (group.hasOwnProperty('includePerson'))
         && (group.hasOwnProperty('excludePerson'));
+}
+
+/**
+ * Check, is variable object with type "Person" or not
+ * @param {Person} person
+ * @returns {boolean}
+ */
+function isPerson(person) {
+    return (typeof person === 'object')
+        && (person.hasOwnProperty('name') && typeof person.name === 'string')
+        && (person.hasOwnProperty('interests') && Array.isArray(person.interests))
+        && (person.hasOwnProperty('email') && typeof person.email === 'string')
+        && (person.hasOwnProperty('freeRange') && typeof person.freeRange === 'object');
 }
 
 module.exports = {
