@@ -78,7 +78,7 @@ function findMeetingDateWithMaximumMembers(group) {
     }
 
     if (group.getAll().length === 1) {
-        return formatDateTostring(group.getAll()[0].freeRange.startDate);
+        return group.getAll()[0].freeRange.startDate;
     }
 
     let countPeople = 0;
