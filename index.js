@@ -73,7 +73,7 @@ function findMeetingMembers(group, meetingDate) {
  * @returns {Date} дата, в которую могут собраться максимальное кол-во человек из группы
  */
 function findMeetingDateWithMaximumMembers(group) {
-    if (!group || !group.getAll().length) {
+    if (!group || !group.hasOwnProperty('getAll') || !group.getAll().length) {
         return null;
     }
 
