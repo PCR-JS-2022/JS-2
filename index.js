@@ -20,6 +20,7 @@
  * @param {string} interest - интерес группы
  * @returns {Group} созданная группа
  */
+
 function createGroup(interest) {
     const friends = [];
     return {
@@ -69,7 +70,7 @@ function findMeetingMembers(group, meetingDate) {
 function findMeetingDateWithMaximumMembers(group) {
     if (!(Boolean(group.getAll))) return null;
     const friends = group.getAll();
-    let maxFriends = 0;
+    let maxFriends = 1;
     let date;
     friends.forEach((e) => {
         let currDate = e.freeRange.startDate;
@@ -79,7 +80,8 @@ function findMeetingDateWithMaximumMembers(group) {
             maxFriends = currMax;
             date = e.freeRange.startDate;
         }
-    });
+    }); 
+    if (maxFriends === 1) return null;
     return getStrtingDate(date);
 };
 
@@ -89,6 +91,5 @@ function getStrtingDate(date) {
     if (month < 10) month = "0" + month;
     return month + "." + splitDate[2] + "." + splitDate[3];
 }
-const gamesGroup = createGroup('games');
 
 module.exports = { createGroup, findMeetingMembers, findMeetingDateWithMaximumMembers };
