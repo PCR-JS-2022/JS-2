@@ -26,6 +26,7 @@ function createGroup(interest) {
         getAll: () => groupMembers,
         includePerson: (person) => {
             if (!person 
+                || !Array.isArray(person.interests)
                 || groupMembers.includes(person) 
                 || !person.interests.includes(groupInterest)) {
                 return false;
