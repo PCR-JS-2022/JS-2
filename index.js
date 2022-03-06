@@ -77,14 +77,19 @@ function findMeetingDateWithMaximumMembers(group) {
         return null;
     }
 
-    let allDates = group.getAll().map(item => item.freeRange.startDate)
-        .concat(group.getAll().map(item => item.freeRange.endDate));
+    let countPeople = 0;
+    let maxDate;
+    let allDates = group.getAll().map(item => item.freeRange);
 
     group.getAll().forEach(item => {
-        allDates = allDates.filter(date => date >= item.freeRange.startDate && date <= item.freeRange.endDate);
+        maxCount = allDates.filter(date => item.freeRange.startDate >= date.startDate && item.freeRange.endDate <= date.endDate).length;
+        if (maxCount > countPeople) {
+            countPeople = maxCount;
+            maxDate = item.freeRange.startDate;
+        }
     });
 
-    return formatDateTostring(new Date(allDates[0]));
+    return formatDateTostring(maxDate);
 };
 
 /** дата в формате MM.DD.YYYY */
