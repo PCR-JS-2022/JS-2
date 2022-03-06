@@ -25,7 +25,7 @@ function correctStr(interest) {
 }
 
 function correctData(date) {
-    return Object.prototype.toString.call(date) === '[object Date]';
+    return date instanceof Date;
 }
 
 function correctPerson(person) {
@@ -50,9 +50,10 @@ function createGroup(interest) {
 
         includePerson: function (person) {
             if (correctPerson(person)) {
-                let len = person.interests.length;
+                const len = person.interests.length;
                 for (let i = 0; i < len; i++) {
-                    if (interest === person.interests[i] && listInterest.findIndex(el => el.email === person.email) === -1) {
+                    const isEmailList = listInterest.find(el => el.email === person.email)
+                    if (interest === person.interests[i] && isEmailList === undefined) {
                         listInterest.push(person);
                         return true;
                     }
@@ -63,13 +64,10 @@ function createGroup(interest) {
 
         excludePerson: function (email) {
             if (correctStr(email)) {
-                for (let i = 0; i < listInterest.length; i++) {
-                    if (listInterest[i].email === email) {
-                        listInterest.splice(i, 1);
-                        return true;
-                    }
-                }
+                const newListInterest = listInterest.filter(el => el.email !== email);
+                return listInterest.length > newListInterest.length;
             }
+
             return false;
         }
     }
@@ -90,7 +88,7 @@ function findMeetingMembers(group, meetingDate) {
         return 0;
     }
 
-    let frineds = group.getAll().filter(friend =>
+    const frineds = group.getAll().filter(friend =>
         (meetingDate >= friend.freeRange.startDate && meetingDate <= friend.freeRange.endDate));
     return frineds.length;
 };
@@ -107,13 +105,13 @@ function findMeetingDateWithMaximumMembers(group) {
         return null;
     }
 
-    let friends = group.getAll();
+    const friends = group.getAll();
     if (friends.length === 0) {
         return null;
     }
     let date = new Date();
     let maxFrineds = 0;
-    let startdats = friends.map(friend => friend.freeRange.startDate);
+    const startdats = friends.map(friend => friend.freeRange.startDate);
     startdats.sort((d1, d2) => {
         return d1 - d2;
     });
