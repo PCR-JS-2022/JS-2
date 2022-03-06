@@ -119,10 +119,7 @@ function findMeetingDateWithMaximumMembers(group) {
         let meetFrineds = findMeetingMembers(group, el);
         if (meetFrineds === 0) {
             date = null;
-            continue;
-        }
-
-        if (meetFrineds > maxFrineds) {
+        } else if (meetFrineds > maxFrineds) {
             maxFrineds = meetFrineds;
             date = el;
         }
