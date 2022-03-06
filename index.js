@@ -70,11 +70,12 @@ function createGroup(interest) {
             if(friend.interests.includes(interest)) {
                 if(friendsGroup.indexOf(friend) === -1) {
                     friendsGroup.push(friend);
+                    return true;
+                } else {
+                    return false;
                 }
-                return true;
-            } else {
-                return false;
-            }
+            } 
+            return false;
         },
         excludePerson(email) {
             let result = false;
@@ -90,7 +91,14 @@ function createGroup(interest) {
         }
     }
 };
+
 // const javaScriptGroup = createGroup("javascript");
+// console.log(javaScriptGroup.includePerson(phoneList[3]));
+// console.log(javaScriptGroup.includePerson(phoneList[2]));
+// console.log(javaScriptGroup.includePerson(phoneList[2]));
+// console.log(javaScriptGroup.includePerson(phoneList[1]));
+// console.log(javaScriptGroup.getAll());
+
 // console.log(javaScriptGroup.getAll())
 // console.log(javaScriptGroup.includePerson(phoneList[3]));
 // console.log(javaScriptGroup.includePerson(phoneList[2]));
