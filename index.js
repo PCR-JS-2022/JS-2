@@ -79,7 +79,7 @@ function createGroup(interest) {
         },
         excludePerson(email) {
             let result = false;
-            phoneList.forEach(friend => {
+            friendsGroup.forEach(friend => {
                 if(friendsGroup.includes(friend) && friend.email === email) {
                     friendsGroup.splice(friendsGroup.indexOf(friend), 1);
                     result = true;
@@ -91,8 +91,8 @@ function createGroup(interest) {
 };
 
 // const javaScriptGroup = createGroup("javascript");
-// console.log(javaScriptGroup.includePerson(phoneList[0])); //true
 // console.log(javaScriptGroup.includePerson(phoneList[2])); //true
+// console.log(javaScriptGroup.includePerson(phoneList[3])); //true
 // console.log(javaScriptGroup.excludePerson("egor@gmail.ru")); //false
 // console.log(javaScriptGroup.excludePerson("egor@gmail.ru")); //false
 // console.log(javaScriptGroup.excludePerson("roman@yandex.ru")); //true
