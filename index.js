@@ -60,14 +60,9 @@ function createGroup(interest) {
 
 function findMeetingMembers(group, meetingDate) {
     if(typeof(group)===String && meetingDate instanceof Date ){
-        return (count) => {
-            let count = 0;
-            for (let elem of group.getAll()){
-                if (meetingDate >= elem.startDate && meetingDate <= elem.endDate){
-                    count++
-                }
-            }
-        }
+        return () => {
+            (group.getAll().filter(el => el.freeRange.startDate <= meetingDate <= el.freeRange.endDate)).length();
+        }    
     }
     else return 0    
 };
@@ -77,7 +72,12 @@ function findMeetingMembers(group, meetingDate) {
  * @returns {Date} дата, в которую могут собраться максимальное кол-во человек из группы
  */
 function findMeetingDateWithMaximumMembers(group) {
-
+    return (myDate) => {
+        if(meetingDate instanceof Date || meetingDate != NaN){
+            
+        }
+        
+    }
 };
 
 module.exports = { createGroup, findMeetingMembers, findMeetingDateWithMaximumMembers };
