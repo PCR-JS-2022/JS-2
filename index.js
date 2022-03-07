@@ -73,7 +73,7 @@ function findMeetingMembers(group, meetingDate) {
 function findMeetingDateWithMaximumMembers(group) {
     if (!(Boolean(group.getAll))) return null;
     const friends = group.getAll();
-    const maxFriends = 1;
+    let maxFriends = 1;
     let date;
     friends.forEach((e) => {
         const currDate = e.freeRange.startDate;
