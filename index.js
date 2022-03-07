@@ -140,10 +140,10 @@ function findMeetingDateWithMaximumMembers(group) {
         }
     }
 
-    if (maxCanCome <= 1)
+    if (maxCanCome === 0)
         return null;
-    else
-        return date;
+
+    return date;
 };
 
 const gamesGroup = createGroup('games');
