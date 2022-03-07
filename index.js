@@ -70,6 +70,8 @@
   */
  function findMeetingMembers(group, meetingDate) {
      let count = 0;
+     if(group === undefined)
+     return 0;
      const localList = group.getAll();
      for (var i = 0; i < localList.length; i++) {
          if (CheckDate(meetingDate, localList[i])) count++;
@@ -82,6 +84,8 @@
   * @returns {Date} дата, в которую могут собраться максимальное кол-во человек из группы
   */
  function findMeetingDateWithMaximumMembers(group) {
+   if(group === undefined)
+   return null;
      let localList = group.getAll();
      let count = 0;
      let start = new Date('01.01.2000');
@@ -96,7 +100,8 @@
              start = date;
          }
      });
- 
+     if (start === new Date('01.01.2000'))
+     return null;
      return start;
  }
  
