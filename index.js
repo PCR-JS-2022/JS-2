@@ -58,7 +58,7 @@ const phoneList = [
         email: 'alexandra@rambler.ru',
         freeRange: {
             startDate: new Date('01.01.2020'),
-            endDate: new Date('03.10.2020'),
+            endDate: new Date('01.10.2020'),
         }
     },
     {
@@ -140,10 +140,10 @@ function findMeetingDateWithMaximumMembers(group) {
         }
     }
 
-    if (date === Date(0))
+    if (maxCanCome <= 1)
         return null;
-        
-    return date;
+    else
+        return date;
 };
 
 const gamesGroup = createGroup('games');
