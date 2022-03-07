@@ -77,7 +77,7 @@
  */
 function createGroup(interest) {
   //return new Group(interest);
-  return {
+  let result =  {
     interest: interest,
     inGroup: [],
     inGroupEmails: new Set(),
@@ -104,6 +104,12 @@ function createGroup(interest) {
       return true;
     }
   }
+
+  phoneList.forEach(
+    (el, ind) => result.includePerson(el)
+  );
+
+  return result;
 };
 
 /**
