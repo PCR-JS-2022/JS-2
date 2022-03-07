@@ -20,7 +20,7 @@
  * @returns {Group} созданная группа
  */
 function createGroup(interest) {
-    const groupMembers = [];
+    let groupMembers = [];
     const groupInterest = interest;
     const group = {
         getAll: () => groupMembers,
@@ -41,20 +41,8 @@ function createGroup(interest) {
             }
 
             const groupMembersLength = groupMembers.length;
-            let personIndex = -1;
-            for (let i = 0;i < groupMembersLength; i++) {
-                if (groupMembers[i].email === personEmail) {
-                    personIndex = i;
-                    break;
-                }
-            }
-
-            if (personIndex === -1) {
-                return false;
-            }
-
-            groupMembers.splice(personIndex, 1);
-            return true;
+            groupMembers = groupMembers.filter(member => member.email !== personEmail);
+            return groupMembersLength !== groupMembers.length;
         }
     }
 
@@ -75,18 +63,16 @@ function findMeetingMembers(group, meetingDate) {
         return 0;
     }
 
-    let result = 0;
-    group.getAll().forEach(person => {
-        if (!person.freeRange) {
-            return;
+    return group.getAll().reduce((totalCount, {freeRange}) => {
+        if (!freeRange) {
+            return totalCount;
         }
 
-        if (person.freeRange.startDate <= meetingDate && person.freeRange.endDate >= meetingDate) {
-            result++;
+        if (freeRange.startDate <= meetingDate && freeRange.endDate >= meetingDate) {
+            return ++totalCount;
         }
-    });
 
-    return result;
+    }, 0) || 0;
 };
 
 /**
