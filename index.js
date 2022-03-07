@@ -96,6 +96,9 @@ const phoneList = [
  * @returns {number} кол-во людей, готовых в переданную дату посетить встречу 
  */
 function findMeetingMembers(group, meetingDate) {
+    if (typeof group.getAll != 'function')
+        return 0;
+
     let count = 0;
 
     group.getAll().forEach(person => {
