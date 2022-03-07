@@ -15,6 +15,7 @@
  * @property {(email: string) => boolean} excludePerson - удалить человека из списка участников
  */
 
+/*
  class Group {
   constructor(groupName) {
       this.groupName = groupName; 
@@ -22,23 +23,17 @@
       this.inGroupEmails = new Set();
   }
 
-  /*
   isInGroup(person) {
       return this.inGroupEmails.has(person.email);
   }
-  */
 
-  /*
   isEmailInGroup(email) {
       return this.inGroupEmails.has(email);
   }
-  */
 
-  /*
   checkInterestGroup(person) {
       return person.interests.includes(this.groupName);
   }
-  */
 
   getAll() {
       return this.inGroup;
@@ -46,15 +41,7 @@
 
   includePerson(person) {
 
-    function isInGroup(group, person) {
-      return group.inGroupEmails.has(person.email);
-    }
-
-    function checkInterestGroup(group, person) {
-      return person.interests.includes(group.groupName);
-    }
-
-    if (!isInGroup(this, person)&&checkInterestGroup(this, person)) {
+    if (!this.isInGroup(person)&&this.checkInterestGroup(person)) {
         this.inGroup.push(person);
         this.inGroupEmails.add(person.email);
         return true;
@@ -63,31 +50,13 @@
   }
 
   excludePerson(email) {
-
-    function removeByEmail(group, email) {
-      let toRemove = -1;
-      group.inGroup.forEach(
-          (el, ind) => {
-              if (el.email == email) {
-                  toRemove = ind;
-              }
-          }
-      );
-      if (toRemove != -1) group.inGroup.splice(toRemove, 1);
-    }
-
-    function isEmailInGroup(group, email) {
-      return group.inGroupEmails.has(email);
-    }
-
-      if (isEmailInGroup(this, email)) {
-          removeByEmail(this, email);
+      if (this.isEmailInGroup(email)) {
+          this.removeByEmail(email);
           this.inGroupEmails.delete(email);
       }
       return false;
   }
 
-  /*
   removeByEmail(email) {
       let toRemove = -1;
       this.inGroup.forEach(
@@ -99,15 +68,42 @@
       );
       if (toRemove != -1) this.inGroup.splice(toRemove, 1);
   }
-  */
 }
+*/
 
 /**
  * @param {string} interest - интерес группы
  * @returns {Group} созданная группа
  */
 function createGroup(interest) {
-  return new Group(interest);
+  //return new Group(interest);
+  return {
+    interest: interest,
+    inGroup: [],
+    inGroupEmails: new Set(),
+
+    getAll() {
+      return this.inGroup;
+    },
+
+    includePerson(person) {
+      if (!person.interests.includes(interest)) return false;
+      if (!this.inGroupEmails.has(person.email)) this.inGroup.push(person);
+    },
+
+    excludePerson(email) {
+      if (!typeof email == 'string') return false;
+      let toRemove = -1;
+      this.inGroup.forEach(
+        (el, ind) => {
+          if (el.email == email) toRemove = ind;
+        }
+      );
+      if (toRemove == -1) return false;
+      this.inGroup.splice(toRemove, 1);
+      return true;
+    }
+  }
 };
 
 /**
@@ -116,7 +112,7 @@ function createGroup(interest) {
  * @returns {number} кол-во людей, готовых в переданную дату посетить встречу 
  */
 function findMeetingMembers(group, meetingDate) {
-  if (!(group instanceof Group) || !(meetingDate instanceof Date)) return 0;
+  if (!(meetingDate instanceof Date)) return 0;
 
   let numberOfPeople = 0;
   group.inGroup.forEach(
@@ -164,7 +160,7 @@ class EndPointDate {
  * @returns {Date} дата, в которую могут собраться максимальное кол-во человек из группы
  */
 function findMeetingDateWithMaximumMembers(group) {
-  if (!(group instanceof Group)) return null;
+  //if (!(group instanceof Group)) return null;
 
   // опсиание алгоритма: https://cs.stackexchange.com/questions/105773/find-a-point-shared-by-maximum-segments
   // подготовка исходных данных
@@ -185,13 +181,10 @@ function findMeetingDateWithMaximumMembers(group) {
     (first, second) => first.compareTo(second)
   );
 
-  //segmentEnds;
-
   // работа алгоритма
   let intersectionCount = 0;
   let maxIntersection = 0;
   let bestDate = null;
-  //let currentDate = segmentEnds[0].date;
 
   segmentEnds.forEach(
     (el, ind) => {
@@ -264,6 +257,7 @@ javaScriptGroup.excludePerson('roman@yandex.ru'); // true
 
 javaScriptGroup.getAll();
 */
+
 /*
   [
     {
