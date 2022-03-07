@@ -140,7 +140,7 @@ function findMeetingDateWithMaximumMembers(group) {
         }
     }
 
-    if (maxCanCome === 0)
+    if (maxCanCome === 0 || (typeof group.getAll != 'function'))
         return null;
 
     return date;
