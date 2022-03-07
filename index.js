@@ -19,6 +19,7 @@
  * @param {string} interest - интерес группы
  * @returns {Group} созданная группа
  */
+
 function createGroup(interest) {
     const group = [];
 
@@ -50,22 +51,17 @@ function createGroup(interest) {
     }
 };
 
-
-
-
 /**
  * @param {Group} group - группа людей
  * @param {Date} meetingDate - дата встречи
  * @returns {number} кол-во людей, готовых в переданную дату посетить встречу
  */
 
-
-
 function findMeetingMembers(group, meetingDate) {
-    const friends = group.getAll();
-    if (!meetingDate instanceof Date)
+    if (!meetingDate instanceof Date || group.getAll().length === 0)
         return 0;
 
+    const friends = group.getAll();
     let trueFriends = 0;
     friends.forEach(e => {
         if (meetingDate >= e.freeRange.startDate && meetingDate <= e.freeRange.endDate)
@@ -75,6 +71,37 @@ function findMeetingMembers(group, meetingDate) {
     return trueFriends;
 }
 
+/**
+ * @param {Group} group - группа людей
+ * @returns {Date} дата, в которую могут собраться максимальное кол-во человек из группы
+ */
+
+function findMeetingDateWithMaximumMembers(group) {
+    if (group.getAll().length === 0)
+        return null;
+
+    const friends = group.getAll();
+    let count = 0;
+    let date = 0;
+
+    friends.forEach(e => {
+        const date1 = e.freeRange.startDate.getTime();
+        const date2 = e.freeRange.endDate.getTime();
+        for (let i = date1; i < date2; i += 86400000) {
+            let localCount = 0;
+            friends.forEach(x => {
+                if (i >= x.freeRange.startDate.getTime() && i <= x.freeRange.endDate.getTime())
+                    localCount++;
+            });
+
+            if (localCount > count) {
+                count = localCount;
+                date = i;
+            }
+        }
+    });
+    return new Date(date);
+}
 
 const phoneList = [{
         name: "Александра",
@@ -106,7 +133,7 @@ const phoneList = [{
     {
         name: "Егор",
         email: "egor@gmail.ru",
-        interests: ["computers", "javascript"],
+        interests: ["games", "javascript"],
         freeRange: {
             startDate: new Date("03.01.2020"),
             endDate: new Date("08.10.2020"),
@@ -116,20 +143,12 @@ const phoneList = [{
 
 
 
-const javaScriptGroup = createGroup('javascript');
-console.log(javaScriptGroup.includePerson(phoneList[2])); //true
-console.log(javaScriptGroup.includePerson(phoneList[3])); //true
+const gamesGroup = createGroup('games');
+console.log(gamesGroup.includePerson(phoneList[0])); //true
+console.log(gamesGroup.includePerson(phoneList[1])); //true
 
-console.log(findMeetingMembers(javaScriptGroup, new Date('10.10.2020'))); // 0
-console.log(findMeetingMembers(javaScriptGroup, new Date('06.10.2020'))); // 2
+console.log(findMeetingDateWithMaximumMembers(gamesGroup)); // 02.05.2020
 
-
-
-/**
- * @param {Group} group - группа людей
- * @returns {Date} дата, в которую могут собраться максимальное кол-во человек из группы
- */
-function findMeetingDateWithMaximumMembers(group) {}
 
 module.exports = {
     createGroup,
