@@ -22,7 +22,7 @@
 
 
 function createGroup(interest) {
-    personsList = []
+    const personsList = []
 
     return{
 
@@ -39,7 +39,7 @@ function createGroup(interest) {
         },
         
         excludePerson: (email) => {
-            const checkEmail = personsList.findIndex(person => person.email === email);
+            const checkEmail = personsList.findIndex(elem => person.email === email);
             if (checkEmail === -1) {
               return false;
             }
@@ -61,7 +61,7 @@ function createGroup(interest) {
 function findMeetingMembers(group, meetingDate) {
     if(typeof(group)===String && meetingDate instanceof Date ){
         return () => {
-            (group.getAll().filter(el => el.freeRange.startDate <= meetingDate <= el.freeRange.endDate)).length();
+            (group.getAll().filter(person => person.freeRange.startDate <= meetingDate <= person.freeRange.endDate)).length();
         }    
     }
     else return 0    
@@ -72,10 +72,24 @@ function findMeetingMembers(group, meetingDate) {
  * @returns {Date} дата, в которую могут собраться максимальное кол-во человек из группы
  */
 function findMeetingDateWithMaximumMembers(group) {
-    return (myDate) => {
-        if(meetingDate instanceof Date || meetingDate != NaN){
-            
+    return () => {
+        if(!meetingDate instanceof Date || meetingDate === NaN || group.getAll().length() === 0 || !Array.isArray(group)){
+            return null
         }
+        
+        const startDates = group.getAll().map((person) => person.freeRange.startDate);
+        let bestDate = new Date();
+        let maximumPersons = 0;
+        startDates.forEach((date) => {
+            const personsCount = group.getAll().filter((person) => {
+                isInRange(date, person.freeRange).length
+                });
+            if (personsCount > maximumPersons) {
+            maximumPersons = personsCount;
+            bestDate = date;
+            }
+        });
+        return bestDate;
         
     }
 };
