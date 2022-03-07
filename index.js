@@ -23,11 +23,9 @@
 
 function createGroup(interest) {
     const personsList = []
-
     return{
+        getAll: () => personsList, 
 
-        getAll: () => personsList,
-        
         includePerson: (person) => {
             if (person.interests?.includes(interest) && personsList.every(({ email }) => email !== person.email)) {
                 personsList.push(person);
@@ -36,8 +34,8 @@ function createGroup(interest) {
             else {
                 return false;
             }
-        },
-        
+        }, 
+
         excludePerson: (email) => {
             const checkEmail = personsList.findIndex(elem => person.email === email);
             if (checkEmail === -1) {
@@ -50,6 +48,7 @@ function createGroup(interest) {
           }    
     }
 };
+
 
 /**
  * @param {Group} group - группа людей
@@ -67,10 +66,13 @@ function findMeetingMembers(group, meetingDate) {
     else return 0    
 };
 
+
 /**
  * @param {Group} group - группа людей
  * @returns {Date} дата, в которую могут собраться максимальное кол-во человек из группы
  */
+
+
 function findMeetingDateWithMaximumMembers(group) {
     return () => {
         if(!meetingDate instanceof Date || meetingDate === NaN || group.getAll().length() === 0 || !Array.isArray(group)){
@@ -93,5 +95,6 @@ function findMeetingDateWithMaximumMembers(group) {
         
     }
 };
+
 
 module.exports = { createGroup, findMeetingMembers, findMeetingDateWithMaximumMembers };
