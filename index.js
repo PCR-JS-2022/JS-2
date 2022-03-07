@@ -91,7 +91,9 @@ function createGroup(interest) {
       if (!this.inGroupEmails.has(person.email)) {
         this.inGroup.push(person);
         this.inGroupEmails.add(person.email);
+        return true;
       }
+      return false;
     },
 
     excludePerson(email) {
@@ -201,6 +203,7 @@ class EndPointDate {
  */
 function findMeetingDateWithMaximumMembers(group) {
   //if (!(group instanceof Group)) return null;
+  if(!checkGroup(group)) return null;
 
   // опсиание алгоритма: https://cs.stackexchange.com/questions/105773/find-a-point-shared-by-maximum-segments
   // подготовка исходных данных
