@@ -76,11 +76,7 @@ function createGroup(interest) {
             },
             excludePerson(mail) {
                 const startLength = this.friends.length;
-                for (let i = 0; i < this.friends.length; i++) {
-                    if (this.friends[i].email === mail) {
-                        this.friends.splice(i, 1);
-                    } 
-                };
+                this.friends = this.friends.filter(el => el.email !== mail);
                 return startLength !== this.friends.length ? true : false;
             },
             getAll() {
@@ -98,7 +94,7 @@ function createGroup(interest) {
 // console.log(javaScriptGroup.excludePerson('roman@yandex.ru')); // true
 
 
-// console.log(JSON.stringify(javaScriptGroup.getAll()));
+//console.log(JSON.stringify(javaScriptGroup.getAll()));
 
 /**
  * @param {Group} group - группа людей
@@ -115,11 +111,17 @@ function findMeetingMembers(group, meetingDate) {
             lastDay += (element.freeRange.endDate >= meetingDate) ? 1 : 0;
         });
     };
-    return (stDay <= lastDay) ? stDay : lastDay
+    return Math.min(stDay, lastDay)
+    // return (stDay <= lastDay) ? stDay : lastDay
 
 };
 
+// const javaScriptGroup = createGroup('javascript');
+// console.log(javaScriptGroup.includePerson(phoneList[2])); // true
+// console.log(javaScriptGroup.includePerson(phoneList[3])); // true
 
+// console.log(findMeetingMembers(javaScriptGroup, new Date('10.10.2020'))); // 0
+// console.log(findMeetingMembers(javaScriptGroup, new Date('06.10.2020'))); // 2
 
 /**
  * @param {Group} group - группа людей
@@ -128,6 +130,7 @@ function findMeetingMembers(group, meetingDate) {
 
 function findMeetingDateWithMaximumMembers(group) {
     const checkArr = group.friends;
+    console.log(ddfd)
     if (checkArr && checkArr.length !== 0) {
         const checkDates = [];
         checkArr.forEach(el => {
@@ -135,28 +138,26 @@ function findMeetingDateWithMaximumMembers(group) {
             checkDates.push(el.freeRange.endDate);
         });
         checkDates.sort((a, b) => a >= b ? 1 : -1);
-        const finalCut = [];
-        checkDates.forEach(el => {
-            finalCut.push(
-                {
-                    date: el,
-                    friendsToMeet: findMeetingMembers(group, el)
-                }
-            );
-        });
-        return finalCut.sort((a, b) => a.friendsToMeet <= b.friendsToMeet ? 1 : -1)
-            .filter(el => el.friendsToMeet === finalCut[0].friendsToMeet)
-            .sort((a, b) => a.friendsToMeet <= b.friendsToMeet ? 1 : -1)[0].date;
+        let maxInd = 0;
+        let maxMem = 0;
+        checkDates.forEach((el, ind) => {
+            const members = findMeetingMembers(group, el);
+            if (members > maxMem) {
+                maxInd = ind;
+                maxMem = members;
+            };
+        })
+        return checkDates[maxInd];
     } else {
         return null
     };
 };
 
 // const gamesGroup = createGroup('games');
-// 	gamesGroup.includePerson(phoneList[0]); // true
-// 	gamesGroup.includePerson(phoneList[1]); // true
+// gamesGroup.includePerson(phoneList[0]); // true
+// gamesGroup.includePerson(phoneList[1]); // true
 
-// 	console.log(findMeetingDateWithMaximumMembers(gamesGroup)); // 02.05.2020
+// console.log(findMeetingDateWithMaximumMembers(gamesGroup)); // 02.05.2020
 
 
 
