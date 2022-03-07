@@ -44,7 +44,7 @@ function createGroup(interest) {
               return false;
             }
             else {
-                personsList.splice(index, 1);
+                personsList.splice(checkEmail, 1);
             return true;
             }
           }    
@@ -56,8 +56,20 @@ function createGroup(interest) {
  * @param {Date} meetingDate - дата встречи
  * @returns {number} кол-во людей, готовых в переданную дату посетить встречу 
  */
-function findMeetingMembers(group, meetingDate) {
 
+
+function findMeetingMembers(group, meetingDate) {
+    if(typeof(group)===String && meetingDate instanceof Date ){
+        return (count) => {
+            let count = 0;
+            for (let elem of group.getAll()){
+                if (meetingDate >= elem.startDate && meetingDate <= elem.endDate){
+                    count++
+                }
+            }
+        }
+    }
+    else return 0    
 };
 
 /**
