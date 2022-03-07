@@ -56,8 +56,8 @@ function createGroup(interest) {
  * @returns {number} кол-во людей, готовых в переданную дату посетить встречу 
  */
 function findMeetingMembers(group, meetingDate) {
-    if (!(group instanceof Object || group.hasOwnProperty("getAll") ||
-    group.hasOwnProperty("includePreson") || group.hasOwnProperty("excludePerson")) ||
+    if (!group instanceof Object || !group.hasOwnProperty("getAll") ||
+    !group.hasOwnProperty("includePreson") || !group.hasOwnProperty("excludePerson") ||
     !meetingDate instanceof Date)
     return 0;
     const friendsToMeet = group.getAll().filter(x => meetingDate >= x.freeRange.startDate &&
