@@ -39,8 +39,7 @@ function createGroup(interest) {
             if (index !== -1) {
                 group.splice(index, 1);
                 return true;
-            }
-            else return false
+            } else return false
         }
     }
 }
@@ -69,7 +68,19 @@ function isMemberCanMeet(member, meetingDate) {
  * @returns {Date} дата, в которую могут собраться максимальное кол-во человек из группы
  */
 function findMeetingDateWithMaximumMembers(group) {
-
+    if (!group.getAll) return null
+        let bestDate = null;
+    let bestMembersCount = 0;
+    group.getAll()
+        .map(member => member.freeRange.startDate)
+        .forEach(date => {
+            let membersCount = findMeetingMembers(group, date);
+            if (membersCount > bestMembersCount) {
+                bestDate = date;
+                bestMembersCount = membersCount;
+            }
+    })
+    return bestDate;
 }
 
 const phoneList = [
@@ -111,6 +122,13 @@ const phoneList = [
     },
 ];
 
+const gamesGroup = createGroup('games');
+console.log(gamesGroup.includePerson(phoneList[0])); // true
+console.log(gamesGroup.includePerson(phoneList[1])); // true
+
+console.log(findMeetingDateWithMaximumMembers(gamesGroup)); // 02.05.2020
+
+
 // const javaScriptGroup = createGroup('javascript');
 // console.log(javaScriptGroup.includePerson(phoneList[2])); // true
 // console.log(javaScriptGroup.includePerson(phoneList[0])); // false
@@ -122,10 +140,10 @@ const phoneList = [
 // console.log(javaScriptGroup.getAll());
 
 
-const javaScriptGroup = createGroup('javascript');
-console.log(javaScriptGroup.includePerson(phoneList[2])); // true
-console.log(javaScriptGroup.includePerson(phoneList[3])); // true
-
-console.log(findMeetingMembers(javaScriptGroup, new Date('10.10.2020'))); // 0
-console.log(findMeetingMembers(javaScriptGroup, new Date('06.10.2020'))); // 2
+// const javaScriptGroup = createGroup('javascript');
+// console.log(javaScriptGroup.includePerson(phoneList[2])); // true
+// console.log(javaScriptGroup.includePerson(phoneList[3])); // true
+//
+// console.log(findMeetingMembers(javaScriptGroup, new Date('10.10.2020'))); // 0
+// console.log(findMeetingMembers(javaScriptGroup, new Date('06.10.2020'))); // 2
 module.exports = {createGroup, findMeetingMembers, findMeetingDateWithMaximumMembers};
