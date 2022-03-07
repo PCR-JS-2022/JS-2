@@ -37,7 +37,7 @@ function createGroup(interest) {
         }, 
 
         excludePerson: (email) => {
-            const checkEmail = personsList.findIndex(elem => person.email === email);
+            const checkEmail = personsList.findIndex(person => person.email === email);
             if (checkEmail === -1) {
               return false;
             }
