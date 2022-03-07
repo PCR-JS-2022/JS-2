@@ -73,10 +73,11 @@ function findMeetingMembers(group, meetingDate) {
 
 
 function findMeetingDateWithMaximumMembers(group) {
-    if(!group.getAll || !group.getAll() || group.getAll() instanceof Object && 
-    Object.prototype.hasOwnProperty.call(group, "getAll") &&
-    Object.prototype.hasOwnProperty.call(group, "includePerson") &&
-    Object.prototype.hasOwnProperty.call(group, "excludePerson")){
+    if(group.getAll().length === 0 ||
+    !group.getAll() instanceof Object && 
+    !group.hasOwnProperty.call("getAll") &&
+    !group.hasOwnProperty.call("includePerson") &&
+    !group.hasOwnProperty.call("excludePerson")){
         return null;
     }
     if (group.getAll().length === 1){
