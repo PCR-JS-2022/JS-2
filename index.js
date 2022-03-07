@@ -27,7 +27,7 @@
              return userList;
          },
          includePerson: function (user) {
-           if(user.interests === Null || user.interests === undefined) 
+           if(user.interests === undefined)
            return false;
              if (CheckUser(user, _interest) && !userList.includes(user)) {
                  userList.push(user);
