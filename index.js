@@ -61,7 +61,7 @@ function findMeetingMembers(group, meetingDate) {
     if (!(meetingDate instanceof Date || group.getAll))
         return 0;
 
-    const friends = group.getAll;
+    const friends = group.getAll();
     let trueFriends = 0;
     friends.forEach(e => {
         if (meetingDate >= e.freeRange.startDate && meetingDate <= e.freeRange.endDate)
