@@ -82,7 +82,7 @@ function findMeetingDateWithMaximumMembers(group) {
         }
     }); 
     if (maxFriends === 1) return null;
-    return getStrtingDate(date);
+    return date;
 };
 
 function getStrtingDate(date) {
