@@ -28,7 +28,9 @@ function createGroup(interest) {
             return friends;
         },
         includePerson(friend) {
-            if (friend.interests === undefined) return false;
+            if (friend.interests === undefined) {
+                return false;
+            }
             if (friend.interests.includes(interest) && !friends.includes(friend)) {
                 friends.push(friend);
                 return true;
@@ -36,15 +38,15 @@ function createGroup(interest) {
             return false;
         },
         excludePerson(email) {
-            const index = friends.findIndex((e) => {
-                return e.email === email;
+            const filteredFriends = friends.filter((e) => {
+                if (e.email !== email) {
+                    return e;
+                }
             });
-            if (index !== -1) {
-                friends.splice(index, 1);
+            if (friends.length > filteredFriends.length) {
                 return true;
-            }
+            } 
             return false;
-        }
     }
 };
 
@@ -70,11 +72,11 @@ function findMeetingMembers(group, meetingDate) {
 function findMeetingDateWithMaximumMembers(group) {
     if (!(Boolean(group.getAll))) return null;
     const friends = group.getAll();
-    let maxFriends = 1;
+    const maxFriends = 1;
     let date;
     friends.forEach((e) => {
-        let currDate = e.freeRange.startDate;
-        let currMax = findMeetingMembers(group, currDate);
+        const currDate = e.freeRange.startDate;
+        const currMax = findMeetingMembers(group, currDate);
         console.log(currMax);
         if (currMax > maxFriends) {
             maxFriends = currMax;
@@ -84,12 +86,5 @@ function findMeetingDateWithMaximumMembers(group) {
     if (maxFriends === 1) return null;
     return date;
 };
-
-function getStrtingDate(date) {
-    const splitDate = String(date).split(" ");
-    let month = date.getMonth() + 1;
-    if (month < 10) month = "0" + month;
-    return month + "." + splitDate[2] + "." + splitDate[3];
-}
 
 module.exports = { createGroup, findMeetingMembers, findMeetingDateWithMaximumMembers };
