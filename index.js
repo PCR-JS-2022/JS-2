@@ -59,7 +59,7 @@ function createGroup(interest) {
 
 function findMeetingMembers(group, meetingDate) {
     if(typeof(group)===String && meetingDate instanceof Date ){
-        const persons = group.getAll().filter(person =>
+        const persons = group.getAll().filter((person) =>
             (meetingDate >= person.freeRange.startDate && meetingDate <= person.freeRange.endDate));
         return persons.length;    
         }
