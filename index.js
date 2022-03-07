@@ -22,39 +22,72 @@
       this.inGroupEmails = new Set();
   }
 
+  /*
   isInGroup(person) {
       return this.inGroupEmails.has(person.email);
   }
+  */
 
+  /*
   isEmailInGroup(email) {
       return this.inGroupEmails.has(email);
   }
+  */
 
+  /*
   checkInterestGroup(person) {
       return person.interests.includes(this.groupName);
   }
+  */
 
   getAll() {
       return this.inGroup;
   }
 
   includePerson(person) {
-      if (!this.isInGroup(person)&&this.checkInterestGroup(person)) {
-          this.inGroup.push(person);
-          this.inGroupEmails.add(person.email);
-          return true;
-      }
-      return false;
+
+    function isInGroup(group, person) {
+      return group.inGroupEmails.has(person.email);
+    }
+
+    function checkInterestGroup(group, person) {
+      return person.interests.includes(group.groupName);
+    }
+
+    if (!isInGroup(this, person)&&checkInterestGroup(this, person)) {
+        this.inGroup.push(person);
+        this.inGroupEmails.add(person.email);
+        return true;
+    }
+    return false;
   }
 
   excludePerson(email) {
-      if (this.isEmailInGroup(email)) {
-          this.removeByEmail(email);
+
+    function removeByEmail(group, email) {
+      let toRemove = -1;
+      group.inGroup.forEach(
+          (el, ind) => {
+              if (el.email == email) {
+                  toRemove = ind;
+              }
+          }
+      );
+      if (toRemove != -1) group.inGroup.splice(toRemove, 1);
+    }
+
+    function isEmailInGroup(group, email) {
+      return group.inGroupEmails.has(email);
+    }
+
+      if (isEmailInGroup(this, email)) {
+          removeByEmail(this, email);
           this.inGroupEmails.delete(email);
       }
       return false;
   }
 
+  /*
   removeByEmail(email) {
       let toRemove = -1;
       this.inGroup.forEach(
@@ -66,6 +99,7 @@
       );
       if (toRemove != -1) this.inGroup.splice(toRemove, 1);
   }
+  */
 }
 
 /**
@@ -179,7 +213,7 @@ function findMeetingDateWithMaximumMembers(group) {
 
 module.exports = { createGroup, findMeetingMembers, findMeetingDateWithMaximumMembers };
 
-/*
+
 const phoneList = [
     {
       name: 'Александра',
@@ -229,6 +263,7 @@ javaScriptGroup.excludePerson('vasiliy@mail.ru'); // false
 javaScriptGroup.excludePerson('roman@yandex.ru'); // true
 
 javaScriptGroup.getAll();
+*/
 /*
   [
     {
@@ -251,6 +286,7 @@ javaScriptGroup1.includePerson(phoneList[3]); // true
 findMeetingMembers(javaScriptGroup1, new Date('10.10.2020')); // 0
 findMeetingMembers(javaScriptGroup1, new Date('06.10.2020')); // 2
 */
+
 
 /*
 const gamesGroup = createGroup('games');
