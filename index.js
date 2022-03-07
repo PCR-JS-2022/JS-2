@@ -72,7 +72,7 @@ function findMeetingDateWithMaximumMembers(group) {
         return null;
     const dateRanges = group.getAll()
                             .map(person => person.freeRange)
-                            .sort((dateRange1, dateRange2) => dateRange1.startDate <= dateRange2 ? -1 : 1);
+                            .sort((dateRange1, dateRange2) => dateRange1.startDate <= dateRange2.startDate ? -1 : 1);
     let dateIntersections = getDateIntersections(dateRanges);
     while(dateIntersections.length > 1){
         dateIntersections = getDateIntersections(dateIntersections);
@@ -167,15 +167,14 @@ const phoneList = [
 // console.log(findMeetingMembers(javaScriptGroup, new Date('06.10.2020'))); // 2
 // console.log(findMeetingMembers(1, new Date('06.10.2020'))); // 2
 
-// //test 3 task
-// const gamesGroup = createGroup('games');
-// gamesGroup.includePerson(phoneList[0]); // true
-// gamesGroup.includePerson(phoneList[1]); // true
+//test 3 task
+const gamesGroup = createGroup('games');
+gamesGroup.includePerson(phoneList[0]); // true
+gamesGroup.includePerson(phoneList[1]); // true
 
-// const result = findMeetingDateWithMaximumMembers(gamesGroup);
-// const result1 = findMeetingDateWithMaximumMembers(1);
-// console.log(result.toLocaleString()); // 02.05.2020
-// console.log(result1); 
-
+const result = findMeetingDateWithMaximumMembers(gamesGroup);
+const result1 = findMeetingDateWithMaximumMembers(1);
+console.log(result.toLocaleString()); // 02.05.2020
+console.log(result1);
 
 module.exports = { createGroup, findMeetingMembers, findMeetingDateWithMaximumMembers };
