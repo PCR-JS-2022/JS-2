@@ -100,8 +100,4 @@
      return start;
  }
  
- module.exports = {
-     createGroup,
-     findMeetingMembers,
-     findMeetingDateWithMaximumMembers,
- };
+ module.exports = {createGroup,findMeetingMembers,findMeetingDateWithMaximumMembers,};
