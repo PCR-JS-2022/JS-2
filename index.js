@@ -77,7 +77,7 @@
  */
 function createGroup(interest) {
   //return new Group(interest);
-  let result =  {
+  return  {
     interest: interest,
     inGroup: [],
     inGroupEmails: new Set(),
@@ -87,12 +87,12 @@ function createGroup(interest) {
     },
 
     includePerson(person) {
-      if (!person.interests.includes(interest)) return false;
+      if (!checkPerson(person) || !person.interests.includes(interest)) return false;
       if (!this.inGroupEmails.has(person.email)) this.inGroup.push(person);
     },
 
     excludePerson(email) {
-      if (!typeof email == 'string') return false;
+      if (!checkPerson(person) || !person.interests.includes(interest)) return false;
       let toRemove = -1;
       this.inGroup.forEach(
         (el, ind) => {
@@ -104,13 +104,43 @@ function createGroup(interest) {
       return true;
     }
   }
-
-  phoneList.forEach(
-    (el, ind) => result.includePerson(el)
-  );
-
-  return result;
 };
+
+function checkPerson(person) {
+  if (typeof person != 'object') return false;
+
+  if (!person.hasOwnProperty('name') || !person.hasOwnProperty('interests')
+  || !person.hasOwnProperty('email') || !person.hasOwnProperty('freeRange'))
+  return false;
+
+  if(typeof person.name != 'string' || typeof person.email != 'string') return false;
+
+  if (!Array.isArray(person.interests)) return false;
+
+  if (!person.interests.every((el) => typeof el == 'string')) return false;
+
+  if (!person.freeRange.hasOwnProperty('startDate') || !person.freeRange.hasOwnProperty('endDate')) return false;
+
+  for (let key in person.freeRange) {
+    if (!person.freeRange[key] instanceof Date) return false;
+  }
+
+  return true;
+}
+
+function checkGroup(group) {
+  if (typeof group != 'object') return false;
+
+  if (!group.hasOwnProperty('getAll')
+    || !group.hasOwnProperty('includePerson')
+    || !group.hasOwnProperty('excludePerson'))
+
+  if (!Array.isArray(group.getAll())) return false;
+
+  if (!group.getAll().every((el) => checkPerson(el))) return false;
+
+  return true;
+}
 
 /**
  * @param {Group} group - группа людей
@@ -118,10 +148,10 @@ function createGroup(interest) {
  * @returns {number} кол-во людей, готовых в переданную дату посетить встречу 
  */
 function findMeetingMembers(group, meetingDate) {
-  if (!(meetingDate instanceof Date)) return 0;
+  if (!checkGroup(group) || !(meetingDate instanceof Date)) return 0;
 
   let numberOfPeople = 0;
-  group.inGroup.forEach(
+  group.getAll().forEach(
     (el, ind) => {
       if (checkDateIsInRange(meetingDate, el.freeRange.startDate, el.freeRange.endDate))
         numberOfPeople += 1;
@@ -175,7 +205,7 @@ function findMeetingDateWithMaximumMembers(group) {
   let segmentEnds = [];
 
   // '+' обозначает дату, являющуюся началом промежутка, '-' - концом
-  group.inGroup.forEach(
+  group.getAll().forEach(
     (el, ind) => {
       segmentEnds.push(new EndPointDate(el.freeRange.startDate, '+'));
       segmentEnds.push(new EndPointDate(el.freeRange.endDate, '-'));
