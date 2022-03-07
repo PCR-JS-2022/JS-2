@@ -73,7 +73,7 @@ function findMeetingMembers(group, meetingDate) {
 
 
 function findMeetingDateWithMaximumMembers(group) {
-    if(group.getAll().length < 1){
+    if(group.getAll.length < 1){
         return null;
     }
     const startDates = group.getAll().map((person) => person.freeRange.startDate);
