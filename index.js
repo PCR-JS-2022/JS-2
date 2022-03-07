@@ -58,10 +58,10 @@ function createGroup(interest) {
  */
 
 function findMeetingMembers(group, meetingDate) {
-    if (!meetingDate instanceof Date || group.getAll().length === 0)
+    if (!(meetingDate instanceof Date || group.getAll))
         return 0;
 
-    const friends = group.getAll();
+    const friends = group.getAll;
     let trueFriends = 0;
     friends.forEach(e => {
         if (meetingDate >= e.freeRange.startDate && meetingDate <= e.freeRange.endDate)
@@ -77,8 +77,7 @@ function findMeetingMembers(group, meetingDate) {
  */
 
 function findMeetingDateWithMaximumMembers(group) {
-    if (group.getAll().length === 0)
-        return null;
+    if (!group.getAll) return null;
 
     const friends = group.getAll();
     let count = 0;
@@ -87,6 +86,7 @@ function findMeetingDateWithMaximumMembers(group) {
     friends.forEach(e => {
         const date1 = e.freeRange.startDate.getTime();
         const date2 = e.freeRange.endDate.getTime();
+
         for (let i = date1; i < date2; i += 86400000) {
             let localCount = 0;
             friends.forEach(x => {
@@ -143,11 +143,11 @@ const phoneList = [{
 
 
 
-const gamesGroup = createGroup('games');
-console.log(gamesGroup.includePerson(phoneList[0])); //true
-console.log(gamesGroup.includePerson(phoneList[1])); //true
-
-console.log(findMeetingDateWithMaximumMembers(gamesGroup)); // 02.05.2020
+const javaScriptGroup = createGroup('javascript');
+console.log(javaScriptGroup.includePerson(phoneList[2])); //true
+console.log(javaScriptGroup.includePerson(phoneList[3])); //true
+console.log(findMeetingMembers(javaScriptGroup, new Date('10.10.2020'))); // 0
+console.log(findMeetingMembers(javaScriptGroup, new Date('06.10.2020'))); // 2
 
 
 module.exports = {
