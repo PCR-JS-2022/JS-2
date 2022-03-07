@@ -7,8 +7,6 @@
  * @property {{ startDate: Date, endDate: Date }} freeRange - диапазон для встречи
  */
 
- const { useState } = require('react');
-
  /**
   * @typedef Group
   * @type {object}
