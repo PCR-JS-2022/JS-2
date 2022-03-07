@@ -56,8 +56,8 @@ function createGroup(interest) {
  * @returns {number} кол-во людей, готовых в переданную дату посетить встречу 
  */
 function findMeetingMembers(group, meetingDate) {
-    if (!(group instanceof Object && group.hasOwnProperty("getAll") &&
-    group.hasOwnProperty("includePreson") && group.hasOwnProperty("excludePerson")) ||
+    if (!(group instanceof Object || group.hasOwnProperty("getAll") ||
+    group.hasOwnProperty("includePreson") || group.hasOwnProperty("excludePerson")) ||
     !meetingDate instanceof Date)
     return 0;
     const friendsToMeet = group.getAll().filter(x => meetingDate >= x.freeRange.startDate &&
@@ -78,7 +78,7 @@ function findMeetingDateWithMaximumMembers(group) {
     let starts = friends.map(x => x.freeRange.startDate);
     let maxCount = 0;
     starts.forEach(x => {
-        const counter = friends.filter(y => x >= y.freeRange.startDate && x <= y.freeRange.endDate).length;
+        const counter = findMeetingMembers(group, x);
         if (counter > maxCount) {
             maxCount = counter;
             result = x;
