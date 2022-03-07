@@ -47,6 +47,7 @@ function createGroup(interest) {
                 return true;
             } 
             return false;
+        }
     }
 };
 
