@@ -79,13 +79,12 @@ function findMeetingDateWithMaximumMembers(group) {
     let bestDate = new Date();
     let maximumPersons = 0;
     startDates.forEach((date) => {
-        const personsCount = startDates.filter((person) => {
-            isInRange(date, person.freeRange).length
-            });
+        const personsCount = group.getAll().filter((person) => (
+            date >= person.freeRange.startDate && meetingDate <= person.freeRange.endDate)).length
         if (personsCount > maximumPersons) {
         maximumPersons = personsCount;
         bestDate = date;
-        }
+    }
     });
     return bestDate;
 }
