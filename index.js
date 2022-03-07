@@ -19,15 +19,17 @@
  * @param {string} interest - интерес группы
  * @returns {Group} созданная группа
  */
-
+ 
 function createGroup(interest) {
-    const friendsGroup = [];
+    let friendsGroup = [];
     return {
         getAll() {
             return friendsGroup;
         },
         includePerson(friend) {
-            if(friend.interests === undefined) return false;
+            if(friend.interests === undefined) {
+                return false;
+            }
             if(friend.interests.includes(interest)) {
                 if(friendsGroup.indexOf(friend) === -1) {
                     friendsGroup.push(friend);
@@ -39,14 +41,14 @@ function createGroup(interest) {
             return false;
         },
         excludePerson(email) {
-            let result = false;
-            friendsGroup.forEach(friend => {
-                if(friendsGroup.includes(friend) && friend.email === email) {
-                    friendsGroup.splice(friendsGroup.indexOf(friend), 1);
-                    result = true;
-                }
-            });
-            return result;
+            const lengthStart = friendsGroup.length;
+            friendsGroup = friendsGroup.filter(friend => friend.email !== email);
+            const lengthEnd = friendsGroup.length;
+            if(lengthStart > lengthEnd) {
+                return true;
+            } else {
+                return false;
+            }  
         }
     }
 };
@@ -57,13 +59,15 @@ function createGroup(interest) {
  * @returns {number} кол-во людей, готовых в переданную дату посетить встречу 
  */
 function findMeetingMembers(group, meetingDate) {
-    if(!(group.getAll || meetingDate instanceof Date)) return 0;
+    if(!(group.getAll || meetingDate instanceof Date)) {
+        return 0;
+    } 
     const friendsGroup = group.getAll();
-    meetingDate = meetingDate.getTime();
+    const meetingDateMs = meetingDate.getTime();
     return friendsGroup.reduce((count, current) => {
         const startDate = current.freeRange.startDate.getTime();
         const endDate = current.freeRange.endDate.getTime();
-        if(meetingDate >= startDate && meetingDate <= endDate) {
+        if(meetingDateMs >= startDate && meetingDateMs <= endDate) {
             count++;
         }
         return count;
@@ -77,10 +81,14 @@ function findMeetingMembers(group, meetingDate) {
 
 function findIndexMax(arr) {
     let max = arr[0];
+    let indexMax = 0;
     for(let i = 0; i < arr.length; i++) {
-        if(arr[i] > max) max = arr[i];
+        if(arr[i] > max) {
+            max = arr[i];
+            indexMax = i;
+        }
     }
-    return arr.indexOf(max);
+    return indexMax;
 };
 
 function findMeetingDateWithMaximumMembers(group) {
@@ -93,9 +101,7 @@ function findMeetingDateWithMaximumMembers(group) {
         res.push(current.freeRange.endDate);
         return res;
     }, []);
-    const sortedDates = dates.sort((a, b) => {
-        return a - b;
-    })
+    const sortedDates = dates.sort((a, b) =>  a - b);
     const counts = sortedDates.map(i => findMeetingMembers(group, i));
     const maxCountIndex = findIndexMax(counts);
     return sortedDates[maxCountIndex];
