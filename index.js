@@ -26,6 +26,7 @@ function createGroup(interest) {
             return group;
         },
         includePerson(person) {
+            if (!person.interests) return false
             const isMember = group.indexOf(person) > -1;
             const hasInterest = person.interests.includes(interest);
             if (group.length > 0 && (isMember || !hasInterest)) return false;
@@ -51,7 +52,7 @@ function createGroup(interest) {
  */
 
 function findMeetingMembers(group, meetingDate) {
-    if (!group.getAll || typeof meetingDate !== 'object') return 0;
+    if (!group.getAll || !meetingDate instanceof Date) return 0;
     return group
         .getAll()
         .filter(member => isMemberCanMeet(member, meetingDate)).length
@@ -68,8 +69,8 @@ function isMemberCanMeet(member, meetingDate) {
  * @returns {Date} дата, в которую могут собраться максимальное кол-во человек из группы
  */
 function findMeetingDateWithMaximumMembers(group) {
-    if (!group.getAll) return null
-        let bestDate = null;
+    if (!group.getAll) return null;
+    let bestDate = null;
     let bestMembersCount = 0;
     group.getAll()
         .map(member => member.freeRange.startDate)
@@ -79,71 +80,8 @@ function findMeetingDateWithMaximumMembers(group) {
                 bestDate = date;
                 bestMembersCount = membersCount;
             }
-    })
+        })
     return bestDate;
 }
 
-const phoneList = [
-    {
-        name: 'Александра',
-        interests: ['games', 'computers'],
-        email: 'alexandra@rambler.ru',
-        freeRange: {
-            startDate: new Date('01.01.2020'),
-            endDate: new Date('03.10.2020'),
-        }
-    },
-    {
-        name: 'Василий',
-        interests: ['games'],
-        email: 'vasiliy@mail.ru',
-        freeRange: {
-            startDate: new Date('02.05.2020'),
-            endDate: new Date('02.25.2020'),
-        }
-    },
-    {
-        name: 'Роман',
-        email: 'roman@yandex.ru',
-        interests: ['javascript'],
-        freeRange: {
-            startDate: new Date('05.01.2020'),
-            endDate: new Date('06.10.2020'),
-        }
-    },
-    {
-        name: 'Егор',
-        email: 'egor@gmail.ru',
-        interests: ['computers', 'javascript'],
-        freeRange: {
-            startDate: new Date('03.01.2020'),
-            endDate: new Date('08.10.2020'),
-        }
-    },
-];
-
-const gamesGroup = createGroup('games');
-console.log(gamesGroup.includePerson(phoneList[0])); // true
-console.log(gamesGroup.includePerson(phoneList[1])); // true
-
-console.log(findMeetingDateWithMaximumMembers(gamesGroup)); // 02.05.2020
-
-
-// const javaScriptGroup = createGroup('javascript');
-// console.log(javaScriptGroup.includePerson(phoneList[2])); // true
-// console.log(javaScriptGroup.includePerson(phoneList[0])); // false
-// console.log(javaScriptGroup.includePerson(phoneList[3])); // true
-//
-// console.log(javaScriptGroup.excludePerson('vasiliy@mail.ru')); // false
-// console.log(javaScriptGroup.excludePerson('roman@yandex.ru')); // true
-//
-// console.log(javaScriptGroup.getAll());
-
-
-// const javaScriptGroup = createGroup('javascript');
-// console.log(javaScriptGroup.includePerson(phoneList[2])); // true
-// console.log(javaScriptGroup.includePerson(phoneList[3])); // true
-//
-// console.log(findMeetingMembers(javaScriptGroup, new Date('10.10.2020'))); // 0
-// console.log(findMeetingMembers(javaScriptGroup, new Date('06.10.2020'))); // 2
 module.exports = {createGroup, findMeetingMembers, findMeetingDateWithMaximumMembers};
