@@ -134,11 +134,17 @@ function checkPerson(person) {
 }
 
 function checkGroup(group) {
-  if (typeof group != 'object') return false;
+  if (typeof group != 'object' || group === undefined) return false;
 
   if (!group.hasOwnProperty('getAll')
     || !group.hasOwnProperty('includePerson')
     || !group.hasOwnProperty('excludePerson'))
+    return false;
+
+  if (!typeof group.getAll == 'function'
+      || !typeof group.includePerson == 'function'
+      || ! typeof group.excludePerson == 'function')
+    return false;
 
   if (!Array.isArray(group.getAll())) return false;
 
@@ -288,7 +294,7 @@ const phoneList = [
     },
   ];
 
-/*
+
 const javaScriptGroup = createGroup('javascript');
 javaScriptGroup.includePerson(phoneList[2]); // true
 javaScriptGroup.includePerson(phoneList[0]); // false
@@ -298,7 +304,7 @@ javaScriptGroup.excludePerson('vasiliy@mail.ru'); // false
 javaScriptGroup.excludePerson('roman@yandex.ru'); // true
 
 javaScriptGroup.getAll();
-*/
+
 
 /*
   [
@@ -314,20 +320,20 @@ javaScriptGroup.getAll();
   ]
 */
 
-/*
+
 const javaScriptGroup1 = createGroup('javascript');
 javaScriptGroup1.includePerson(phoneList[2]); // true
 javaScriptGroup1.includePerson(phoneList[3]); // true
 
 findMeetingMembers(javaScriptGroup1, new Date('10.10.2020')); // 0
 findMeetingMembers(javaScriptGroup1, new Date('06.10.2020')); // 2
-*/
 
 
-/*
+
+
 const gamesGroup = createGroup('games');
 gamesGroup.includePerson(phoneList[0]); // true
 gamesGroup.includePerson(phoneList[1]); // true
 
 findMeetingDateWithMaximumMembers(gamesGroup); // 02.05.2020
-*/
+
