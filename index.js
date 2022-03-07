@@ -130,7 +130,6 @@ function findMeetingMembers(group, meetingDate) {
 
 function findMeetingDateWithMaximumMembers(group) {
     const checkArr = group.friends;
-    console.log(ddfd)
     if (checkArr && checkArr.length !== 0) {
         const checkDates = [];
         checkArr.forEach(el => {
