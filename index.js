@@ -88,7 +88,10 @@ function createGroup(interest) {
 
     includePerson(person) {
       if (!checkPerson(person) || !person.interests.includes(interest)) return false;
-      if (!this.inGroupEmails.has(person.email)) this.inGroup.push(person);
+      if (!this.inGroupEmails.has(person.email)) {
+        this.inGroup.push(person);
+        inGroupEmails.add(person.email);
+      }
     },
 
     excludePerson(email) {
@@ -97,6 +100,7 @@ function createGroup(interest) {
       this.inGroup.forEach(
         (el, ind) => {
           if (el.email == email) toRemove = ind;
+          inGroupEmails.delete(email);
         }
       );
       if (toRemove == -1) return false;
