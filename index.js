@@ -74,7 +74,7 @@ function findMeetingMembers(group, meetingDate) {
 
 function findMeetingDateWithMaximumMembers(group) {
     return () => {
-        if(!meetingDate instanceof Date || meetingDate === NaN || group.getAll().length() === 0 || !Array.isArray(group)){
+        if(group.getAll().length() === 0){
             return null
         }
         
