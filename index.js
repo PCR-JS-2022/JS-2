@@ -30,16 +30,16 @@ function createGroup(interest) {
         includePerson: (friend) => {
             if (friend.interests === undefined) return false;
 
-            if (group.some(e => e.email === friend.email) || !friend.interests.includes(interest)) {
+            if (group.some(e => e.email === friend.email) || !friend.interests.includes(interest))
                 return false;
-            }
+
             group.push(friend);
             return true;
         },
 
-        excludePerson: (friend) => {
-            const email = (e) => e.email === friend
-            const index = group.findIndex(email);
+        excludePerson: (email) => {
+            const friendId = (e) => e.email === email
+            const index = group.findIndex(friendId);
 
             if (index === -1)
                 return false;
@@ -49,6 +49,32 @@ function createGroup(interest) {
         }
     }
 };
+
+
+
+
+/**
+ * @param {Group} group - группа людей
+ * @param {Date} meetingDate - дата встречи
+ * @returns {number} кол-во людей, готовых в переданную дату посетить встречу
+ */
+
+
+
+function findMeetingMembers(group, meetingDate) {
+    const friends = group.getAll();
+    if (!meetingDate instanceof Date || friends.length == 0)
+        return 0;
+
+    let trueFriends = 0;
+    friends.forEach(e => {
+        if (meetingDate >= e.freeRange.startDate && meetingDate <= e.freeRange.endDate)
+            trueFriends++;
+    });
+
+    return trueFriends;
+}
+
 
 const phoneList = [{
         name: "Александра",
@@ -92,30 +118,10 @@ const phoneList = [{
 
 const javaScriptGroup = createGroup('javascript');
 console.log(javaScriptGroup.includePerson(phoneList[2])); //true
-console.log(javaScriptGroup.includePerson(phoneList[0])); //false
 console.log(javaScriptGroup.includePerson(phoneList[3])); //true
 
-console.log(javaScriptGroup.excludePerson('vasiliy@mail.ru')); // false
-console.log(javaScriptGroup.excludePerson('roman@yandex.ru')); // true
-
-console.log(javaScriptGroup.getAll());
-
-
-
-/**
- * @param {Group} group - группа людей
- * @param {Date} meetingDate - дата встречи
- * @returns {number} кол-во людей, готовых в переданную дату посетить встречу
- */
-
-
-
-function findMeetingMembers(group, meetingDate) {
-    //1
-}
-
-
-
+console.log(findMeetingMembers(javaScriptGroup, new Date('10.10.2020'))); // 0
+console.log(findMeetingMembers(javaScriptGroup, new Date('06.10.2020'))); // 2
 
 
 
