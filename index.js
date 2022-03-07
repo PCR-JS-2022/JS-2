@@ -58,13 +58,12 @@ function createGroup(interest) {
 
 
 function findMeetingMembers(group, meetingDate) {
-    if(Array.isArray(group) && meetingDate instanceof Date ){
-        const persons = group.getAll().filter((person) =>
-            (meetingDate >= person.freeRange.startDate && meetingDate <= person.freeRange.endDate));
-        return persons.length;    
-        }
-    else return 0    
-};
+    if (!(meetingDate instanceof Date) || isNaN(meetingDate.valueOf()))
+        return 0;
+    const persons = group.getAll().filter((person) =>
+        (meetingDate >= person.freeRange.startDate && meetingDate <= person.freeRange.endDate));
+    return persons.length;    
+    }
 
 
 /**
