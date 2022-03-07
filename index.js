@@ -73,7 +73,7 @@ function findMeetingMembers(group, meetingDate) {
 
 
 function findMeetingDateWithMaximumMembers(group) {
-    if(!group.getAll() ||
+    if(!group.getAll() && group.getAll().length === 0 ||
     !group.getAll() instanceof Object && 
     !group.hasOwnProperty.call("getAll") &&
     !group.hasOwnProperty.call("includePerson") &&
