@@ -54,9 +54,9 @@ function createGroup(interest) {
         includePerson: function (person) {
             if (!isPerson(person)) return false;
             const findInterest = person.interests.includes(this.interest);
-            //const findEmail = this.friends.find((friend) => friend.email === person.email);
-            const findEmail = this.friends.email.includes(person.email);
-            if (findInterest && !findEmail) {
+            const findEmail = this.friends.find((friend) => friend.email === person.email);
+            //const findEmail = this.friends.email.includes(person.email);
+            if (findInterest && findEmail === undefined) {
                 this.friends.push(person);
                 return true;
             }
