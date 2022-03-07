@@ -51,63 +51,54 @@ function createGroup(interest) {
     }
 };
 
-const phoneList = [
-    {
-        name: 'Александра',
-        interests: ['games', 'computers'],
-        email: 'alexandra@rambler.ru',
-        freeRange: {
-            startDate: new Date('01.01.2020'),
-            endDate: new Date('03.10.2020'),
-        }
-    },
-    {
-        name: 'Василий',
-        interests: ['games'],
-        email: 'vasiliy@mail.ru',
-        freeRange: {
-            startDate: new Date('02.05.2020'),
-            endDate: new Date('02.25.2020'),
-        }
-    },
-    {
-        name: 'Роман',
-        email: 'roman@yandex.ru',
-        interests: ['javascript'],
-        freeRange: {
-            startDate: new Date('05.01.2020'),
-            endDate: new Date('06.10.2020'),
-        }
-    },
-    {
-        name: 'Егор',
-        email: 'egor@gmail.ru',
-        interests: ['computers', 'javascript'],
-        freeRange: {
-            startDate: new Date('03.01.2020'),
-            endDate: new Date('08.10.2020'),
-        }
-    },
-];
+// const phoneList = [
+//     {
+//         name: 'Александра',
+//         interests: ['games', 'computers'],
+//         email: 'alexandra@rambler.ru',
+//         freeRange: {
+//             startDate: new Date('01.01.2020'),
+//             endDate: new Date('03.10.2020'),
+//         }
+//     },
+//     {
+//         name: 'Василий',
+//         interests: ['games'],
+//         email: 'vasiliy@mail.ru',
+//         freeRange: {
+//             startDate: new Date('02.05.2020'),
+//             endDate: new Date('02.25.2020'),
+//         }
+//     },
+//     {
+//         name: 'Роман',
+//         email: 'roman@yandex.ru',
+//         interests: ['javascript'],
+//         freeRange: {
+//             startDate: new Date('05.01.2020'),
+//             endDate: new Date('06.10.2020'),
+//         }
+//     },
+//     {
+//         name: 'Егор',
+//         email: 'egor@gmail.ru',
+//         interests: ['computers', 'javascript'],
+//         freeRange: {
+//             startDate: new Date('03.01.2020'),
+//             endDate: new Date('08.10.2020'),
+//         }
+//     },
+// ];
+
 
 // const javaScriptGroup = createGroup('javascript');
-// javaScriptGroup.includePerson(phoneList[2]); // true
-// javaScriptGroup.includePerson(phoneList[0]); // false
-// javaScriptGroup.includePerson(phoneList[3]); // true
-
-// javaScriptGroup.excludePerson('vasiliy@mail.ru'); // false
-// javaScriptGroup.excludePerson('roman@yandex.ru'); // true
-
-// javaScriptGroup.getAll();
-
-const javaScriptGroup = createGroup('javascript');
-console.log(JSON.stringify(javaScriptGroup.includePerson(phoneList[2])));
-console.log(JSON.stringify(javaScriptGroup.includePerson(phoneList[0])));
-console.log(JSON.stringify(javaScriptGroup.includePerson(phoneList[3])));
-console.log('   ')
-console.log(JSON.stringify(javaScriptGroup.excludePerson('vasiliy@mail.ru')));
-console.log(JSON.stringify(javaScriptGroup.excludePerson('roman@yandex.ru')));
-console.log(JSON.stringify(javaScriptGroup.getAll()));
+// console.log(JSON.stringify(javaScriptGroup.includePerson(phoneList[2])));
+// console.log(JSON.stringify(javaScriptGroup.includePerson(phoneList[0])));
+// console.log(JSON.stringify(javaScriptGroup.includePerson(phoneList[3])));
+// console.log('   ')
+// console.log(JSON.stringify(javaScriptGroup.excludePerson('vasiliy@mail.ru')));
+// console.log(JSON.stringify(javaScriptGroup.excludePerson('roman@yandex.ru')));
+// console.log(JSON.stringify(javaScriptGroup.getAll()));
 
 /*
   [
