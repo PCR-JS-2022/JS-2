@@ -97,7 +97,6 @@ function createGroup(interest) {
     },
 
     excludePerson(email) {
-      if (!checkPerson(person) || !person.interests.includes(interest)) return false;
       let toRemove = -1;
       this.inGroup.forEach(
         (el, ind) => {
