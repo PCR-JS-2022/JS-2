@@ -63,7 +63,7 @@ function createGroup(interest) {
 
 function findMeetingMembers(group, meetingDate) {
     const friends = group.getAll();
-    if (!meetingDate instanceof Date || friends.length == 0)
+    if (!meetingDate instanceof Date)
         return 0;
 
     let trueFriends = 0;
