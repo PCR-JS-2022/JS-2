@@ -90,12 +90,7 @@ function findMeetingDateWithMaximumMembers(group) {
         for (let i = date1; i < date2; i += 86400000) {
             // console.log(e.freeRange.endDate);
             // console.log(new Date(i));
-            let localCount = 0;
-            friends.forEach(x => {
-                if (i >= x.freeRange.startDate.getTime() && i <= x.freeRange.endDate.getTime())
-                    localCount++;
-            });
-
+            const localCount = findMeetingMembers(group, new Date(i));
             if (localCount > count) {
                 count = localCount;
                 date = i;
@@ -104,6 +99,7 @@ function findMeetingDateWithMaximumMembers(group) {
     });
     // const dd = new Date(date);
     // console.log(new Date('10.10.2020'));
+    console.log(count);
     return new Date(date);
 }
 
@@ -120,7 +116,7 @@ const phoneList = [{
     },
     {
         name: 'Василий',
-        interests: ['games'],
+        interests: ['javascript'],
         email: 'javascript',
         freeRange: {
             startDate: new Date('01.9.2020'),
@@ -149,7 +145,7 @@ const phoneList = [{
 
 
 
-const javaScriptGroup = createGroup('12');
+const javaScriptGroup = createGroup('javascript');
 console.log(javaScriptGroup.includePerson(phoneList[0])); // true
 console.log(javaScriptGroup.includePerson(phoneList[1])); // true
 console.log(javaScriptGroup.includePerson(phoneList[2])); // true
