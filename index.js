@@ -51,45 +51,6 @@ function createGroup(interest) {
     }
 };
 
-const phoneList = [
-    {
-        name: 'Александра',
-        interests: ['games', 'computers'],
-        email: 'alexandra@rambler.ru',
-        freeRange: {
-            startDate: new Date('01.01.2020'),
-            endDate: new Date('01.10.2020'),
-        }
-    },
-    {
-        name: 'Василий',
-        interests: ['games'],
-        email: 'vasiliy@mail.ru',
-        freeRange: {
-            startDate: new Date('02.05.2020'),
-            endDate: new Date('02.25.2020'),
-        }
-    },
-    {
-        name: 'Роман',
-        email: 'roman@yandex.ru',
-        interests: ['javascript'],
-        freeRange: {
-            startDate: new Date('05.01.2020'),
-            endDate: new Date('06.10.2020'),
-        }
-    },
-    {
-        name: 'Егор',
-        email: 'egor@gmail.ru',
-        interests: ['computers', 'javascript'],
-        freeRange: {
-            startDate: new Date('03.01.2020'),
-            endDate: new Date('08.10.2020'),
-        }
-    },
-];
-
 /**
  * @param {Group} group - группа людей
  * @param {Date} meetingDate - дата встречи
@@ -148,11 +109,5 @@ function findMeetingDateWithMaximumMembers(group) {
 
     return date;
 };
-
-const gamesGroup = createGroup('games');
-console.log(JSON.stringify(gamesGroup.includePerson(phoneList[0]))); // true
-console.log(JSON.stringify(gamesGroup.includePerson(phoneList[1]))); // true
-
-console.log(JSON.stringify(findMeetingDateWithMaximumMembers(gamesGroup))); // 02.05.2020
 
 module.exports = { createGroup, findMeetingMembers, findMeetingDateWithMaximumMembers };
