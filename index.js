@@ -77,7 +77,7 @@ function findMeetingMembers(group, meetingDate) {
  */
 
 function findMeetingDateWithMaximumMembers(group) {
-    if (group.getAll.length === 0 || !group.getAll) return null;
+    if (!group.getAll) return null;
 
     const friends = group.getAll();
     let count = 0;
