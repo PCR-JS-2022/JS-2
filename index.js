@@ -28,7 +28,7 @@ function createGroup(interest) {
         },
 
         includePerson: (person) => {
-            if (group.some((p) => p.email === person.email) || !person.interests.some((i) => i === interest)) {
+            if (group.some((p) => p.email === person.email) || person.interests === undefined || !person.interests.some((i) => i === interest)) {
                 return false;
             }
 
