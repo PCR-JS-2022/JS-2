@@ -79,34 +79,23 @@ function createGroup(interest) {
   //return new Group(interest);
   return  {
     interest: interest,
-    inGroup: [],
-    inGroupEmails: new Set(),
+    inGroup: new Map(),
 
     getAll() {
-      return this.inGroup;
+      return Array.from(this.inGroup.values());
     },
 
     includePerson(person) {
       if (!checkPerson(person) || !person.interests.includes(interest)) return false;
-      if (!this.inGroupEmails.has(person.email)) {
-        this.inGroup.push(person);
-        this.inGroupEmails.add(person.email);
+      if (!this.inGroup.has(person.email)) {
+        this.inGroup.set(person.email, person);
         return true;
       }
       return false;
     },
 
     excludePerson(email) {
-      let toRemove = -1;
-      this.inGroup.forEach(
-        (el, ind) => {
-          if (el.email == email) toRemove = ind;
-          this.inGroupEmails.delete(email);
-        }
-      );
-      if (toRemove == -1) return false;
-      this.inGroup.splice(toRemove, 1);
-      return true;
+      return this.inGroup.delete(email);
     }
   }
 };
@@ -161,18 +150,14 @@ function checkGroup(group) {
 function findMeetingMembers(group, meetingDate) {
   if (!checkGroup(group) || !(meetingDate instanceof Date)) return 0;
 
-  let numberOfPeople = 0;
-  group.getAll().forEach(
-    (el, ind) => {
-      if (checkDateIsInRange(meetingDate, el.freeRange.startDate, el.freeRange.endDate))
-        numberOfPeople += 1;
-    }
+  const numberOfPeople = group.getAll().reduce(
+    (sum, cur) => checkDateIsInRange(meetingDate, cur.freeRange) ? sum + 1 : sum, 0
   );
   return numberOfPeople;
 };
 
-function checkDateIsInRange(givenDate, from, to) {
-  return givenDate >= from && givenDate <= to;
+function checkDateIsInRange(givenDate, range) {
+  return givenDate >= range.startDate && givenDate <= range.endDate;
 }
 
 /**
