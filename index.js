@@ -99,6 +99,8 @@ function getDates(startDate, stopDate) {
  */
 function findMeetingDateWithMaximumMembers(group) {
     try {
+        if(group == undefined || group.persons == undefined || group.persons.length < 1)
+            return null;
         let minDay = Math.min.apply(null, group.persons.map(p => p.freeRange.startDate));
         let maxDay = Math.max.apply(null, group.persons.map(p => p.freeRange.endDate));
         let minInDate = new Date(minDay - (new Date().getTimezoneOffset() * 60 * 1000));
