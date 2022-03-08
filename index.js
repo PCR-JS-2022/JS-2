@@ -63,14 +63,14 @@ function findMeetingMembers(group, meetingDate) {
     return 0;
     // const friendsToMeet = group.getAll().filter((x) => meetingDate >= x.freeRange.startDate && meetingDate <= x.freeRange.endDate);
     // return friendsToMeet.length;
-    let reuslt = 0;
+    let result = 0;
     group.getAll().forEach((x) => {
         if(meetingDate >= x.freeRange.startDate && meetingDate <= x.freeRange.endDate)
         {
             result++;
         }
     })
-    return reuslt;
+    return result;
 };
 
 /**
