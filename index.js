@@ -54,7 +54,7 @@ function createGroup(interest) {
  * @returns {number} кол-во людей, готовых в переданную дату посетить встречу 
  */
 function findMeetingMembers(group, meetingDate) {
-    if (!group.getAll() || typeof !meetingDate.getMonth === 'function') {
+    if (!group.getAll || typeof !meetingDate.getMonth === 'function') {
         return 0;
     }
 
@@ -68,7 +68,7 @@ function findMeetingMembers(group, meetingDate) {
  * @returns {Date} дата, в которую могут собраться максимальное кол-во человек из группы
  */
 function findMeetingDateWithMaximumMembers(group) {
-    if (!group.getAll() || group.getAll().length < 1) {
+    if (!group.getAll || group.getAll().length < 1) {
         return null;
     }
 
@@ -127,8 +127,7 @@ const phoneList = [
 
 const gamesGroup = createGroup('games');
 console.log(gamesGroup.includePerson(phoneList[0])); // true
-console.log(gamesGroup.includePerson(phoneList[1]))
 console.log(gamesGroup.getAll());
-console.log(findMeetingDateWithMaximumMembers(gamesGroup));
+console.log(findMeetingMembers(55));
 
 module.exports = { createGroup, findMeetingMembers, findMeetingDateWithMaximumMembers };
