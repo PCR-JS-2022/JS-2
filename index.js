@@ -20,7 +20,27 @@
  * @returns {Group} созданная группа
  */
 function createGroup(interest) {
-
+    let friends = []
+    function getAll() {
+        return friends
+    }
+    function includePerson(friend) {
+        let insertFriend = friends.some((f) => f.email == friend.email)
+        let interestFriend = friend.interest == interest
+        if (insertFriend || !interestFriend) {
+            return false
+        } 
+        friends.push(friend)
+        return true
+    }
+    function excludePerson(email) {
+        const checkEmail = friends.filter((friend) => (friend.email != email) )
+        if(friends.length > checkEmail.length ) 
+            return true
+        else 
+            return false
+    } 
+    return { getAll, includePerson, excludePerson }
 };
 
 /**
@@ -29,7 +49,19 @@ function createGroup(interest) {
  * @returns {number} кол-во людей, готовых в переданную дату посетить встречу 
  */
 function findMeetingMembers(group, meetingDate) {
-
+    if (!(meetingDate instanceof Date || group.getAll))
+        return 0 
+    let friends = group.getAll()
+    friends.filter((friend) => {
+        startDate = meetingDate >= friend.freeRange.startDate 
+        endDate = meetingDate <= friend.freeRange.endDate
+        if (startDate && endDate)
+            return true
+        else
+            return false
+    }
+    )
+    return friends.length
 };
 
 /**
@@ -37,7 +69,20 @@ function findMeetingMembers(group, meetingDate) {
  * @returns {Date} дата, в которую могут собраться максимальное кол-во человек из группы
  */
 function findMeetingDateWithMaximumMembers(group) {
-
+    if (!group.getAll) 
+        return null
+    let friends = group.getAll()
+    let bestDate = null
+    friends.map((friend) => {
+        let date = friend.freeRange.startDate
+        let countMembers = findMeetingMembers(group, friend.freeRange.startDate)
+        if (countMembers > maximumMembers) {
+            bestDate = date
+            maximumMembers = countMembers
+        }
+    })
+    return bestDate
 };
+
 
 module.exports = { createGroup, findMeetingMembers, findMeetingDateWithMaximumMembers };
