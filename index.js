@@ -53,16 +53,16 @@ function createGroup(interest) {
 function findMeetingMembers(group, meetingDate) {
     if (!(meetingDate instanceof Date || group.getAll))
         return 0 
-    let friends = group.getAll()
-    friends.filter((friend) => {
-        let startDate = meetingDate >= friend.freeRange.startDate 
-        let endDate = meetingDate <= friend.freeRange.endDate
-        if (startDate && endDate)
-            return true
-        else
-            return false
-    }
-    )
+    let friends = group
+        .getAll()
+        .filter((friend) => {
+            let startDate = meetingDate >= friend.freeRange.startDate 
+            let endDate = meetingDate <= friend.freeRange.endDate
+            if (startDate && endDate)
+                return true
+            else
+                return false
+        })
     return friends.length
 };
 
