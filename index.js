@@ -26,7 +26,7 @@ function createGroup(interest) {
     }
     function includePerson(friend) {
         let insertFriend = friends.some((f) => f.email == friend.email)
-        let interestFriend = friend.interest == interest
+        let interestFriend = friend.interests.includes(interest)
         if (insertFriend || !interestFriend) {
             return false
         } 
