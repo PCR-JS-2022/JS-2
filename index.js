@@ -19,8 +19,32 @@
  * @param {string} interest - интерес группы
  * @returns {Group} созданная группа
  */
-function createGroup(interest) {
 
+ 
+
+function createGroup(interest) {
+    const group = [];
+    return{
+        getAll(){
+            return group;
+        },
+        includePerson(member){
+            if (group.interests.includes(interest) && !(group.includes(member))) {
+                group.push(member);
+                return true;
+            };
+            return false;
+        },
+        excludePerson(email){
+            if (group.some(e => e.email === email)){
+                group = group.filter(e => e.email !== email);
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+    }
 };
 
 /**
@@ -29,7 +53,7 @@ function createGroup(interest) {
  * @returns {number} кол-во людей, готовых в переданную дату посетить встречу 
  */
 function findMeetingMembers(group, meetingDate) {
-
+    
 };
 
 /**
@@ -37,7 +61,49 @@ function findMeetingMembers(group, meetingDate) {
  * @returns {Date} дата, в которую могут собраться максимальное кол-во человек из группы
  */
 function findMeetingDateWithMaximumMembers(group) {
-
+    
 };
 
 module.exports = { createGroup, findMeetingMembers, findMeetingDateWithMaximumMembers };
+
+const phoneList = [
+    {
+      name: 'Александра',
+      interests: ['games', 'computers'],
+      email: 'alexandra@rambler.ru',
+      freeRange: {
+        startDate: new Date('01.01.2020'),
+        endDate: new Date('03.10.2020'),
+      }
+    },
+    {
+      name: 'Василий',
+      interests: ['games'],
+      email: 'vasiliy@mail.ru',
+      freeRange: {
+        startDate: new Date('02.05.2020'),
+        endDate: new Date('02.25.2020'),
+      }
+    },
+    {
+      name: 'Роман',
+      email: 'roman@yandex.ru',
+      interests: ['javascript'],
+      freeRange: {
+        startDate: new Date('05.01.2020'),
+        endDate: new Date('06.10.2020'),
+      }
+    },
+    {
+      name: 'Егор',
+      email: 'egor@gmail.ru',
+      interests: ['computers', 'javascript'],
+      freeRange: {
+        startDate: new Date('03.01.2020'),
+        endDate: new Date('08.10.2020'),
+      }
+    },
+  ];
+
+  const javaScriptGroup = createGroup('javascript');
+	javaScriptGroup.includePerson(phoneList[2]); // true
