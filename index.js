@@ -29,7 +29,7 @@ function createGroup(interest) {
             return group;
         },
         includePerson(member){
-            if (group.interests.includes(interest) && !(group.includes(member))) {
+            if (member.interests.includes(interest) && !(group.includes(member))) {
                 group.push(member);
                 return true;
             };
@@ -105,5 +105,3 @@ const phoneList = [
     },
   ];
 
-  const javaScriptGroup = createGroup('javascript');
-	javaScriptGroup.includePerson(phoneList[2]); // true
