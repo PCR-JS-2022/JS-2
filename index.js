@@ -78,13 +78,13 @@ function findMeetingMembers(group, meetingDate) {
  * @returns {Date} дата, в которую могут собраться максимальное кол-во человек из группы
  */
 function findMeetingDateWithMaximumMembers(group) {
-    if (!group instanceof Object || !group.hasOwnProperty("getAll") ||
-    !group.hasOwnProperty("includePreson") || !group.hasOwnProperty("excludePerson")) return null;
+     if (!group instanceof Object || 
+      !group.hasOwnProperty("getAll")) return null;
     const friends = group.getAll();
     if (friends.length == 0) return null;
     if (friends.length == 1) return friends[0].freeRange.startDate;
     let result = null;
-    let starts = friends.map(x => x.freeRange.startDate).sort((a, b) => a - b);
+    let starts = friends.map(x => x.freeRange.startDate);
     let maxCount = 0;
     starts.forEach(x => {
         const counter = findMeetingMembers(group, x);
@@ -94,7 +94,6 @@ function findMeetingDateWithMaximumMembers(group) {
             result = x;
         }
     });
-    
     return result;
 };
 
