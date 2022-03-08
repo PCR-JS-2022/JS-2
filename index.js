@@ -40,7 +40,7 @@ const phoneList = [
 var g = createGroup('games');
 var a = g.includePerson(phoneList[0]);
 var b = g.includePerson(phoneList[0]);
-console.log(a,b);
+console.log(a, b);
 
 /**
  * @typedef Person
@@ -66,15 +66,17 @@ console.log(a,b);
 function createGroup(interest) {
 	let persons = [];
 	return {
-		getAll: () => persons,
-		includePerson: (person) => {
+		getAll() {
+			return persons
+		},
+		includePerson(person) {
 			if (person?.interests?.includes(interest) && !persons.includes(person)) {
 				persons.push(person);
 				return true;
 			}
 			return false;
 		},
-		excludePerson: (email) => {
+		excludePerson(email) {
 			if (persons.some(person => person.email === email)) {
 				persons = persons.filter(person => person.email !== email)
 				return true;
