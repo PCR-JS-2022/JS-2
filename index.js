@@ -55,8 +55,8 @@ function findMeetingMembers(group, meetingDate) {
         return 0 
     let friends = group.getAll()
     friends.filter((friend) => {
-        startDate = meetingDate >= friend.freeRange.startDate 
-        endDate = meetingDate <= friend.freeRange.endDate
+        let startDate = meetingDate >= friend.freeRange.startDate 
+        let endDate = meetingDate <= friend.freeRange.endDate
         if (startDate && endDate)
             return true
         else
@@ -75,6 +75,7 @@ function findMeetingDateWithMaximumMembers(group) {
         return null
     let friends = group.getAll()
     let bestDate = null
+    let maximumMembers = 0
     friends.map((friend) => {
         let date = friend.freeRange.startDate
         let countMembers = findMeetingMembers(group, friend.freeRange.startDate)
