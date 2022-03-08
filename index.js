@@ -43,7 +43,6 @@ function createGroup(interest) {
                 group.splice(index, 1);
                 return true;
             };
-
             return false;
         }
     };
