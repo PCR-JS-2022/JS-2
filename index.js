@@ -24,7 +24,7 @@ function createGroup(interest) {
 	return {
 		getAll: () => persons,
 		includePerson: (person) => {
-			if (person.interests.includes(interest)) {
+			if (person?.interests?.includes(interest)) {
 				persons.push(person);
 				return true;
 			}
