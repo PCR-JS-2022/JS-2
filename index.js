@@ -78,8 +78,8 @@ function findMeetingMembers(group, meetingDate) {
  * @returns {Date} дата, в которую могут собраться максимальное кол-во человек из группы
  */
 function findMeetingDateWithMaximumMembers(group) {
-    if (!(group instanceof Object && group.hasOwnProperty("getAll") &&
-    group.hasOwnProperty("includePreson") && group.hasOwnProperty("excludePerson"))) return null;
+    if (!group instanceof Object || !group.hasOwnProperty("getAll") ||
+    !group.hasOwnProperty("includePreson") || !group.hasOwnProperty("excludePerson")) return null;
     const friends = group.getAll();
     if (friends.length == 0) return null;
     if (friends.length == 1) return friends[0].freeRange.startDate;
@@ -88,11 +88,13 @@ function findMeetingDateWithMaximumMembers(group) {
     let maxCount = 0;
     starts.forEach(x => {
         const counter = findMeetingMembers(group, x);
+        
         if (counter > maxCount) {
             maxCount = counter;
             result = x;
         }
     });
+    
     return result;
 };
 
@@ -141,3 +143,4 @@ module.exports = { createGroup, findMeetingMembers, findMeetingDateWithMaximumMe
 //   for (let i = 0; i < phoneList.length; i++)
 //   groupComp.includePerson(phoneList[i]);
 //   const num = findMeetingMembers(groupComp, new Date('05.12.2020'));
+//   const date = findMeetingDateWithMaximumMembers(groupComp);
