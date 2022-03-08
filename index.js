@@ -1,3 +1,42 @@
+const phoneList = [
+    {
+      name: 'Александра',
+      interests: ['games', 'computers'],
+      email: 'alexandra@rambler.ru',
+      freeRange: {
+        startDate: new Date('01.01.2020'),
+        endDate: new Date('03.10.2020'),
+      }
+    },
+    {
+      name: 'Василий',
+      interests: ['games'],
+      email: 'vasiliy@mail.ru',
+      freeRange: {
+        startDate: new Date('02.05.2020'),
+        endDate: new Date('02.25.2020'),
+      }
+    },
+    {
+      name: 'Роман',
+      email: 'roman@yandex.ru',
+      interests: ['javascript'],
+      freeRange: {
+        startDate: new Date('05.01.2020'),
+        endDate: new Date('06.10.2020'),
+      }
+    },
+    {
+      name: 'Егор',
+      email: 'egor@gmail.ru',
+      interests: ['computers', 'javascript'],
+      freeRange: {
+        startDate: new Date('03.01.2020'),
+        endDate: new Date('08.10.2020'),
+      }
+    },
+  ];
+
 /**
  * @typedef Person
  * @type {object}
@@ -19,9 +58,37 @@
  * @param {string} interest - интерес группы
  * @returns {Group} созданная группа
  */
-function createGroup(interest) {
-
-};
+ function createGroup(interest) {
+    const friends = [];
+  
+    return {
+      getAll: () => {
+        return friends;
+      },
+  
+      includePerson: (friend) => {
+        let friendResult = false;
+        Object.values(phoneList).forEach(item => {
+          if (item.email !== friend.email && friend.interests.includes(interest)) {
+            friends.push(friend);
+            friendResult = true;
+          }
+        });
+        return friendResult;
+      },
+  
+      excludePerson: (email) => {
+        let emailResult = false;
+        friends.forEach(friend => {
+          if (friend.email === email) {
+            friends.splice(friend, 1);
+            emailResult = true;
+          }
+        })
+        return emailResult;
+      }
+    }
+  };
 
 /**
  * @param {Group} group - группа людей
