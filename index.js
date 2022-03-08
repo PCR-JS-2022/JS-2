@@ -23,20 +23,18 @@
  
 
 function createGroup(interest) {
-    const group = [];
+    let group = [];
     return{
         getAll(){
             return group;
         },
         includePerson(member){
-            if (member.interests.includes(interest) && !(group.includes(member))) {
+            if (member.interests.includes(interest) && member.interests && !(group.includes(member))) {
                 group.push(member);
                 return true;
-            };
-            if (member.interests === undefined){
-                return false;
             }
-            return false;
+            else return false;
+            
         },
         excludePerson(email){
             if (group.some(e => e.email === email)){
@@ -108,3 +106,12 @@ const phoneList = [
     },
   ];
 
+  const javaScriptGroup = createGroup('javascript');
+  javaScriptGroup.includePerson(phoneList[2]); // true
+  javaScriptGroup.includePerson(phoneList[0]); // false
+  javaScriptGroup.includePerson(phoneList[3]); // true
+
+  console.log(javaScriptGroup.excludePerson('vasiliy@mail.ru')); // false
+  javaScriptGroup.excludePerson('roman@yandex.ru'); // true
+
+  console.log(javaScriptGroup.getAll());
