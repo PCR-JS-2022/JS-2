@@ -56,7 +56,7 @@ function createGroup(interest) {
  * @returns {number} кол-во людей, готовых в переданную дату посетить встречу 
  */
 function findMeetingMembers(group, meetingDate) {
-    if (!group instanceof Object || !group.hasOwnProperty("getAll") || !(typeof(group.getAll) == 'function') ||
+    if (!group instanceof Object || group === undefined ||!group.hasOwnProperty("getAll") || !(typeof(group.getAll) == 'function') ||
     // !group.hasOwnProperty("includePreson") || !(typeof(group.includePerson) == 'function') || !group.hasOwnProperty("excludePerson") ||
     // !(typeof(group.excludePerson) == 'function') ||
     !meetingDate instanceof Date)
