@@ -23,23 +23,23 @@
  
 
 function createGroup(interest) {
-    let group = [];
+    let groupList = [];
     return{
         getAll(){
-            return group;
+            return groupList;
         },
         includePerson(member){
             if (member.interests === undefined) return false;
-            if (member.interests.includes(interest) && member.interests && !(group.includes(member))) {
-                group.push(member);
+            if (member.interests.includes(interest) && member.interests && !(groupList.includes(member))) {
+                groupList.push(member);
                 return true;
             }
             return false;
             
         },
         excludePerson(email){
-            if (group.some(e => e.email === email)){
-                group = group.filter(e => e.email !== email);
+            if (groupList.some(e => e.email === email)){
+                groupList = groupList.filter(e => e.email !== email);
                 return true;
             }
             else{
@@ -55,10 +55,10 @@ function createGroup(interest) {
  * @returns {number} кол-во людей, готовых в переданную дату посетить встречу 
  */
 function findMeetingMembers(group, meetingDate) {
-    if(!meetingDate || !group || !group.getAll()){ 
+    if(!meetingDate || !group || !group.getAll().length || !Array.isArray(group.getAll())){ 
         return 0;
     }
-    return (group.getAll.filter(e => e.freeRange.endDate >= meetingDate && e.freeRange.startDate <= meetingDate).length);
+    return (group.getAll().filter(e => e.freeRange.endDate >= meetingDate && e.freeRange.startDate <= meetingDate).length);
 
 };
 
@@ -113,10 +113,7 @@ const phoneList = [
 
   const javaScriptGroup = createGroup('javascript');
   javaScriptGroup.includePerson(phoneList[2]); // true
-  javaScriptGroup.includePerson(phoneList[0]); // false
   javaScriptGroup.includePerson(phoneList[3]); // true
 
-  console.log(javaScriptGroup.excludePerson('vasiliy@mail.ru')); // false
-  javaScriptGroup.excludePerson('roman@yandex.ru'); // true
-
-  console.log(javaScriptGroup.getAll());
+  findMeetingMembers(javaScriptGroup, new Date('10.10.2020')); // 0
+  findMeetingMembers(javaScriptGroup, new Date('06.10.2020')); // 2
