@@ -69,7 +69,7 @@ const phoneList = [
       includePerson: (friend) => {
         let friendResult = false;
         Object.values(phoneList).forEach(item => {
-          if (item.email !== friend.email && friend.interests.includes(interest)) {
+          if (item.email !== friend.email && friend.interests?.includes(interest)) {
             friends.push(friend);
             friendResult = true;
           } else {
