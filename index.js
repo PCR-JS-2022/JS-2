@@ -36,7 +36,7 @@ const phoneList = [
 		}
 	},
 ];
-
+/*
 const javaScriptGroup = createGroup('javascript');
 var z = javaScriptGroup.includePerson(phoneList[2]); // true
 var a = javaScriptGroup.includePerson(phoneList[0]); // false
@@ -47,6 +47,16 @@ var res = javaScriptGroup.getAll();
 
 console.log(z, a, b, c, d)
 console.log(JSON.stringify(res));
+*/
+
+
+const javaScriptGroup = createGroup('javascript');
+var a = javaScriptGroup.includePerson(phoneList[2]); // true
+var b = javaScriptGroup.includePerson(phoneList[3]); // true
+
+var c = findMeetingMembers(javaScriptGroup, new Date('10.10.2020')); // 0
+var d = findMeetingMembers(javaScriptGroup, new Date('06.10.2020')); // 2
+console.log(a, b, c, d);
 
 /**
  * @typedef Person
@@ -91,12 +101,19 @@ function createGroup(interest) {
 }
 
 /**
- * @param {Group} group - группа людей
- * @param {Date} meetingDate - дата встречи
- * @returns {number} кол-во людей, готовых в переданную дату посетить встречу
+ * @param {Group} group
+ * @param {Date} meetingDate
+ * @returns {number}
  */
 function findMeetingMembers(group, meetingDate) {
+	if (!meetingDate instanceof Date) {
+		return 0;
+	}
 
+	return group.getAll().reduce((members, person) =>
+		person.freeRange.startDate - meetingDate <= 0 && meetingDate - person.freeRange.endDate <= 0
+			? members + 1
+			: members, 0)
 }
 
 /**
