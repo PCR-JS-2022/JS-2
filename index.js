@@ -76,10 +76,6 @@ function findMeetingMembers(group, meetingDate) {
     group === undefined ||
     !group.hasOwnProperty("getAll") ||
     !typeof group.getAll == 'function'||
-    /*!group.hasOwnProperty("includePreson") || 
-    !group.hasOwnProperty("excludePerson") || 
-    !typeof group.includePreson == 'function'||
-    !typeof group.excludePerson == 'function'||*/
     !(meetingDate instanceof Date))
     return 0;
   const localList = group.getAll();
@@ -97,11 +93,11 @@ function findMeetingDateWithMaximumMembers(group) {
   if (!group instanceof Object || 
     group === undefined ||
     !group.hasOwnProperty("getAll") ||
-    !group.hasOwnProperty("includePreson") || 
+    !typeof group.getAll == 'function'
+    /*!group.hasOwnProperty("includePreson") || 
     !group.hasOwnProperty("excludePerson")||
-    !typeof group.getAll == 'function'||
     !typeof group.includePreson == 'function'||
-    !typeof group.excludePerson == 'function')
+    !typeof group.excludePerson == 'function'*/)
     return null;
   let localList = group.getAll();
   let count = 0;
