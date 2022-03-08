@@ -33,6 +33,9 @@ function createGroup(interest) {
                 group.push(member);
                 return true;
             };
+            if (member.interests === undefined){
+                return false;
+            }
             return false;
         },
         excludePerson(email){
