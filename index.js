@@ -29,11 +29,12 @@ function createGroup(interest) {
             return group;
         },
         includePerson(member){
+            if (member.interests === undefined) return false;
             if (member.interests.includes(interest) && member.interests && !(group.includes(member))) {
                 group.push(member);
                 return true;
             }
-            else return false;
+            return false;
             
         },
         excludePerson(email){
