@@ -93,15 +93,15 @@ function findMeetingDateWithMaximumMembers(group) {
   if (!group instanceof Object || 
     group === undefined ||
     !group.hasOwnProperty("getAll") ||
-    !typeof group.getAll == 'function'
-    /*!group.hasOwnProperty("includePreson") || 
+    !group.hasOwnProperty("includePreson") || 
     !group.hasOwnProperty("excludePerson")||
+    !typeof group.getAll == 'function'||
     !typeof group.includePreson == 'function'||
-    !typeof group.excludePerson == 'function'*/)
+    !typeof group.excludePerson == 'function')
     return null;
   let localList = group.getAll();
   let count = 0;
-  let start = new Date('01.01.2000');
+  let start = null;
 
   const startDates = localList.map((x) => x.freeRange.startDate);
 
@@ -113,8 +113,6 @@ function findMeetingDateWithMaximumMembers(group) {
       start = date;
     }
   });
-  if (start === new Date('01.01.2000'))
-    return null;
   return start;
 }
 
