@@ -93,11 +93,12 @@ function findMeetingDateWithMaximumMembers(group) {
   if (!group instanceof Object || 
     group === undefined ||
     !group.hasOwnProperty("getAll") ||
-    !group.hasOwnProperty("includePreson") || 
+    /*!group.hasOwnProperty("includePreson") || 
     !group.hasOwnProperty("excludePerson")||
+    typeof group != 'object'||
     !typeof group.getAll == 'function'||
     !typeof group.includePreson == 'function'||
-    !typeof group.excludePerson == 'function')
+    !typeof group.excludePerson == 'function'*/)
     return null;
   let localList = group.getAll();
   let count = 0;
