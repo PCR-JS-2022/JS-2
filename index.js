@@ -55,7 +55,10 @@ function createGroup(interest) {
  * @returns {number} кол-во людей, готовых в переданную дату посетить встречу 
  */
 function findMeetingMembers(group, meetingDate) {
-    
+    if(!meetingDate) 
+        return 0;
+    }
+    return (group.getAll.filter(e => e.freeRange.endDate >= meetingDate && e.freeRange.startDate <= meetingDate).length);
 };
 
 /**
