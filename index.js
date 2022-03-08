@@ -49,15 +49,22 @@ console.log(z, a, b, c, d)
 console.log(JSON.stringify(res));
 */
 
-
+/*
 const javaScriptGroup = createGroup('javascript');
 var a = javaScriptGroup.includePerson(phoneList[2]); // true
 var b = javaScriptGroup.includePerson(phoneList[3]); // true
 
 var c = findMeetingMembers(javaScriptGroup, new Date('10.10.2020')); // 0
 var d = findMeetingMembers(javaScriptGroup, new Date('06.10.2020')); // 2
-console.log(a, b, c, d);
+console.log(a, b, c, d);*/
 
+const gamesGroup = createGroup('games');
+var a = gamesGroup.includePerson(phoneList[0]); // true
+var b = gamesGroup.includePerson(phoneList[1]); // true
+
+var c = findMeetingDateWithMaximumMembers(gamesGroup); // 02.05.2020
+
+console.log(a, b, JSON.stringify(c));
 /**
  * @typedef Person
  * @type {object}
@@ -117,11 +124,20 @@ function findMeetingMembers(group, meetingDate) {
 }
 
 /**
- * @param {Group} group - группа людей
- * @returns {Date} дата, в которую могут собраться максимальное кол-во человек из группы
+ * @param {Group} group
+ * @returns {Date}
  */
 function findMeetingDateWithMaximumMembers(group) {
-
+	return group.getAll()
+		.reduce((accumulator, person) => {
+			const currentCount = findMeetingMembers(group, person.freeRange.startDate);
+			if (currentCount > accumulator.bestCount) {
+				accumulator.bestCount = currentCount;
+				accumulator.bestDate = person.freeRange.startDate;
+			}
+			return accumulator;
+		}, { bestDate: null, bestCount: 0 })
+		.bestDate;
 }
 
 module.exports = { createGroup, findMeetingMembers, findMeetingDateWithMaximumMembers };
