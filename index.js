@@ -15,43 +15,39 @@
  * @property {(email: string) => boolean} excludePerson - удалить человека из списка участников
  */
 
-class Group {
-    persons;
-    interest;
-
-    getAll() {
-        return this.persons;
-    }
-
-    includePerson(person) {
-        let haveInterest = person.interests.includes(this.interest);
-        let inPersons = this.persons.includes(person);
-        let result = haveInterest && !inPersons;
-        if(result)
-            this.persons.push(person);
-        return result;
-    }
-
-    excludePerson(email) {
-        let person = this.persons.find((element, index, array) => element.email == email);
-        if(person === undefined)
-            return false;
-        let index = this.persons.indexOf(person);
-        if (index <= -1) 
-            return false;
-        this.persons.splice(index, 1);
-        return true;
-    }
-}
-
 /**
  * @param {string} interest - интерес группы
  * @returns {Group} созданная группа
  */
 function createGroup(interest) {
-    var result = new Group()
-    result.interest = interest;
-    result.persons = new Array();
+    var result = {
+      persons: new Array(),
+      interest: interest,
+  
+      getAll() {
+          return this.persons;
+      },
+  
+      includePerson(person) {
+          let haveInterest = person.interests.includes(this.interest);
+          let inPersons = this.persons.includes(person);
+          let result = haveInterest && !inPersons;
+          if(result)
+              this.persons.push(person);
+          return result;
+      },
+  
+      excludePerson(email) {
+          let person = this.persons.find((element, index, array) => element.email == email);
+          if(person === undefined)
+              return false;
+          let index = this.persons.indexOf(person);
+          if (index <= -1) 
+              return false;
+          this.persons.splice(index, 1);
+          return true;
+      }
+    };
     return result;
 };
 
