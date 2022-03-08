@@ -83,7 +83,7 @@ function findMeetingDateWithMaximumMembers(group) {
     const friends = group.getAll();
     if (friends.length == 0) return null;
     if (friends.length == 1) return friends[0].freeRange.startDate;
-    let result = new Date();
+    let result = null;
     let starts = friends.map(x => x.freeRange.startDate).sort((a, b) => a - b);
     let maxCount = 0;
     starts.forEach(x => {
