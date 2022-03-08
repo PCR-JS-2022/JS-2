@@ -20,7 +20,7 @@
  * @returns {Group} созданная группа
  */
 function createGroup(interest) {
-    var result = {
+    const result = {
       persons: new Array(),
       interest: interest,
   
@@ -30,9 +30,9 @@ function createGroup(interest) {
   
       includePerson(person) {
           try {
-              let haveInterest = person.interests.includes(this.interest);
-              let inPersons = this.persons.includes(person);
-              let result = haveInterest && !inPersons;
+              const haveInterest = person.interests.includes(this.interest);
+              const inPersons = this.persons.includes(person);
+              const result = haveInterest && !inPersons;
               if(result)
                   this.persons.push(person);
               return result;
@@ -44,13 +44,10 @@ function createGroup(interest) {
   
       excludePerson(email) {
           try {
-              let person = this.persons.find((element, index, array) => element.email == email);
-              if(person === undefined)
-                  return false;
-              let index = this.persons.indexOf(person);
-              if (index <= -1) 
-                  return false;
-              this.persons.splice(index, 1);
+              let result = this.persons.filter((p) => p.email != email);
+              if(result.length == this.persons,length)
+                return false;
+              this.persons = result;
               return true;
           }
           catch {
@@ -68,7 +65,7 @@ function createGroup(interest) {
  */
 function findMeetingMembers(group, meetingDate) {
     try {
-        var persons = group.persons.filter((person) => person.freeRange.startDate <= meetingDate 
+        const persons = group.getAll().filter((person) => person.freeRange.startDate <= meetingDate 
           && person.freeRange.endDate >= meetingDate);
         return persons.length;
     }
@@ -78,14 +75,14 @@ function findMeetingMembers(group, meetingDate) {
 };
 
 Date.prototype.addDays = function(days) {
-  var date = new Date(this.valueOf());
+  let date = new Date(this.valueOf());
   date.setDate(date.getDate() + days);
   return date;
 }
 
 function getDates(startDate, stopDate) {
-  var dateArray = new Array();
-  var currentDate = startDate;
+  const dateArray = new Array();
+  let currentDate = startDate;
   while (currentDate <= stopDate) {
       dateArray.push(new Date (currentDate));
       currentDate = currentDate.addDays(1);
@@ -99,25 +96,28 @@ function getDates(startDate, stopDate) {
  */
 function findMeetingDateWithMaximumMembers(group) {
     try {
-        if(group == undefined || group.persons == undefined || group.persons.length < 1)
+        const persons = group.getAll();
+        if(persons == undefined || persons.length < 1)
             return null;
-        let minDay = Math.min.apply(null, group.persons.map(p => p.freeRange.startDate));
-        let maxDay = Math.max.apply(null, group.persons.map(p => p.freeRange.endDate));
-        let minInDate = new Date(minDay - (new Date().getTimezoneOffset() * 60 * 1000));
-        let maxInDate = new Date(maxDay - (new Date().getTimezoneOffset() * 60 * 1000));
-        let dates = getDates(minInDate, maxInDate);
+        const minDay = Math.min.apply(null, persons.map(p => p.freeRange.startDate));
+        const maxDay = Math.max.apply(null, persons.map(p => p.freeRange.endDate));
+        const timezoneOffest = new Date().getTimezoneOffset() * 60 * 1000;
+        const minInDate = new Date(minDay - timezoneOffest);
+        const maxInDate = new Date(maxDay - timezoneOffest);
+        let currentDate = minInDate;
         let minDate = minInDate;
         let maxPeople = 1;
-        for(let i = 0; i < dates.length; i++)
+        for(let i = 0; currentDate <= maxInDate; i++)
         {
-            let peopleToday = findMeetingMembers(group, dates[i]);
-            if(peopleToday == group.persons.length)
-                return dates[i];
+            let peopleToday = findMeetingMembers(group, currentDate);
+            if(peopleToday == persons.length)
+                return currentDate;
             if(peopleToday > maxPeople)
             {
                 maxPeople = peopleToday;
-                minDate = dates[i];
+                minDate = currentDate;
             }
+            currentDate = currentDate.addDays(1);
         }
         return minDate;
     }
