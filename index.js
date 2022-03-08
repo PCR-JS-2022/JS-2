@@ -80,7 +80,7 @@ function findMeetingDateWithMaximumMembers(group) {
     if (!group.getAll) return null;
 
     const friends = group.getAll();
-    let count = 0;
+    let count = 1;
     let date = 0;
 
     friends.forEach(e => {
@@ -88,8 +88,6 @@ function findMeetingDateWithMaximumMembers(group) {
         const date2 = e.freeRange.endDate.getTime();
 
         for (let i = date1; i < date2; i += 86400000) {
-            // console.log(e.freeRange.endDate);
-            // console.log(new Date(i));
             const localCount = findMeetingMembers(group, new Date(i));
             if (localCount > count) {
                 count = localCount;
@@ -97,61 +95,9 @@ function findMeetingDateWithMaximumMembers(group) {
             }
         }
     });
-    // const dd = new Date(date);
-    // console.log(new Date('10.10.2020'));
-    console.log(count);
+    if (count === 1) return null;
     return new Date(date);
 }
-
-// 0
-
-const phoneList = [{
-        name: 'Александра',
-        interests: ['javascript', 'computers'],
-        email: 'alexandra@rambler.ru',
-        freeRange: {
-            startDate: new Date('01.01.2020'),
-            endDate: new Date('10.15.2020'),
-        }
-    },
-    {
-        name: 'Василий',
-        interests: ['javascript'],
-        email: 'javascript',
-        freeRange: {
-            startDate: new Date('01.9.2020'),
-            endDate: new Date('11.25.2020'),
-        }
-    },
-    {
-        name: 'Роман',
-        email: 'roman@yandex.ru',
-        interests: ['javascript'],
-        freeRange: {
-            startDate: new Date('01.23.2020'),
-            endDate: new Date('12.10.2020'),
-        }
-    },
-    {
-        name: 'Егор',
-        email: 'egor@gmail.ru',
-        interests: ['computers', 'javascript'],
-        freeRange: {
-            startDate: new Date('10.10.2020'),
-            endDate: new Date('11.10.2020'),
-        }
-    },
-];
-
-
-
-const javaScriptGroup = createGroup('javascript');
-console.log(javaScriptGroup.includePerson(phoneList[0])); // true
-console.log(javaScriptGroup.includePerson(phoneList[1])); // true
-console.log(javaScriptGroup.includePerson(phoneList[2])); // true
-console.log(javaScriptGroup.includePerson(phoneList[3])); // true
-console.log(findMeetingDateWithMaximumMembers(javaScriptGroup)); // 02.05.2020
-
 
 module.exports = {
     createGroup,
