@@ -30,7 +30,9 @@ function createGroup(interest) {
   const collect = () => members;
   
   function onMember(person) {
-  if (members.some((x) => x.email === person.email) || !person.interests.some((x) => x === interest))
+  if ( person.interests === undefined || 
+    members.some((x) => x.email === person.email) || 
+    !person.interests.some((x) => x === interest))
     return false;
   members.push(person);
   return true;
@@ -50,8 +52,8 @@ function createGroup(interest) {
   };
 }
 
-function testRange(dateToCompare, range) {
-  return dateToCompare >= range.startDate && dateToCompare <= range.endDate;
+function testRange(tempDate, range) {
+  return tempDate >= range.startDate && tempDate <= range.endDate;
 }
 
 function testGroup(possibleGroup) {
@@ -73,20 +75,29 @@ function findMeetingMembers(group, meetingDate) {
 
 function findMeetingDateWithMaximumMembers(group) {
   if (!testGroup(group)) return null;
+
   const members = group.getAll();
-  if (members.length === 0) return null;
-  if (members.length === 1) return members[0].freeRange.startDate;
+
+  if (members.length === 0) {
+    return null;}
+
+  if (members.length === 1) {
+    return members[0].freeRange.startDate;}
+
   const dates = members.map((x) => x.freeRange.startDate);
-  let resultDate = startDates.sort((a, b) => a - b)[0];
+
+  let resultDate = new Date("01.02.2000");
   let maxPeople = 0;
-  dates.forEach((date) => {const peopleCount = members
+  dates.forEach((date) => {const counter = members
     .filter((person) => isInRange(date, person.freeRange))
     .length;
-    if (peopleCount > maxPeople) {
-      maxPeople = peopleCount;
+    
+    if (counter > maxPeople) {
+      maxPeople = counter;
       resultDate = date;
     }
   });
   return resultDate;
 }
-export default { createGroup, findMeetingMembers, findMeetingDateWithMaximumMembers };
+
+module.exports = { createGroup, findMeetingMembers, findMeetingDateWithMaximumMembers };
