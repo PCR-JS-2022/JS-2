@@ -29,23 +29,33 @@ function createGroup(interest) {
       },
   
       includePerson(person) {
-          let haveInterest = person.interests.includes(this.interest);
-          let inPersons = this.persons.includes(person);
-          let result = haveInterest && !inPersons;
-          if(result)
-              this.persons.push(person);
-          return result;
+          try {
+              let haveInterest = person.interests.includes(this.interest);
+              let inPersons = this.persons.includes(person);
+              let result = haveInterest && !inPersons;
+              if(result)
+                  this.persons.push(person);
+              return result;
+          }
+          catch {
+              return false;
+          }
       },
   
       excludePerson(email) {
-          let person = this.persons.find((element, index, array) => element.email == email);
-          if(person === undefined)
+          try {
+              let person = this.persons.find((element, index, array) => element.email == email);
+              if(person === undefined)
+                  return false;
+              let index = this.persons.indexOf(person);
+              if (index <= -1) 
+                  return false;
+              this.persons.splice(index, 1);
+              return true;
+          }
+          catch {
               return false;
-          let index = this.persons.indexOf(person);
-          if (index <= -1) 
-              return false;
-          this.persons.splice(index, 1);
-          return true;
+          }
       }
     };
     return result;
@@ -57,9 +67,14 @@ function createGroup(interest) {
  * @returns {number} кол-во людей, готовых в переданную дату посетить встречу 
  */
 function findMeetingMembers(group, meetingDate) {
-    var persons = group.persons.filter((person) => person.freeRange.startDate <= meetingDate 
-      && person.freeRange.endDate >= meetingDate);
-    return persons.length;
+    try {
+        var persons = group.persons.filter((person) => person.freeRange.startDate <= meetingDate 
+          && person.freeRange.endDate >= meetingDate);
+        return persons.length;
+    }
+    catch {
+        return 0;
+    }
 };
 
 Date.prototype.addDays = function(days) {
@@ -83,25 +98,30 @@ function getDates(startDate, stopDate) {
  * @returns {Date} дата, в которую могут собраться максимальное кол-во человек из группы
  */
 function findMeetingDateWithMaximumMembers(group) {
-    let minDay = Math.min.apply(null, group.persons.map(p => p.freeRange.startDate));
-    let maxDay = Math.max.apply(null, group.persons.map(p => p.freeRange.endDate));
-    let minInDate = new Date(minDay - (new Date().getTimezoneOffset() * 60 * 1000));
-    let maxInDate = new Date(maxDay - (new Date().getTimezoneOffset() * 60 * 1000));
-    let dates = getDates(minInDate, maxInDate);
-    let minDate = minInDate;
-    let maxPeople = 1;
-    for(let i = 0; i < dates.length; i++)
-    {
-        let peopleToday = findMeetingMembers(group, dates[i]);
-        if(peopleToday == group.persons.length)
-            return dates[i];
-        if(peopleToday > maxPeople)
+    try {
+        let minDay = Math.min.apply(null, group.persons.map(p => p.freeRange.startDate));
+        let maxDay = Math.max.apply(null, group.persons.map(p => p.freeRange.endDate));
+        let minInDate = new Date(minDay - (new Date().getTimezoneOffset() * 60 * 1000));
+        let maxInDate = new Date(maxDay - (new Date().getTimezoneOffset() * 60 * 1000));
+        let dates = getDates(minInDate, maxInDate);
+        let minDate = minInDate;
+        let maxPeople = 1;
+        for(let i = 0; i < dates.length; i++)
         {
-            maxPeople = peopleToday;
-            minDate = dates[i];
+            let peopleToday = findMeetingMembers(group, dates[i]);
+            if(peopleToday == group.persons.length)
+                return dates[i];
+            if(peopleToday > maxPeople)
+            {
+                maxPeople = peopleToday;
+                minDate = dates[i];
+            }
         }
+        return minDate;
     }
-    return minDate;
+    catch {
+        return null;
+    }
 };
 
 module.exports = { createGroup, findMeetingMembers, findMeetingDateWithMaximumMembers };
