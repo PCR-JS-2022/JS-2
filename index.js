@@ -36,7 +36,7 @@ function createGroup(interest) {
             }
         },
         excludePerson(mail) {
-            const index = group.indexOf(group.find(member => member.email === mail));
+            const index = group.findIndex(member => member.email === mail);
             if (index !== -1) {
                 group.splice(index, 1);
                 return true;
@@ -73,14 +73,14 @@ function findMeetingDateWithMaximumMembers(group) {
     let bestDate = null;
     let bestMembersCount = 0;
     group.getAll()
-        .map(member => member.freeRange.startDate)
-        .forEach(date => {
-            let membersCount = findMeetingMembers(group, date);
+        .map(member => {
+            let date = member.freeRange.startDate;
+            let membersCount = findMeetingMembers(group, member.freeRange.startDate);
             if (membersCount > bestMembersCount) {
                 bestDate = date;
                 bestMembersCount = membersCount;
             }
-        })
+        });
     return bestDate;
 }
 
