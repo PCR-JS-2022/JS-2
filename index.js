@@ -27,40 +27,30 @@
 
 function createGroup(interest) {
   let members = [];
-  const collect = () => members;
+  const getAll = () => members;
   
   function onMember(person) {
-  if ( person.interests === undefined || 
-    members.some((x) => x.email === person.email) || 
-    !person.interests.some((x) => x === interest))
+    if (person.interests?.includes(interest) && 
+    !people.map((p) => p.email).includes(person.email))
+    {
+        people.push(person);
+        return true;
+    }
     return false;
-  members.push(person);
-  return true;
 }
 
   function offMember(email) {
-  const memberIndex = members.findIndex((x) => x.email === email);
-  if (memberIndex === -1) return false;
-  members = members.filter((x) => x.email !== email);
-  return true;
-  }
+    const memberIndex = members.findIndex((x) => x.email === email);
+    if (memberIndex === -1) return false;
+    members = members.filter((x) => x.email !== email);
+    return true;
+    }
 
-  return {
-  collect,
-  onMember,
-  offMember,
-  };
+  return { getAll, onMember, offMember };
 }
 
 function testRange(tempDate, range) {
   return tempDate >= range.startDate && tempDate <= range.endDate;
-}
-
-function testGroup(possibleGroup) {
-  return (possibleGroup instanceof Object &&
-    Object.prototype.hasOwnProperty.call(possibleGroup, "collect") &&
-    Object.prototype.hasOwnProperty.call(possibleGroup, "onMember") &&
-    Object.prototype.hasOwnProperty.call(possibleGroup, "offMember"));
 }
 
 function findMeetingMembers(group, meetingDate) {
@@ -74,19 +64,12 @@ function findMeetingMembers(group, meetingDate) {
 }
 
 function findMeetingDateWithMaximumMembers(group) {
-  if (!testGroup(group)) return null;
-
-  const members = group.getAll();
-
-  if (members.length === 0) {
-    return null;}
-
-  if (members.length === 1) {
-    return members[0].freeRange.startDate;}
+  const members = group.getAll() && group.getAll();
+  if (members.length === 0) return null;
+  if (members.length === 1) return members[0].freeRange.startDate;
 
   const dates = members.map((x) => x.freeRange.startDate);
-
-  let resultDate = new Date("01.02.2000");
+  let resultDate = startDates.sort((a, b) => a - b)[0];
   let maxPeople = 0;
   dates.forEach((date) => {const counter = members
     .filter((person) => isInRange(date, person.freeRange))
@@ -95,8 +78,7 @@ function findMeetingDateWithMaximumMembers(group) {
     if (counter > maxPeople) {
       maxPeople = counter;
       resultDate = date;
-    }
-  });
+    } });
   return resultDate;
 }
 
