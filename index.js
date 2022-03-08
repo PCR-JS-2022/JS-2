@@ -72,10 +72,9 @@ function findMeetingDateWithMaximumMembers(group) {
         return null;
     }
 
-    groupList = group.getAll();
+    const groupList = group.getAll();
     let bestDate = groupList.map((p) => p.freeRange.startDate).sort((a, b) => a - b)[0];
     let maxPersons = 0;
-
     groupList.map((x) => x.freeRange.startDate).forEach(date => {
         let suitablePeopleCount = groupList.filter((p) => date >= p.freeRange.startDate && date <= p.freeRange.endDate).length;
 
@@ -128,6 +127,7 @@ const phoneList = [
 
 const gamesGroup = createGroup('games');
 console.log(gamesGroup.includePerson(phoneList[0])); // true
+console.log(gamesGroup.includePerson(phoneList[1]))
 console.log(findMeetingDateWithMaximumMembers(gamesGroup));
 
 module.exports = { createGroup, findMeetingMembers, findMeetingDateWithMaximumMembers };
