@@ -27,25 +27,20 @@ function createGroup(interest) {
         getAll: () => personsList, 
 
         includePerson: (person) => {
-            if (person.interests?.includes(interest) && personsList.every(({ email }) => email !== person.email)) {
+            let checkInterests = person.interests?.includes(interest);
+            let checkEmail = personsList.every(({ email }) => email !== person.email);
+            if (checkEmail && checkInterests) {
                 personsList.push(person);
                 return true;
-                }
-            else {
-                return false;
             }
+            else return false;
         }, 
 
         excludePerson: (email) => {
-            const checkEmail = personsList.findIndex(person => person.email === email);
-            if (checkEmail === -1) {
-              return false;
-            }
-            else {
-                personsList.splice(checkEmail, 1);
-            return true;
-            }
-          }    
+            const checkEmail = personsList.filter((person) => (person.email != email) )
+            if(personsList.length > checkEmail.length ) return true;
+            else return false;
+        }    
     }
 };
 
@@ -60,8 +55,10 @@ function createGroup(interest) {
 function findMeetingMembers(group, meetingDate) {
     if (!(meetingDate instanceof Date) || isNaN(meetingDate.valueOf()))
         return 0;
-    const persons = group.getAll().filter((person) =>
-        (meetingDate >= person.freeRange.startDate && meetingDate <= person.freeRange.endDate));
+    const persons = group
+                        .getAll()
+                        .filter((person) =>
+                            (meetingDate >= person.freeRange.startDate && meetingDate <= person.freeRange.endDate));
     return persons.length;    
     }
 
@@ -77,14 +74,16 @@ function findMeetingDateWithMaximumMembers(group) {
     
     let bestDate = null;
     let maximumPersons = 0;
-    group.getAll().map(person => {
-            let date = person.freeRange.startDate;
-            let personsCount = findMeetingMembers(group, person.freeRange.startDate);
-            if (personsCount > maximumPersons) {
-                bestDate = date;
-                maximumPersons = personsCount;
-            }
-        });
+    group
+        .getAll()
+        .map(person => {
+                let date = person.freeRange.startDate;
+                let personsCount = findMeetingMembers(group, person.freeRange.startDate);
+                if (personsCount > maximumPersons) {
+                    bestDate = date;
+                    maximumPersons = personsCount;
+                }
+            });
     return bestDate;
 }
 
