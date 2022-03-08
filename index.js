@@ -59,34 +59,38 @@ function findMeetingMembers(group, meetingDate) {
         return 0;
     }
     return (group.getAll().filter(e => e.freeRange.endDate >= meetingDate && e.freeRange.startDate <= meetingDate).length);
-
 };
 
 /**
  * @param {Group} group - группа людей
  * @returns {Date} дата, в которую могут собраться максимальное кол-во человек из группы
  */
-function findMeetingDateWithMaximumMembers(group) {
-    if(!group || !group.getAll().length || !Array.isArray(group.getAll())){
-        return 0;
+ function findMeetingDateWithMaximumMembers(group) {
+    const people = group.getAll && group.getAll();
+
+    if (!people) {
+        return null;
     }
-    if(group.getAll().length === 1) group.getAll()[0].freeRange.startDate; 
 
-    let maxDate;
-    let countInGroup = 0;
+    if (people.length === 1) 
+    {
+        return people[0].freeRange.startDate;
+    }
 
-    let time = group.getAll().map(e => e.freeRange.startDate)
-    time.forEach(e =>{
-        let max = group.getAll().filter(p => e <= p.freeRange.startDate && e >= p.freeRange.endDate).length;
-        if (max > countInGroup){
-            countInGroup = max;
-            maxDate = e;
+    const startDates = people.map((p) => p.freeRange.startDate);
+
+    let minDate = startDates.sort((a, b) => a - b)[0];
+    let maxCount = 0;
+    startDates.forEach((date) => {
+        const RequiredPeople = people.filter((p) => isDateInRange(date, p.freeRange)).length;
+
+        if (RequiredPeople > maxCount) {
+            maxCount = RequiredPeople;
+            minDate = date;
         }
     });
-    if (maxDate instanceof Date){
-        return 0;
-    }
-    else return maxDate;
+
+    return minDate;
 };
 
 module.exports = { createGroup, findMeetingMembers, findMeetingDateWithMaximumMembers };
@@ -130,3 +134,4 @@ const phoneList = [
     },
   ];
 
+  
