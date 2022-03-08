@@ -82,6 +82,7 @@ function findMeetingDateWithMaximumMembers(group) {
     group.hasOwnProperty("includePreson") && group.hasOwnProperty("excludePerson"))) return null;
     const friends = group.getAll();
     if (friends.length == 0) return null;
+    if (friends.length == 1) return friends[0].freeRange.startDate;
     let result = new Date();
     let starts = friends.map(x => x.freeRange.startDate);
     let maxCount = 0;
