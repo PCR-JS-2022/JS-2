@@ -72,6 +72,8 @@ const phoneList = [
           if (item.email !== friend.email && friend.interests.includes(interest)) {
             friends.push(friend);
             friendResult = true;
+          } else {
+            friendResult = false;
           }
         });
         return friendResult;
@@ -83,6 +85,8 @@ const phoneList = [
           if (friend.email === email) {
             friends.splice(friend, 1);
             emailResult = true;
+          } else {
+            emailResult = false;
           }
         })
         return emailResult;
@@ -90,7 +94,7 @@ const phoneList = [
     }
   };
 
-  
+
 /**
  * @param {Group} group - группа людей
  * @param {Date} meetingDate - дата встречи
