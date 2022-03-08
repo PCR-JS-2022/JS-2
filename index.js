@@ -45,9 +45,9 @@ function createGroup(interest) {
       excludePerson(email) {
           try {
               let result = this.persons.filter((p) => p.email != email);
-              if(result.length == this.persons,length)
+              if(result.length == this.persons.length)
                 return false;
-              this.persons = result;
+              this.persons = result;              
               return true;
           }
           catch {
@@ -166,3 +166,13 @@ const phoneList = [
       }
     },
   ];
+
+  const javaScriptGroup = createGroup('javascript');
+  console.log(javaScriptGroup.includePerson(phoneList[2])); // true
+  console.log(javaScriptGroup.includePerson(phoneList[0])); // false
+  console.log(javaScriptGroup.includePerson(phoneList[3])); // true
+
+  console.log(javaScriptGroup.excludePerson('vasiliy@mail.ru')); // false
+  console.log(javaScriptGroup.excludePerson('roman@yandex.ru')); // true
+
+  console.log(javaScriptGroup.getAll());
