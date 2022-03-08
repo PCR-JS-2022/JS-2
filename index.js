@@ -65,7 +65,7 @@ function findMeetingMembers(group, meetingDate) {
         return 0;
     }
 
-    return group.getAll().filter(item => item.freeRange.startDate <= meetingDate && item.freeRange.endDate >= meetingDate).length;
+    return group.getAll().filter(item => isDateInRange(meetingDate, item.freeRange)).length;
 };
 
 /**
@@ -84,7 +84,7 @@ function findMeetingDateWithMaximumMembers(group) {
     let countPeople = 0;
     let maxDate;
     group.getAll().map(item => item.freeRange.startDate).forEach(time => {
-        let maxCount = group.getAll().filter(people => time >= people.freeRange.startDate && time <= people.freeRange.endDate).length;
+        let maxCount = group.getAll().filter(people => isDateInRange(time, people.freeRange)).length;
         if (maxCount > countPeople) {
             countPeople = maxCount;
             maxDate = time;
@@ -93,5 +93,14 @@ function findMeetingDateWithMaximumMembers(group) {
 
     return isNaN(maxDate.getTime()) ? null : maxDate;
 };
+
+/**
+ * @param {string} date - дата с которой надо сравнить
+ * @param {{ startDate: Date, endDate: Date }} freeRange - свободный промежуток времени
+ * @returns {boolean} входит ли дата в свободный промежуток времени
+ */
+function isDateInRange(date, freeRange) {
+    return freeRange.startDate <= date && freeRange.endDate >= date;
+}
 
 module.exports = { createGroup, findMeetingMembers, findMeetingDateWithMaximumMembers };
