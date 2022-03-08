@@ -23,11 +23,11 @@ function createGroup(interest) {
     let group = [];
 
     return {
-        getAll: () => {
+        getAll() {
             return group;
         },
 
-        includePerson: (person) => {
+        includePerson(person) {
             if (group.some((p) => p.email === person.email) || person.interests === undefined || !person.interests.some((i) => i === interest)) {
                 return false;
             }
@@ -37,7 +37,7 @@ function createGroup(interest) {
                 return true;
             };
         },
-        excludePerson: (email) => {
+        excludePerson(email) {
             if (group.some((p) => p.email === email)) {
                 const index = group.findIndex((p) => p.email === email);
                 group.splice(index, 1);
@@ -128,6 +128,7 @@ const phoneList = [
 const gamesGroup = createGroup('games');
 console.log(gamesGroup.includePerson(phoneList[0])); // true
 console.log(gamesGroup.includePerson(phoneList[1]))
+console.log(gamesGroup.getAll());
 console.log(findMeetingDateWithMaximumMembers(gamesGroup));
 
 module.exports = { createGroup, findMeetingMembers, findMeetingDateWithMaximumMembers };
