@@ -39,7 +39,12 @@ function createGroup(interest) {
         },
 
         excludePerson(email) {
-            return this.personArray = this.personArray.filter(elem => elem.email !== email && typeof email === "string");
+            const newArray = this.personArray.filter(elem => elem.email !== email)
+            if (JSON.stringify(this.personArray) !== JSON.stringify(newArray)){
+                this.personArray = newArray;
+                return true
+            }
+            else return false
         },
 
         isValidPerson(person) {
