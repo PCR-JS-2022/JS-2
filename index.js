@@ -90,6 +90,7 @@ const phoneList = [
     }
   };
 
+  
 /**
  * @param {Group} group - группа людей
  * @param {Date} meetingDate - дата встречи
