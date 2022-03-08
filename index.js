@@ -30,8 +30,7 @@ function createGroup(interest) {
         includePerson: (friend) => {
             if(friend.interests === undefined) return false;
 
-            const email = friend.email;
-            if(friends.some(e => e.email === email) 
+            if(friends.some(e => e.email === friend.email) 
                 || !friend.interests.some(e => interest === e)){
                 return false;
             }
@@ -85,31 +84,22 @@ function findMeetingDateWithMaximumMembers(group) {
     if(!isGroup(group)) return null;
 
     const friends = group.getAll();
-    const dates = [];
-
-    friends.forEach(e => {
-        Object.values(e.freeRange).forEach(x => dates.push(x));
-    });
-
-    const datesList = dates.sort((a, b) => {
-        return a - b;
-    }).map(e => {
-        return { date: e, count: 0}
-    });
-
-    datesList.forEach(e => {
-        e.count = findMeetingMembers(group, e.date);
-    });
+    const dates = friends.map(e => e.freeRange.startDate).sort((a, b) => a - b);
 
     let max = 1;
-
-    datesList.forEach(e => {
-        max = e.count > max ? e.count : max;
+    let bestDate;
+    dates.forEach(e => {
+        let counts = findMeetingMembers(group, e);
+        if(counts > max)
+        {
+            bestDate = e;
+            max = counts;
+        }
     });
 
     if(max === 1) return null;
 
-    return datesList.find(e => e.count === max).date;
+    return bestDate;
 };
 
 module.exports = { createGroup, findMeetingMembers, findMeetingDateWithMaximumMembers };
