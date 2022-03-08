@@ -82,7 +82,7 @@ function findMeetingMembers(group, meetingDate) {
     let minDate = startDates.sort((a, b) => a - b)[0];
     let maxCount = 0;
     startDates.forEach((date) => {
-        const RequiredPeople = people.filter((p) => isDateInRange(date, p.freeRange)).length;
+        const RequiredPeople = people.filter((p) => date >= range.startDate && date <= range.endDate).length;
 
         if (RequiredPeople > maxCount) {
             maxCount = RequiredPeople;
@@ -134,4 +134,8 @@ const phoneList = [
     },
   ];
 
-  
+
+  const gamesGroup = createGroup('games');
+ 
+
+  console.log(findMeetingDateWithMaximumMembers(gamesGroup)); // 02.05.2020
