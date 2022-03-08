@@ -17,18 +17,14 @@
 
 class Group {
     persons;
-    #interest;
-    constructor(interest) {
-        this.#interest = interest;
-        this.persons = new Array();
-    }
+    interest;
 
     getAll() {
         return this.persons;
     }
 
     includePerson(person) {
-        let haveInterest = person.interests.includes(this.#interest);
+        let haveInterest = person.interests.includes(this.interest);
         let inPersons = this.persons.includes(person);
         let result = haveInterest && !inPersons;
         if(result)
@@ -53,7 +49,10 @@ class Group {
  * @returns {Group} созданная группа
  */
 function createGroup(interest) {
-    return new Group(interest);
+    var result = new Group()
+    result.interest = interest;
+    result.persons = new Array();
+    return result;
 };
 
 /**
@@ -149,4 +148,3 @@ const phoneList = [
       }
     },
   ];
-
