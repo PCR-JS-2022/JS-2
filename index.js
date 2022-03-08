@@ -23,14 +23,18 @@
  
 
 function createGroup(interest) {
-    let groupList = [];
+    const groupList = [];
     return{
         getAll(){
             return groupList;
         },
         includePerson(member){
-            if (member.interests === undefined) return false;
-            if (member.interests.includes(interest) && member.interests && !(groupList.includes(member))) {
+          let conditions = member.interests.includes(interest) && member.interests && !(groupList.includes(member));
+
+            if (member.interests === undefined){
+              return false;
+            } 
+            if (conditions) {
                 groupList.push(member);
                 return true;
             }
@@ -55,7 +59,8 @@ function createGroup(interest) {
  * @returns {number} кол-во людей, готовых в переданную дату посетить встречу 
  */
 function findMeetingMembers(group, meetingDate) {
-    if(!meetingDate || !group || !group.getAll().length || !Array.isArray(group.getAll())){ 
+  let conditions = !meetingDate || !group || !group.getAll().length || !Array.isArray(group.getAll());
+    if(conditions){ 
         return 0;
     }
     return (group.getAll().filter(e => e.freeRange.endDate >= meetingDate && e.freeRange.startDate <= meetingDate).length);
@@ -82,10 +87,10 @@ function findMeetingMembers(group, meetingDate) {
     let minDate = startDates.sort((a, b) => a - b)[0];
     let maxCount = 0;
     startDates.forEach((date) => {
-        const RequiredPeople = people.filter((p) => date >= p.freeRange.startDate && date <= p.freeRange.endDate).length;
+        const requiredPeople = people.filter((p) => date >= p.freeRange.startDate && date <= p.freeRange.endDate).length;
 
-        if (RequiredPeople > maxCount) {
-            maxCount = RequiredPeople;
+        if (requiredPeople > maxCount) {
+            maxCount = requiredPeople;
             minDate = date;
         }
     });
