@@ -62,6 +62,8 @@ function CheckEmail(email, userList) {
 function CheckDate(date, range) {
   return range.freeRange.startDate <= date && date <= range.freeRange.endDate;
 }
+/*const persons = group.getAll().filter((person) =>
+        (meetingDate >= person.freeRange.startDate && meetingDate <= person.freeRange.endDate));
 
 /**
  * @param {Group} group - группа людей
@@ -73,11 +75,11 @@ function findMeetingMembers(group, meetingDate) {
   if (!group instanceof Object || 
     group === undefined ||
     !group.hasOwnProperty("getAll") ||
-    !group.hasOwnProperty("includePreson") || 
-    !group.hasOwnProperty("excludePerson") || 
     !typeof group.getAll == 'function'||
+    /*!group.hasOwnProperty("includePreson") || 
+    !group.hasOwnProperty("excludePerson") || 
     !typeof group.includePreson == 'function'||
-    !typeof group.excludePerson == 'function'||
+    !typeof group.excludePerson == 'function'||*/
     !(meetingDate instanceof Date))
     return 0;
   const localList = group.getAll();
