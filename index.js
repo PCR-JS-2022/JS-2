@@ -44,7 +44,7 @@ function createGroup(interest) {
   
       excludePerson(email) {
           try {
-              let result = this.persons.filter((p) => p.email !== email);
+              let result = this.persons.filter((p) => p.email != email);
               if(result.length == this.persons.length)
                 return false;
               this.persons = result;              
