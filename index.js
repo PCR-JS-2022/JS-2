@@ -20,8 +20,8 @@
  * @returns {Group} созданная группа
  */
 function createGroup(interest) {
-  let _interest = interest;
-  let userList = [];
+  const intrst = interest;
+  const userList = [];
   return {
     getAll: function () {
       return userList;
@@ -29,41 +29,34 @@ function createGroup(interest) {
     includePerson: function (user) {
       if (user.interests === undefined)
         return false;
-      if (CheckUser(user, _interest) && !userList.includes(user)) {
+      if (checkUser(user, intrst) && !userList.includes(user)) {
         userList.push(user);
         return true;
       }
       return false;
     },
     excludePerson: function (email) {
-      if (CheckEmail(email, userList)) return true;
+      for (let i = 0; i < userList.length; i++) {
+        if (userList[i].email === email) {
+          userList.splice(i, 1);
+          return true;
+        }
+      }
       return false;
     },
   };
 }
 
-function CheckUser(user, _interest) {
-  for (var i = 0; i < user.interests.length; i++) {
-    if (user.interests[i] === _interest) return true;
+function checkUser(user, interest) {
+  for (let i = 0; i < user.interests.length; i++) {
+    if (user.interests[i] === interest) return true;
   }
   return false;
 }
 
-function CheckEmail(email, userList) {
-  for (var i = 0; i < userList.length; i++) {
-    if (userList[i].email === email) {
-      userList.splice(i, 1);
-      return true;
-    }
-  }
-  return false;
-}
-
-function CheckDate(date, range) {
+function checkDate(date, range) {
   return range.freeRange.startDate <= date && date <= range.freeRange.endDate;
 }
-/*const persons = group.getAll().filter((person) =>
-        (meetingDate >= person.freeRange.startDate && meetingDate <= person.freeRange.endDate));
 
 /**
  * @param {Group} group - группа людей
@@ -72,15 +65,17 @@ function CheckDate(date, range) {
  */
 function findMeetingMembers(group, meetingDate) {
   let count = 0;
-  if (!group instanceof Object || 
-    group === undefined ||
-    !group.hasOwnProperty("getAll") ||
-    !typeof group.getAll == 'function'||
-    !(meetingDate instanceof Date))
+  let check =!group instanceof Object || 
+  group === undefined ||
+  !group.hasOwnProperty("getAll") ||
+  !typeof group.getAll == 'function'||
+  !(meetingDate instanceof Date);
+  
+  if (check)
     return 0;
   const localList = group.getAll();
-  for (var i = 0; i < localList.length; i++) {
-    if (CheckDate(meetingDate, localList[i])) count++;
+  for (let i = 0; i < localList.length; i++) {
+    if (checkDate(meetingDate, localList[i])) count++;
   }
   return count;
 }
@@ -90,21 +85,16 @@ function findMeetingMembers(group, meetingDate) {
  * @returns {Date} дата, в которую могут собраться максимальное кол-во человек из группы
  */
 function findMeetingDateWithMaximumMembers(group) {
-  if (!group instanceof Object || 
-    group === undefined ||
-    !group.hasOwnProperty("getAll")
-    /*!group.hasOwnProperty("includePreson") || 
-    !group.hasOwnProperty("excludePerson")||
-    typeof group != 'object'||
-    !typeof group.getAll == 'function'||
-    !typeof group.includePreson == 'function'||
-    !typeof group.excludePerson == 'function'*/)
+  let check = !group instanceof Object || 
+  group === undefined ||
+  !group.hasOwnProperty("getAll");
+
+  if (check)
     return null;
-  let localList = group.getAll();
   let count = 0;
   let start = null;
 
-  const startDates = localList.map((x) => x.freeRange.startDate);
+  const startDates = group.getAll().map((x) => x.freeRange.startDate);
 
   startDates.forEach((date) => {
     const userCount = findMeetingMembers(group, date);
