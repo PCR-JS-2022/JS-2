@@ -68,7 +68,7 @@ const phoneList = [
 
     includePerson: (friend) => {
       let friendResult = false;
-        if (friend.interests.includes(interest)) {
+        if (friend.interests?.includes(interest)) {
           if(friends.length) {
             let friendExist = false;
             friends.forEach(item => {
