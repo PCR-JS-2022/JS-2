@@ -202,11 +202,8 @@ function findMeetingDateWithMaximumMembers(group) {
   let segmentEnds = [];
 
   // '+' обозначает дату, являющуюся началом промежутка, '-' - концом
-  group.getAll().forEach(
-    (el, ind) => {
-      segmentEnds.push(new EndPointDate(el.freeRange.startDate, '+'));
-      segmentEnds.push(new EndPointDate(el.freeRange.endDate, '-'));
-    }
+  group.getAll().reduce(
+    (sum, cur) => segmentEnds.concat([new EndPointDate(cur.freeRange.startDate, '+'), new EndPointDate(cur.freeRange.endDate, '-')])
   );
 
   // сотировка дат-концов проемежутков
