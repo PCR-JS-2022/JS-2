@@ -44,7 +44,7 @@ function createGroup(interest) {
   
       excludePerson(email) {
           try {
-              let result = this.persons.filter((p) => p.email != email);
+              let result = this.persons.filter((p) => p.email !== email);
               if(result.length == this.persons.length)
                 return false;
               this.persons = result;              
@@ -80,16 +80,6 @@ Date.prototype.addDays = function(days) {
   return date;
 }
 
-function getDates(startDate, stopDate) {
-  const dateArray = new Array();
-  let currentDate = startDate;
-  while (currentDate <= stopDate) {
-      dateArray.push(new Date (currentDate));
-      currentDate = currentDate.addDays(1);
-  }
-  return dateArray;
-}
-
 /**
  * @param {Group} group - группа людей
  * @returns {Date} дата, в которую могут собраться максимальное кол-во человек из группы
@@ -99,8 +89,8 @@ function findMeetingDateWithMaximumMembers(group) {
         const persons = group.getAll();
         if(persons == undefined || persons.length < 1)
             return null;
-        const minDay = Math.min.apply(null, persons.map(p => p.freeRange.startDate));
-        const maxDay = Math.max.apply(null, persons.map(p => p.freeRange.endDate));
+        const minDay = Math.min(...persons.map(p => p.freeRange.startDate));
+        const maxDay = Math.max(...persons.map(p => p.freeRange.endDate));
         const timezoneOffest = new Date().getTimezoneOffset() * 60 * 1000;
         const minInDate = new Date(minDay - timezoneOffest);
         const maxInDate = new Date(maxDay - timezoneOffest);
@@ -166,13 +156,3 @@ const phoneList = [
       }
     },
   ];
-
-  const javaScriptGroup = createGroup('javascript');
-  console.log(javaScriptGroup.includePerson(phoneList[2])); // true
-  console.log(javaScriptGroup.includePerson(phoneList[0])); // false
-  console.log(javaScriptGroup.includePerson(phoneList[3])); // true
-
-  console.log(javaScriptGroup.excludePerson('vasiliy@mail.ru')); // false
-  console.log(javaScriptGroup.excludePerson('roman@yandex.ru')); // true
-
-  console.log(javaScriptGroup.getAll());
