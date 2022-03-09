@@ -59,40 +59,50 @@ const phoneList = [
  * @returns {Group} созданная группа
  */
  function createGroup(interest) {
-    const friends = [];
-  
-    return {
-      getAll: () => {
-        return friends;
-      },
-  
-      includePerson: (friend) => {
-        let friendResult = false;
-        Object.values(phoneList).forEach(item => {
-          if (item.email !== friend.email && friend.interests?.includes(interest)) {
-            friends.push(friend);
-            friendResult = true;
+  const friends = [];
+
+  return {
+    getAll: () => {
+      return friends;
+    },
+
+    includePerson: (friend) => {
+      let friendResult = false;
+        if (friend.interests.includes(interest)) {
+          if(friends.length) {
+            let friendExist = false;
+            friends.forEach(item => {
+               if (item.email == friend.email ) {
+                  friendExist = true;
+               }
+            })
+            if(!friendExist) {
+              friendResult = true;
+              friends.push(friend);
+            }
           } else {
-            friendResult = false;
+              friendResult = true;
+              friends.push(friend);
           }
-        });
-        return friendResult;
-      },
-  
-      excludePerson: (email) => {
-        let emailResult = false;
-        friends.forEach(friend => {
-          if (friend.email === email) {
-            friends.splice(friend, 1);
-            emailResult = true;
-          } else {
-            emailResult = false;
-          }
-        })
-        return emailResult;
-      }
+        }
+      return friendResult;
+    },
+
+
+    excludePerson: (email) => {
+      let emailResult = false;
+      friends.forEach(friend => {
+        if (friend.email === email) {
+          friends.splice(friend, 1);
+          emailResult = true;
+        } else {
+          emailResult = false;
+        }
+      })
+      return emailResult;
     }
-  };
+  }
+};
 
 
 /**
