@@ -123,8 +123,8 @@ function findMeetingMembers(group, meetingDate) {
  * @param {Group} group - группа людей
  * @returns {Date} дата, в которую могут собраться максимальное кол-во человек из группы
  */
-function findMeetingDateWithMaximumMembers(group) {
-  if (group.getAll().length < 1) {
+ function findMeetingDateWithMaximumMembers(group) {
+  if (group.getAll().length < 1 || !group.getAll) {
     return null;
   }
 
@@ -134,7 +134,7 @@ function findMeetingDateWithMaximumMembers(group) {
 
   allMemebers.forEach((eachMember) => {
     let startDate = eachMember.freeRange.startDate;
-    let sumOfMemebers = group.getAll().filter((item) => item.freeRange.startDate <= meetingDate && meetingDate <= item.freeRange.endDate);
+    let sumOfMemebers = findMeetingMembers(group, startDate);
 
     if (sumOfMemebers > maxPerson) {
       maxPerson = sumOfMemebers.length;
