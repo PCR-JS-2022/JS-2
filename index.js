@@ -69,14 +69,13 @@
  * @returns {Date} дата, в которую могут собраться максимальное кол-во человек из группы
  */
  function findMeetingDateWithMaximumMembers(group) {
-    const people = group.getAll();
     if (!group instanceof Object || 
         group === undefined ||
         !group.hasOwnProperty("getAll") ||
         !typeof group.getAll == 'function' ||
-        people.length === 0)
+        group.getAll().length === 0)
         return null;
-
+    const people = group.getAll();
     if (people.length === 1) {
         return people[0].freeRange.startDate;
     }
