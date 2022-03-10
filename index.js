@@ -20,21 +20,19 @@
  * @returns {Group} созданная группа
  */
 function createGroup(interest) {
+    let persons = new Array();
     const result = {
-      persons: new Array(),
-      interest: interest,
-  
       getAll() {
-          return this.persons;
+          return persons;
       },
   
       includePerson(person) {
           try {
-              const haveInterest = person.interests.includes(this.interest);
-              const inPersons = this.persons.includes(person);
+              const haveInterest = person.interests.includes(interest);
+              const inPersons = persons.includes(person);
               const result = haveInterest && !inPersons;
               if(result)
-                  this.persons.push(person);
+                  persons.push(person);
               return result;
           }
           catch {
@@ -44,10 +42,10 @@ function createGroup(interest) {
   
       excludePerson(email) {
           try {
-              let result = this.persons.filter((p) => p.email != email);
-              if(result.length == this.persons.length)
+              const result = persons.filter((p) => p.email != email);
+              if(result.length === persons.length)
                 return false;
-              this.persons = result;              
+              persons = result;              
               return true;
           }
           catch {
@@ -75,7 +73,7 @@ function findMeetingMembers(group, meetingDate) {
 };
 
 Date.prototype.addDays = function(days) {
-  let date = new Date(this.valueOf());
+  const date = new Date(this.valueOf());
   date.setDate(date.getDate() + days);
   return date;
 }
