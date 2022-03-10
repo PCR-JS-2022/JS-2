@@ -22,16 +22,15 @@
  function createGroup(interest) {
     const participants = [];
     return {
-        participants,
         getAll: () => participants,
         includePerson: (participant) => {
-            if (participant.interests === undefined ||
-                participants.some((friend) => friend.email === participant.email) ||
-                !participant.interests.some((x) => x === interest)) 
-            return false;
             const participantExists = participants.some(
                 (friend) => friend.email === participant.email
             );
+            if (participant.interests === undefined ||
+                participantExists ||
+                !participant.interests.some((x) => x === interest)) 
+            return false;
             if (participant.interests.includes(interest) && 
                 !participantExists) 
             {
@@ -44,7 +43,7 @@
             const friendIndex = participants.findIndex((friend) => friend.email === email);
             if (friendIndex !== -1) 
             {
-                participants.splice(friendIndex, 1);
+                participants.filter(x => x.email !== email);
                 return true;
             }
             return false;
@@ -59,18 +58,10 @@
  */
  function findMeetingMembers(group, meetingDate) 
     {
-    let result = [];
     if (!(meetingDate instanceof Date) || typeof group !== "object" ||
     !group.getAll) 
         return 0;
-    group.getAll().forEach((participants) => 
-    {
-        if (meetingDate >= participants.freeRange.startDate &&
-            meetingDate <= participants.freeRange.endDate) 
-        {
-            result.push(participants);
-        }
-    });
+    let result = group.getAll().filter(x => meetingDate >= x.freeRange.startDate && meetingDate <= x.freeRange.endDate);
     return result.length;
 };
 
@@ -92,10 +83,10 @@
     let countParticipants = 0;
     let maxDate;
     let maxCount = 0;
-    let dates = group.getAll().map(y => y.freeRange.startDate)
+    const people = group.getAll();
+    const dates = people.map(y => y.freeRange.startDate)
     dates.forEach(x => {
-    let meetingFriends = group.getAll().filter(participants => x >= participants.freeRange.startDate && x <= participants.freeRange.endDate);
-    maxCount = meetingFriends.length;
+    maxCount = findMeetingMembers(group,x);
         if (maxCount > countParticipants) 
         {
             countParticipants = maxCount;
