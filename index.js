@@ -111,7 +111,12 @@ const phoneList = [
  * @returns {number} кол-во людей, готовых в переданную дату посетить встречу 
  */
 function findMeetingMembers(group, meetingDate) {
+  if (!group.getAll || !meetingDate instanceof Date) {
+    return 0;
+  }
 
+  const member = group.getAll().filter((item) => item.freeRange.startDate <= meetingDate && meetingDate <= item.freeRange.endDate);
+  return member.length;
 };
 
 /**
