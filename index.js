@@ -132,12 +132,12 @@ function findMeetingMembers(group, meetingDate) {
   let bestOfDay = null;
   let maxPerson = 0;
 
-  allMemebers.forEach((eachMember) => {
+  allMemebers.map((eachMember) => {
     let startDate = eachMember.freeRange.startDate;
     let sumOfMemebers = findMeetingMembers(group, startDate);
 
     if (sumOfMemebers > maxPerson) {
-      maxPerson = sumOfMemebers.length;
+      maxPerson = sumOfMemebers;
       bestOfDay = startDate;
     }
   });
