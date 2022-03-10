@@ -42,9 +42,11 @@
         },
         excludePerson: (email) => {
             const oldLength = participants.length;
-            participants = participants.filter(x => x.email !== email);
-            if (oldLength > participants.length)
+            const newParticipants = participants.filter(x => x.email !== email);
+            if (oldLength > newParticipants.length){
+                participants = newParticipants;
                 return true;
+            }
             return false;
         },
     };
