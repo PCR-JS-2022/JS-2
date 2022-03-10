@@ -20,7 +20,7 @@
  * @returns {Group} созданная группа
  */
  function createGroup(interest) {
-    const participants = [];
+    let participants = [];
     return {
         getAll: () => participants,
         includePerson: (participant) => {
