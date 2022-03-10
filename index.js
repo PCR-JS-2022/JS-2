@@ -27,8 +27,9 @@
             const participantExists = participants.some(
                 (friend) => friend.email === participant.email
             );
-            const checkInterests = participant.interests.some((x) => x === interest);
-            if (participant.interests === undefined ||
+            const checkInterests = participant.interests !== undefined ||
+            participant.interests.some((x) => x === interest);
+            if (
                 participantExists ||
                 !checkInterests) 
             return false;
