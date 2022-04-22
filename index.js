@@ -51,6 +51,10 @@ function createGroup(interest) {
         ) {
             return false;
         }
+        //validation for interest
+        if (!friend.interests.includes(interest)) {
+            return false;
+        }
         //validation for availability
         for (var i = 0; i < friends.length; ++i) {
             if (friends[i].email == friend.email) {
