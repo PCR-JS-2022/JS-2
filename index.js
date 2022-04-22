@@ -31,8 +31,24 @@ function createGroup(interest) {
         return friendsFromGroup;
     }
     function includePerson(friend) {
-        //validation for interest
-        if (!friend.interests.includes(interest)) {
+        //validations friend
+        if (!(typeof friend === "object")) {
+            return false;
+        }
+        if (
+            !friend.hasOwnProperty("name") ||
+            !friend.hasOwnProperty("email") ||
+            !friend.hasOwnProperty("interests") ||
+            !friend.hasOwnProperty("freeRange")
+        ) {
+            return false;
+        }
+        if (
+            !(typeof friend.name === "string") ||
+            !(typeof friend.email === "string") ||
+            !(friend.interests instanceof Array) ||
+            !(typeof friend.freeRange === "object")
+        ) {
             return false;
         }
         //validation for availability
@@ -70,13 +86,20 @@ function findMeetingMembers(group, meetingDate) {
     "use strict";
 
     //validation group
-    if (!(typeof group == "object")) {
+    if (!(typeof group === "object")) {
         return 0;
     }
     if (
         !group.hasOwnProperty("getAll") ||
         !group.hasOwnProperty("includePerson") ||
         !group.hasOwnProperty("excludePerson")
+    ) {
+        return 0;
+    }
+    if (
+        !(typeof group.getAll === "function") ||
+        !(typeof group.includePerson === "function") ||
+        !(typeof group.excludePerson === "function")
     ) {
         return 0;
     }
@@ -104,13 +127,20 @@ function findMeetingDateWithMaximumMembers(group) {
     "use strict";
 
     //validation group
-    if (!(typeof group == "object")) {
+    if (!(typeof group === "object")) {
         return null;
     }
     if (
         !group.hasOwnProperty("getAll") &&
         !group.hasOwnProperty("includePerson") &&
         !group.hasOwnProperty("excludePerson")
+    ) {
+        return null;
+    }
+    if (
+        !(typeof group.getAll === "function") ||
+        !(typeof group.includePerson === "function") ||
+        !(typeof group.excludePerson === "function")
     ) {
         return null;
     }
