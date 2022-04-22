@@ -53,24 +53,11 @@ function createGroup(interest) {
         }
         return false;
     }
-    const group = {};
-    Object.defineProperties(group, {
-        getAll: {
-            value: getAll,
-            writable: false,
-            configurable: false,
-        },
-        includePerson: {
-            value: includePerson,
-            writable: false,
-            configurable: false,
-        },
-        excludePerson: {
-            value: excludePerson,
-            writable: false,
-            configurable: false,
-        },
-    });
+    const group = {
+        getAll: getAll,
+        includePerson: includePerson,
+        excludePerson: excludePerson,
+    };
     return group;
 }
 
