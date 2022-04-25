@@ -27,12 +27,16 @@ function createGroup(interest) {
     }
 
     function includePerson(friend) {
-        if (friends.includes(friend) || !friend.interests.includes(interest)) {
+        if (!Array.isArray(friends) && !Array.isArray(friend.interests)) {
             return false
-        } else {
-            friends.push(friend)
-            return true
         }
+
+        if (friends.includes(friend) || !friend.interests.includes(interest)) {
+                return false
+            } else {
+                friends.push(friend)
+                return true
+            }
     }
 
     function excludePerson(email) {
@@ -109,7 +113,7 @@ function findMeetingDateWithMaximumMembers(group) {
             date = new Date(i)
         }
     }
-    
+
     if (amount != 0) {
         return date
     } else {
