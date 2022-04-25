@@ -85,7 +85,7 @@ function findMeetingMembers(group, meetingDate) {
  * @returns {Date} дата, в которую могут собраться максимальное кол-во человек из группы
  */
 function findMeetingDateWithMaximumMembers(group) {
-    if (typeof group !== "object") {
+    if (typeof group !== "object" || typeof group.getAll !== "function") {
         return null
     }
 
