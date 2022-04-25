@@ -27,7 +27,7 @@ function createGroup(interest) {
     }
 
     function includePerson(friend) {
-        if (!Array.isArray(friends) && !Array.isArray(friend.interests)) {
+        if (!Array.isArray(friends) || !Array.isArray(friend.interests)) {
             return false
         }
 
