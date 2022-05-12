@@ -47,7 +47,7 @@ function createGroup(interest) {
  * @returns {number} кол-во людей, готовых в переданную дату посетить встречу 
  */
 function findMeetingMembers(group, meetingDate) {
-    const allPerson = group.getAll();
+    const allPerson = group?.getAll();
     if (!allPerson) return 0;
     return allPerson.map(person => person.freeRange).reduce((count, freeRange) =>
             freeRange.startDate <= meetingDate && freeRange.endDate >= meetingDate ? count + 1 : count
@@ -59,7 +59,7 @@ function findMeetingMembers(group, meetingDate) {
  * @returns {Date} дата, в которую могут собраться максимальное кол-во человек из группы
  */
 function findMeetingDateWithMaximumMembers(group) {
-    const allPerson = group.getAll();
+    const allPerson = group?.getAll();
     if (!allPerson) {
         return null;
     }
