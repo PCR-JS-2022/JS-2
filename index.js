@@ -20,7 +20,25 @@
  * @returns {Group} созданная группа
  */
 function createGroup(interest) {
+    //const interestGroup = interest;
+    const group = new Map();
 
+    const getAll = () => Array.from(group.values());
+
+    const includePerson = (person) => {
+        if (person.interests.includes(interest) && !group.has(person.email)) {
+            group.set(person.email, person);
+            return true;
+        }
+        return false;
+    }
+    const excludePerson = (email) => group.delete(email);
+
+    return {
+        getAll: getAll,
+        includePerson: includePerson,
+        excludePerson: excludePerson
+    }
 };
 
 /**
@@ -29,7 +47,10 @@ function createGroup(interest) {
  * @returns {number} кол-во людей, готовых в переданную дату посетить встречу 
  */
 function findMeetingMembers(group, meetingDate) {
-
+    const allFreeRange = group.getAll().map(person => person.freeRange);
+    return allFreeRange.reduce((count, freeRange) =>
+            freeRange.startDate <= meetingDate && freeRange.endDate >= meetingDate ? count + 1 : count
+        , 0)
 };
 
 /**
@@ -37,7 +58,17 @@ function findMeetingMembers(group, meetingDate) {
  * @returns {Date} дата, в которую могут собраться максимальное кол-во человек из группы
  */
 function findMeetingDateWithMaximumMembers(group) {
-
+    const allPerson = group.getAll();
+    if (!allPerson) {
+        return null;
+    }
+    return allPerson
+        .map(person => person.freeRange)
+        .reduce((count, freeRange) => {
+            const currentCount = findMeetingMembers(group, freeRange.startDate);
+            return currentCount > count.bestCount ? { bestCount: currentCount, bestDate: freeRange.startDate} : count;
+        }, { bestDate: null, bestCount: 0 })
+        .bestDate;
 };
 
 module.exports = { createGroup, findMeetingMembers, findMeetingDateWithMaximumMembers };
