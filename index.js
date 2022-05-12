@@ -47,8 +47,9 @@ function createGroup(interest) {
  * @returns {number} кол-во людей, готовых в переданную дату посетить встречу 
  */
 function findMeetingMembers(group, meetingDate) {
-    const allFreeRange = group.getAll().map(person => person.freeRange);
-    return allFreeRange.reduce((count, freeRange) =>
+    const allPerson = group.getAll();
+    if (!allPerson) return 0;
+    return allPerson.map(person => person.freeRange).reduce((count, freeRange) =>
             freeRange.startDate <= meetingDate && freeRange.endDate >= meetingDate ? count + 1 : count
         , 0)
 };
