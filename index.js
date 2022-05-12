@@ -26,7 +26,7 @@ function createGroup(interest) {
     const getAll = () => Array.from(group.values());
 
     const includePerson = (person) => {
-        if (person.interests.includes(interest) && !group.has(person.email)) {
+        if (person?.interests?.includes(interest) && !group.has(person.email)) {
             group.set(person.email, person);
             return true;
         }
